@@ -20,11 +20,11 @@ class Application(tornado.web.Application):
     def __init__(self):
         handlers = routes
         settings = dict(
-            cookie_secret=uuid.uuid5(uuid.NAMESPACE_DNS, "cloud setuper"),
+            cookie_secret=str(uuid.uuid5(uuid.NAMESPACE_DNS, "cloud setuper")),
             template_path=os.path.join(os.path.dirname(__file__), "templates"),
             static_path=os.path.join(os.path.dirname(__file__), "static"),
             xsrf_cookies=True,
-            debug = True,
+            gzip=True,
         )
         tornado.web.Application.__init__(self, handlers, **settings)
         self.dbSession = dbSession
