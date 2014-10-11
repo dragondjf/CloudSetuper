@@ -12,7 +12,6 @@ class LoginHandler(BaseHandler):
     def post(self):
         name = self.get_argument("name", "")
         password = self.get_argument("password", "")
-
         user = {
                 'name': name,
                 'password': password
