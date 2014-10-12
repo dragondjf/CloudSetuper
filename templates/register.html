@@ -8,12 +8,42 @@
     <meta name="author" content="">
     <link rel="shortcut icon" href="/static/favicon.png">
     <style type="text/css">
+        body{
+            /* Note: This gradient may render differently in browsers that don't support the unprefixed gradient syntax */
+
+            /* IE10 Consumer Preview */ 
+            background-image: -ms-linear-gradient(top left, #4D9AFF 0%, #1CFF49 100%);
+
+            /* Mozilla Firefox */ 
+            background-image: -moz-linear-gradient(top left, #4D9AFF 0%, #1CFF49 100%);
+
+            /* Opera */ 
+            background-image: -o-linear-gradient(top left, #4D9AFF 0%, #1CFF49 100%);
+
+            /* Webkit (Safari/Chrome 10) */ 
+            background-image: -webkit-gradient(linear, left top, right bottom, color-stop(0, #4D9AFF), color-stop(1, #1CFF49));
+
+            /* Webkit (Chrome 11+) */ 
+            background-image: -webkit-linear-gradient(top left, #4D9AFF 0%, #1CFF49 100%);
+
+            /* W3C Markup, IE10 Release Preview */ 
+            background-image: linear-gradient(to bottom right, #4D9AFF 0%, #1CFF49 100%);
+        }
+
+        div#header{
+            height: 100px;
+        }
+
         div#center{
             background-image: url(../static/images/imac.png); 
-            background-repeat: no-repeat; 
-            height: 900px; 
+            -moz-background-size:100% 100%;
+            background-size:100% 100%;
             margin-left: 20%; 
-            margin-right: 20%; 
+            margin-right: 20%;
+        }
+
+         div#footer{
+            height: 100px;
         }
 
     </style>
@@ -21,7 +51,21 @@
 </head>
 
 <body>
-    <div id="center">Register</div>
+    <div id="header"></div>
+    <div id="center"></div>
+    <div id="footer"></div>
+    <script type="text/javascript">
+        function resize(){
+            var clientHeight = document.documentElement.clientHeight;
+            document.getElementById("header").style.height = clientHeight * 0.05  + "px";
+            document.getElementById("center").style.height = clientHeight * 0.90  + "px";
+            document.getElementById("footer").style.height = clientHeight * 0.05  + "px";
+        }
+        window.onresize = function(){
+            resize()
+        }
+        resize();
+    </script>
 </body>
 
 </html>
