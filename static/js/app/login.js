@@ -4,7 +4,9 @@ define(function (require) {
     var messages = require('./messages');
     var log = require('log');
     $(function(){
-        log(messages.getHello());
-        log(bootstrap);
+        log('login');
+        // $.ajax({
+        //     url: '/join'
+        // })
     });
 });

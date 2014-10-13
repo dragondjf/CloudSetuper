@@ -18,11 +18,11 @@ class RegisterHandler(BaseHandler):
                 'email': email,
                 'password': password
             }
-
         flag = self.checkUser(user)
         if flag:
             self.saveUser2DB(user)
             self.set_secure_cookie("user", name)
+            print user
             self.redirect("/")
         else:
             pass
@@ -31,4 +31,5 @@ class RegisterHandler(BaseHandler):
         return True
 
     def saveUser2DB(self, user):
-        print user
+        # print user
+        return True
