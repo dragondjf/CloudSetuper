@@ -1,0 +1,26 @@
+{
+    "2.png": {
+        "path": "../xl2.png"
+    }, 
+    "3.png": {
+        "path": "../xl3.png"
+    }, 
+    "OutputFolderName": "QFramer", 
+    "1.png": {
+        "path": "../xl1.png"
+    }, 
+    "ExeSource.7z": {
+        "path": "../ExeSource.7z"
+    }, 
+    "4.png": {
+        "path": "../xl4.png"
+    }, 
+    "FinishedOpenFlag": true, 
+    "InstallerUI.exe": {
+        "path": "../InstallerUI.exe"
+    }, 
+    "HomePage": "http://dragondjf.github.io/", 
+    "Icon": {
+        "path": "../setup.ico"
+    }
+}
