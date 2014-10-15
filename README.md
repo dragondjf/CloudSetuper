@@ -26,16 +26,17 @@ CloudSetuper由两部分构成：
 + 安装包工具 **``InstallerCopy.exe``**
 + 安装配置文件 **``package.json``** 
 
-例如程序目录``E:\app\ ``如下
-        + InstallerCopy.exe
-        + package
-            + InstallerUI.exe
-            + ExeSource.7z
-            + 1.png
-            + 2.png
-            + 3.png
-            + setup.ico
-            + package.json
+例如程序目录``E:\app\ ``如下   
+
++ InstallerCopy.exe
++ package
+    + InstallerUI.exe
+    + ExeSource.7z
+    + 1.png
+    + 2.png
+    + 3.png
+    + setup.ico
+    + package.json
 ``cd ``到当前目录
 
         cd "E:\app\"
