@@ -1,0 +1,62 @@
+{
+    "InstallerUI.exe": {
+        "path": "E:\\app\\package\\InstallerUI.exe",
+    },
+    "ExeSource.7z":{
+        "path": "E:\\app\\package\\ExeSource.7z",
+    },
+    "1.png":{
+        "path": "E:\\app\\package\\1.png",
+    },
+    "2.png":{
+        "path": "E:\\app\\package\\2.png",
+    },
+    "3.png":{
+        "path": "E:\\app\\package\\3.png",
+    },
+    "Icon":{
+        "path": "E:\\app\\package\\setup.ico",
+    },
+    "OutputPath": "c\\program files",
+    "FinishedOpenFlag": true,
+    "HomePage": "http://dragondjf.github.io/",
+}
+
+{
+    "InstallerUI.exe": {
+        "path": "E:\\app\\package\\InstallerUI.exe",
+        "start": -2100,
+        "size": 500
+    },
+    "ExeSource.7z":{
+        "path": "E:\\app\\package\\ExeSource.7z",
+        "start": -1300,
+        "size": 800,
+    },
+    "1.png":{
+        "path": "E:\\app\\package\\1.png",
+        "start": -1100,
+        "size": 200,
+    },
+    "2.png":{
+        "path": "E:\\app\\package\\2.png",
+        "start": -800,
+        "size": 300,
+    },
+    "3.png":{
+        "path": "E:\\app\\package\\3.png",
+        "start": -600,
+        "size": 200,
+    },
+    "Icon":{
+        "path": "E:\\app\\package\\setup.ico",
+        "start": -500,
+        "size": 100,
+    },
+    "SaveOrder":["InstallerUI.exe", "ExeSource.7z", "1.png", "2.png", "3.png", "IconPath.ico"],
+    "OutputPath": "c\\program files",
+    "FinishedOpenFlag": true,
+    "HomePage": "http://dragondjf.github.io/",
+}
+
+
