@@ -4,6 +4,7 @@
 import os
 import sys
 import json
+import time
 import argparse
 
 def getOrderFromJson(pacakgejson, args):
@@ -36,7 +37,7 @@ def getOrderFromJson(pacakgejson, args):
     config['Files'] = result
     return config
 
-def copyFile2Exe(config, args, outPutExe="setup.exe"):
+def copyFile2Exe(config, args):
     ftemplate = open(os.path.abspath(args.template), 'rb')
     content = ftemplate.read()
     ftemplate.close()
@@ -47,7 +48,6 @@ def copyFile2Exe(config, args, outPutExe="setup.exe"):
         fp.close()
         f.pop('path')
     configBlock = json.dumps(config)
-    print configBlock
     content += configBlock
     content += "|%d" % len(configBlock)
 
@@ -76,6 +76,12 @@ def main():
         dest='template',
         default="InstallerUI.exe",
         help='install ui template exe')
+
+    parser.add_argument('-u', 
+        action='store', 
+        dest='output',
+        default="setup.exe",
+        help='output exe name')
 
     parser.add_argument('--version', action='version', version='%(prog)s 1.0')
     args = parser.parse_args()
