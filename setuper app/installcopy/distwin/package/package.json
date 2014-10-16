@@ -1,0 +1,32 @@
+{
+    "Files":[
+        {
+            "name": "2.png",
+            "path": "images/xl_custom.png"
+        }, 
+        {
+            "name": "3.png",
+            "path": "images/xl3.png"
+        }, 
+        {
+            "name": "1.png",
+            "path": "images/xl1.png"
+        }, 
+        {
+            "name": "ExeSource.7z",
+            "path": "ExeSource.7z"
+        }, 
+        {
+            "name": "4.png",
+            "path": "images/xl4.png"
+        },
+        {
+            "name": "Icon",
+            "path": "images/setup_green.ico"
+        }
+    ],
+    "OutputFolderName": "QFramer",
+    "PPtorder":["1.png", "2.png", "3.png", "4.png"],
+    "FinishedOpenFlag": true,
+    "HomePage": "http://dragondjf.github.io/"
+}

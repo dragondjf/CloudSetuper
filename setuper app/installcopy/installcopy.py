@@ -38,7 +38,7 @@ def getOrderFromJson(pacakgejson, args):
     return config
 
 def copyFile2Exe(config, args):
-    ftemplate = open(os.path.abspath(args.template), 'rb')
+    ftemplate = open(args.template, 'rb')
     content = ftemplate.read()
     ftemplate.close()
     os.chdir(args.package)
@@ -87,10 +87,12 @@ def main():
     parser.add_argument('--version', action='version', version='%(prog)s 1.0')
     args = parser.parse_args()
 
-    pacakgejson = os.sep.join([os.getcwd(), args.package, 'package.json'])
-    config = getOrderFromJson(pacakgejson, args)
-
-    copyFile2Exe(config, args)
+    if os.path.exists(os.sep.join([os.getcwd(), args.package])):
+        pacakgejson = os.sep.join([os.getcwd(), args.package, 'package.json'])
+        config = getOrderFromJson(pacakgejson, args)
+        copyFile2Exe(config, args)
+    else:
+        parser.print_help()
 
 
 if __name__ == '__main__':
