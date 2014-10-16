@@ -6,4 +6,4 @@
 #####2.如何将installcopy.py打包成独立的exe
 + 安装[python27](https://www.python.org/ftp/python/2.7/python-2.7.msi)
 + 安装pyinstaller(https://github.com/pyinstaller/pyinstaller) 或者 pip install pyinstaller 
-+ pyinstaller -F -i images/copy.ico --distpath=distwin installcopy.py
++ pyinstaller -F -i images/copy.ico --distpath=distwin installcopy.py这样在diswin目录下就会生成一个installcopy.exe
