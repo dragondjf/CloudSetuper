@@ -50,8 +50,9 @@ def copyFile2Exe(config, args):
     configBlock = json.dumps(config)
     content += configBlock
     content += "|%d" % len(configBlock)
+    buildtime = time.strftime("%Y-%m-%d-%H-%M-%S-", time.localtime(int(time.time()))).decode('UTF8')
 
-    foutput = open(outPutExe, 'wb')
+    foutput = open(buildtime + args.output, 'wb')
     foutput.write(content)
     foutput.close()
     os.chdir('..')
