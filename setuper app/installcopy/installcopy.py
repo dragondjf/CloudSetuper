@@ -34,7 +34,7 @@ def getOrderFromJson(pacakgejson, args):
         print "The [%s]  isn't exits!" % pacakgejson
         result = None
     os.chdir('..')
-    config['Files'] = result
+    config['Files'] = result[::-1]
     return config
 
 def copyFile2Exe(config, args):
