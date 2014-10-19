@@ -23,7 +23,10 @@ class RegisterHandler(BaseHandler):
             self.saveUser2DB(user)
             self.set_secure_cookie("user", name)
             print user
-            self.redirect("/")
+            response = {
+                'status': "success"
+            }
+            self.write(response)
         else:
             pass
 

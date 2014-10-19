@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 
 <head>
     <meta charset="utf-8">
@@ -7,6 +7,8 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <link rel="shortcut icon" href="/static/favicon.png">
+    <link href="../static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../static/css/flat-ui.css" rel="stylesheet">
     <script src="static/js/app/require-setup.js"></script>
     <script data-main="../static/js/register" src="static/js/lib/require.min.js"></script>
     <style type="text/css">
@@ -50,7 +52,7 @@
         }
 
         div#center{
-            background-image: url(../static/images/imac.png); 
+            background-image: url(../static/img/login/imac.png); 
             -moz-background-size:100% 100%;
             background-size:100% 100%;
             width: 60%;
@@ -85,9 +87,28 @@
     <div id="container">
         <div id ="left"></div>
         <div id="center">
-            <div id="content">
-                <p>12</p>
-            </div>
+            <div class="login" style="background-image: none">
+                  <div class="login-form" style="margin-left: 25%;margin-right: 25%; margin-top: 6%;">
+                    <div class="form-group">
+                      <input type="text" class="form-control login-field" value="" placeholder="Enter your name" id="login-name">
+                      <label class="login-field-icon fui-user" for="login-name"></label>
+                    </div>
+
+                    <div class="form-group">
+                      <input type="text" class="form-control login-field" value="" placeholder="Enter your emial" id="login-email">
+                      <label class="login-field-icon fui-mail" for="login-email"></label>
+                    </div>
+
+                    <div class="form-group">
+                      <input type="password" class="form-control login-field" value="" placeholder="Password" id="login-pass">
+                      <label class="login-field-icon fui-lock" for="login-pass"></label>
+                    </div>
+
+                    <a id="register" class="btn btn-primary btn-lg btn-block" href="#">register</a>
+                    <a id="lostpassword" class="login-link" href="#">Lost your password?</a>
+                  </div>
+                </div>
+
         </div>
         <div id ="right"></div>
     </div>

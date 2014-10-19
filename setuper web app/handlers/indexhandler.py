@@ -12,5 +12,5 @@ class IndexHandler(BaseHandler):
         print self.dbSession, '+++++++', self.current_user
         if not self.current_user:  
             self.redirect("/login")  
-            return  
+            return
         self.render("index.html", title="Cloud Setuper")

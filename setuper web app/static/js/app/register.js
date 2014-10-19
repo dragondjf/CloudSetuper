@@ -1,27 +1,36 @@
 define(function (require) {
     var $ = require('jquery');
     var bootstrap = require('bootstrap');
+    var flatui = require('flat-ui.min')
     var messages = require('./messages');
     var log = require('log');
     $(function(){
         log('register');
-        setTimeout(post, 1000);
-        function post(){
+        $("#register").click(function(){
+            var name = $("#login-name").val();
+            var emial = $("#login-email").val();
+            var password = $("#login-pass").val();
+
+
+
             $.ajax({
                 url: '/join',
                 type: 'post',
                 dataType: 'json',
                 data:{
-                    'name': 'dragondjf',
-                    'email': '465398889@qq.com',
-                    'password': '123456789'
+                    'name': name,
+                    'email': emial,
+                    'password': password
                 },
                 success: function(res){
-                    log(res);
-                    log('hhhhh');
+                    log(res)
+                    log("register success");
+                    location.href = "/"
+                },
+                error : function() {
+                    log("异常！");    
                 }
             })
-        }
-        
+        });
     });
 });

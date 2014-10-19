@@ -16,10 +16,14 @@ class LoginHandler(BaseHandler):
                 'name': name,
                 'password': password
             }
-
+        print user
         flag = self.checkUser(user)
         if flag:
             self.set_secure_cookie("user", name)
+            response = {
+                'status': "success"
+            }
+            self.write(response)
 
     def checkUser(self, user):
         return True

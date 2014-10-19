@@ -26,7 +26,7 @@ class Application(tornado.web.Application):
             login_url = "/login",
             # xsrf_cookies=True,
             gzip=True,
-            # debug=True,
+            debug=True,
         )
         tornado.web.Application.__init__(self, handlers, **settings)
         self.dbSession = dbSession

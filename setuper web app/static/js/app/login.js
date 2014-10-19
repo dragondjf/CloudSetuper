@@ -5,8 +5,27 @@ define(function (require) {
     var log = require('log');
     $(function(){
         log('login');
-        // $.ajax({
-        //     url: '/join'
-        // })
+        $("#login").click(function(){
+            var name = $("#login-name").val();
+            var password = $("#login-pass").val();
+            log(name);
+            $.ajax({
+                url: '/login',
+                type: 'post',
+                dataType: 'json',
+                data:{
+                    'name': name,
+                    'password': password
+                },
+                success: function(res){
+                    log(res)
+                    log("login success");
+                    location.href = "/"
+                },
+                error : function() {
+                    log("异常！");    
+                }
+            })
+        });
     });
 });
