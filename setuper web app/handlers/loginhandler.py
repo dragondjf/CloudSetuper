@@ -20,9 +20,6 @@ class LoginHandler(BaseHandler):
         flag = self.checkUser(user)
         if flag:
             self.set_secure_cookie("user", name)
-            self.redirect("/")
-        else:
-            pass
 
     def checkUser(self, user):
         return True

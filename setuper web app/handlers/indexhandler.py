@@ -14,4 +14,3 @@ class IndexHandler(BaseHandler):
             self.redirect("/login")  
             return  
         self.render("index.html", title="Cloud Setuper")
-        # self.set_status(200)

@@ -23,6 +23,7 @@ class Application(tornado.web.Application):
             cookie_secret=str(uuid.uuid5(uuid.NAMESPACE_DNS, "cloud setuper")),
             template_path=os.path.join(os.path.dirname(__file__), "templates"),
             static_path=os.path.join(os.path.dirname(__file__), "static"),
+            login_url = "/login",
             # xsrf_cookies=True,
             gzip=True,
             # debug=True,
