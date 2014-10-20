@@ -14,3 +14,24 @@ class IndexHandler(BaseHandler):
             self.redirect("/login")  
             return
         self.render("index.html", title="Cloud Setuper")
+
+    def post(self):
+        softwarename = self.get_argument("softwarename", "")
+        softwareauthor = self.get_argument("softwareauthor", "")
+        softwareemail = self.get_argument("softwareemail", "")
+        softwarecompany = self.get_argument("softwarecompany", "")
+        software = {
+            'softwarename': softwarename,
+            'softwareauthor': softwareauthor,
+            'softwareemail': softwareemail,
+            'softwarecompany': softwarecompany,
+        }
+        print software
+        flag = self.onesetup(software)
+        response = {
+            'status': "success"
+        }
+        self.write(response)
+
+    def onesetup(self, software):
+    	print "onesetup==================="

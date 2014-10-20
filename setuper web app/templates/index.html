@@ -7,86 +7,101 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <link rel="shortcut icon" href="/static/favicon.png">
+    <link href="../static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../static/css/flat-ui.css" rel="stylesheet">
     <script src="static/js/app/require-setup.js"></script>
     <script data-main="../static/js/index" src="static/js/lib/require.min.js"></script>
     <style type="text/css">
-        html, body{
-            /* Note: This gradient may render differently in browsers that don't support the unprefixed gradient syntax */
-
-            /* IE10 Consumer Preview */ 
-            background-image: -ms-linear-gradient(top left, #4D9AFF 0%, #1CFF49 100%);
-
-            /* Mozilla Firefox */ 
-            background-image: -moz-linear-gradient(top left, #4D9AFF 0%, #1CFF49 100%);
-
-            /* Opera */ 
-            background-image: -o-linear-gradient(top left, #4D9AFF 0%, #1CFF49 100%);
-
-            /* Webkit (Safari/Chrome 10) */ 
-            background-image: -webkit-gradient(linear, left top, right bottom, color-stop(0, #4D9AFF), color-stop(1, #1CFF49));
-
-            /* Webkit (Chrome 11+) */ 
-            background-image: -webkit-linear-gradient(top left, #4D9AFF 0%, #1CFF49 100%);
-
-            /* W3C Markup, IE10 Release Preview */ 
-            background-image: linear-gradient(to bottom right, #4D9AFF 0%, #1CFF49 100%);
-            height: 100%;
-            width: 100%;
-            margin: 0;
-        }
-
-        div#header{
-            height: 10%;
-        }
-
-        div#container{
-            height:80%;
-        }
-
-        div #left{
-            width: 20%;
-            height: 100%;
-            float: left;
-        }
-
-        div#center{
-            width: 60%;
-            height: 100%;
-            float: left;
-        }
-
-        div #right{
-            width: 20%;
-            height: 100%;
-            float: right;
-        }
-
-        div #content{
-            width: 100%;
-            height: 100%;
-            margin-top: 4%;
-            margin-left: 4%;
-            margin-right: 4%;
-        }
-
-        div#footer{
-            height: 10%;
-        }
-
+    html,
+    body {
+        height: 100%;
+        width: 100%;
+        margin: 0;
+    }
+    div#header {
+        height: 10%;
+    }
+    div#container {
+        height: 1000px;
+    }
+    div #left {
+        width: 20%;
+        height: 100%;
+        float: left;
+    }
+    div#center {
+        width: 60%;
+        height: 100%;
+        float: left;
+    }
+    div #right {
+        width: 20%;
+        height: 100%;
+        float: right;
+    }
+    div #content {
+        width: 100%;
+        height: 100%;
+        margin-top: 4%;
+        margin-left: 4%;
+        margin-right: 4%;
+    }
+    div#footer {
+        height: 10%;
+    }
+    label {
+        color: white;
+    }
     </style>
+    <link href="../static/css/uploadfile.css" rel="stylesheet">
     <title>{{ title }}</title>
 </head>
 
 <body>
     <div id="header"></div>
     <div id="container">
-        <div id ="left"></div>
+        <div id="left"></div>
         <div id="center">
-            <div id="content">
-                <p>12</p>
+            <form id="upload" method="post" action="/upload" enctype="multipart/form-data">
+                <div id="drop">
+                    Drop Here
+                    <a>Browse</a>
+                    <input type="file" name="upl" multiple="">
+                </div>
+                <ul>
+                </ul>
+            </form>
+
+            <form name="setup_form" id="setup_form">
+                <div class="login-form" style="margin-top: 4%; background-color: #1abc9c">
+                    <div class="control-group">
+                        <label>程序名称：</label>
+                        <input type="text" class="form-control login-field " value="" placeholder="Enter your software name" required="required" name="softwarename" id="software-name">
+                    </div>
+
+                    <div class="form-group">
+                        <label>程序作者：</label>
+                        <input type="text" class="form-control login-field" value="" placeholder="Enter your author name" required="required" name="authorname" id="software-author">
+                    </div>
+
+                    <div class="form-group">
+                        <label>email地址：</label>
+                        <input type="email" class="form-control login-field" value="" placeholder="Enter your email" required="required" name="email" id="software-email">
+                    </div>
+
+                    <div class="form-group">
+                        <label>公司名称：</label>
+                        <input type="text" class="form-control login-field" value="" placeholder="Enter your comanpy name" required="required" name="companyname" id="software-company">
+                    </div>
+                    <a id="onesetup" class="btn btn-block btn-lg btn-success">一键生成</a>
+                </div>
+            </form>
+            <div id="tipmessage" style="margin-top: 20px; margin-left: 25%; margin-right: 25%">
+                <p style="color: red"></p>
             </div>
+
         </div>
-        <div id ="right"></div>
+        <div id="right"></div>
     </div>
     <div id="footer"></div>
 </body>

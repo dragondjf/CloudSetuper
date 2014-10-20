@@ -7,6 +7,8 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <link rel="shortcut icon" href="/static/favicon.png">
+    <link href="../static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../static/css/flat-ui.css" rel="stylesheet">
     <script src="static/js/app/require-setup.js"></script>
     <script data-main="../static/js/index" src="static/js/lib/require.min.js"></script>
     <style type="text/css">
@@ -84,14 +86,40 @@
         <div id ="left"></div>
         <div id="center">
             <form id="upload" method="post" action="/upload" enctype="multipart/form-data">
-        <div id="drop">
-            Drop Here
-            <a>Browse</a>
-            <input type="file" name="upl" multiple="">
-        </div>
-        <ul>
-        </ul>
-    </form>
+                <div id="drop">
+                Drop Here
+                <a>Browse</a>
+                <input type="file" name="upl" multiple="">
+                </div>
+                <ul>
+                </ul>
+            </form>
+
+                <form  name="setup_form" id="setup_form">
+                        <div class="login-form" style="margin-left: 25%;margin-right: 25%; margin-top: 8%;">
+                            <div class="control-group error">
+                                <input type="text" class="form-control login-field " value="" placeholder="Enter your name" required="required" name="username" id="login-name">
+                                <label class="login-field-icon fui-user" for="login-name"></label>
+                            </div>
+
+                            <div class="form-group">
+                                <input type="email" class="form-control login-field" value="" placeholder="Enter your emial" required="required" name="email" id="login-email">
+                                <label class="login-field-icon fui-mail" for="login-email"></label>
+                            </div>
+
+                            <div class="form-group">
+                                <input type="password" class="form-control login-field" value="" placeholder="Password" required="required" name="password" id="login-pass">
+                                <label class="login-field-icon fui-lock" for="login-pass"></label>
+                            </div>
+
+                            <input id="register" class="btn btn-primary btn-lg btn-block" value="register"/>
+                            <a id="lostpassword" class="login-link" href="#">Lost your password?</a>
+                        </div>
+                    </form>
+                    <div id="tipmessage" style="margin-top: 20px; margin-left: 25%; margin-right: 25%">
+                        <p style="color: red"></p>
+                    </div>
+
         </div>
         <div id ="right"></div>
     </div>

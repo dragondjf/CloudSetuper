@@ -28,3 +28,20 @@ class UploadFileHandler(BaseHandler):
                     fd = open("static/files/%s" % httpfile['filename'], "wb")
                     fd.write(httpfile['body'])
                     fd.close()
+
+    @authenticated
+    def delete(self):
+        filename = self.get_argument("filename", "")
+        path = os.sep.join([os.getcwd(), 'static', 'files', filename])
+        if os.path.exists(path):
+            os.remove(path)
+            response = {
+                "status": "success",
+            }
+        else:
+            response = {
+                "status": "fail",
+            }
+        self.write(response)
+
+
