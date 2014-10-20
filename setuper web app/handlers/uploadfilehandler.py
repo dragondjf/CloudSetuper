@@ -17,4 +17,11 @@ class UploadFileHandler(BaseHandler):
 
     @authenticated
     def post(self):
-    	self
+        httpfile = self.request.files['upl'][0]
+        if httpfile:
+            print httpfile.keys()
+            print httpfile['content_type']
+            print httpfile['filename']
+            fd = open("static/files/%s" % httpfile['filename'], "w")
+            fd.write(httpfile['body'])
+            fd.close()
