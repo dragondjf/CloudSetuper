@@ -10,16 +10,16 @@ class LoginHandler(BaseHandler):
 
 
     def post(self):
-        name = self.get_argument("name", "")
+        username = self.get_argument("username", "")
         password = self.get_argument("password", "")
         user = {
-                'name': name,
+                'username': username,
                 'password': password
             }
         print user
         flag = self.checkUser(user)
         if flag:
-            self.set_secure_cookie("user", name)
+            self.set_secure_cookie("user", username)
             response = {
                 'status': "success"
             }

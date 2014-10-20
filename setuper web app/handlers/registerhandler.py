@@ -9,19 +9,19 @@ class RegisterHandler(BaseHandler):
         self.render("register.html", title="Join Cloud Setuper")
 
     def post(self):
-        name = self.get_argument("name", "")
+        username = self.get_argument("username", "")
         email = self.get_argument("email", "")
         password = self.get_argument("password", "")
 
         user = {
-                'name': name,
+                'username': username,
                 'email': email,
                 'password': password
             }
         flag = self.checkUser(user)
         if flag:
             self.saveUser2DB(user)
-            self.set_secure_cookie("user", name)
+            self.set_secure_cookie("user", username)
             print user
             response = {
                 'status': "success"
