@@ -13,4 +13,8 @@ class UploadFileHandler(BaseHandler):
         if not self.current_user:  
             self.redirect("/login")  
             return
-        self.render("index.html", title="Cloud Setuper")
+        self.render("uploadfile.html", title="Cloud Setuper")
+
+    @authenticated
+    def post(self):
+    	self
