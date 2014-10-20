@@ -1,16 +1,6 @@
-define(function (require) {
-    var $ = require('jquery');
-    var bootstrap = require('bootstrap');
-    var messages = require('./messages');
-    require("jquery.knob")
-    require("jquery.ui.widget")
-    require("jquery.iframe-transport")
-    require("jquery.fileupload")
-    var log = require('log');
-    $(function(){
-        log(messages.getHello());
-        log(bootstrap);
-        var ul = $('#upload ul');
+$(function(){
+
+    var ul = $('#upload ul');
 
     $('#drop a').click(function(){
         // Simulate a click on the file input button
@@ -101,5 +91,5 @@ define(function (require) {
 
         return (bytes / 1000).toFixed(2) + ' KB';
     }
-    });
+
 });

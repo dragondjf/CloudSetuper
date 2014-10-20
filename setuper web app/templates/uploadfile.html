@@ -74,6 +74,7 @@
         }
 
     </style>
+    <link href="../static/css/uploadfile.css" rel="stylesheet">
     <title>{{ title }}</title>
 </head>
 
@@ -82,9 +83,15 @@
     <div id="container">
         <div id ="left"></div>
         <div id="center">
-            <div id="content">
-                <p>12</p>
-            </div>
+            <form id="upload" method="post" action="/upload" enctype="multipart/form-data">
+        <div id="drop">
+            Drop Here
+            <a>Browse</a>
+            <input type="file" name="upl" multiple="">
+        </div>
+        <ul>
+        </ul>
+    </form>
         </div>
         <div id ="right"></div>
     </div>
