@@ -20,11 +20,18 @@ class IndexHandler(BaseHandler):
         softwareauthor = self.get_argument("softwareauthor", "")
         softwareemail = self.get_argument("softwareemail", "")
         softwarecompany = self.get_argument("softwarecompany", "")
+        main_progressbar_on = self.get_argument("main_progressbar_on", "")
+        taskbar_progressbar_on = self.get_argument("taskbar_progressbar_on", "")
+        desktoplink_on = self.get_argument("desktoplink_on", "")
+
         software = {
             'softwarename': softwarename,
             'softwareauthor': softwareauthor,
             'softwareemail': softwareemail,
             'softwarecompany': softwarecompany,
+            'main_progressbar_on': main_progressbar_on,
+            'taskbar_progressbar_on': taskbar_progressbar_on,
+            'desktoplink_on': desktoplink_on
         }
         print software
         flag = self.onesetup(software)

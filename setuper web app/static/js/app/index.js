@@ -2,10 +2,11 @@ define(function (require) {
     var $ = require('jquery');
     var bootstrap = require('bootstrap');
     var messages = require('./messages');
-    require("jquery.knob")
-    require("jquery.ui.widget")
-    require("jquery.iframe-transport")
-    require("jquery.fileupload")
+    var knob = require("jquery.knob")
+    var ui_widget = require("jquery.ui.widget")
+    var iframe_transport = require("jquery.iframe-transport")
+    var fileupload = require("jquery.fileupload")
+    var flat_ui = require("flat-ui.min")
     var log = require('log');
     $(function(){
         log(messages.getHello());
@@ -124,7 +125,9 @@ define(function (require) {
             var softwareauthor = $("#software-author").val();
             var softwareemail = $("#software-email").val();
             var softwarecompany = $("#software-company").val();
-
+            var main_progressbar_on = $(".bootstrap-switch-id-main_progressbar").hasClass("bootstrap-switch-on");
+            var taskbar_progressbar_on = $(".bootstrap-switch-id-taskbar_progressbar").hasClass("bootstrap-switch-on");
+            var desktoplink_on = $(".bootstrap-switch-id-desktoplink").hasClass("bootstrap-switch-on");
             $.ajax({
                 url: '/',
                 type: 'post',
@@ -134,6 +137,9 @@ define(function (require) {
                     'softwareauthor': softwareauthor,
                     'softwareemail': softwareemail,
                     'softwarecompany': softwarecompany,
+                    'main_progressbar_on': main_progressbar_on,
+                    'taskbar_progressbar_on': taskbar_progressbar_on,
+                    'desktoplink_on': desktoplink_on
                 },
                 success: function(res) {
                     log(res)
@@ -143,6 +149,17 @@ define(function (require) {
                     log("异常！");
                 }
             })
+        })
+
+
+        $('[data-toggle="switch"]').bootstrapSwitch();
+
+        $('[data-toggle="dropdown"]').click(function(){
+            $('.dropdown-menu').fadeToggle();
+        })
+
+        $('.bootstrap-switch-id-progressbar').click(function(){
+            log($(this).hasClass("bootstrap-switch-on"));
         })
 
 });

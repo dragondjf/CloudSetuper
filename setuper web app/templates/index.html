@@ -25,17 +25,17 @@
         height: 1000px;
     }
     div #left {
-        width: 20%;
+        width: 30%;
         height: 100%;
         float: left;
     }
     div#center {
-        width: 60%;
+        width: 40%;
         height: 100%;
         float: left;
     }
     div #right {
-        width: 20%;
+        width: 30%;
         height: 100%;
         float: right;
     }
@@ -49,8 +49,9 @@
     div#footer {
         height: 10%;
     }
-    label {
+    div .form-group>label {
         color: white;
+        width: 200px;
     }
     </style>
     <link href="../static/css/uploadfile.css" rel="stylesheet">
@@ -58,7 +59,56 @@
 </head>
 
 <body>
-    <div id="header"></div>
+    <div id="header">
+        <!-- Static navbar -->
+        <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                    </button>
+                    <a class="navbar-brand" href="#">Cloud Setuper</a>
+                </div>
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        <li class="active"><a href="#">Home</a>
+                        </li>
+                        <li><a href="#about">About</a>
+                        </li>
+                        <li><a href="#contact">Contact</a>
+                        </li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="#">Default</a>
+                        </li>
+                        <li class="active"><a href="#">Static top</a>
+                        </li>
+                        <li><a href="#">Fixed top</a>
+                        </li>
+                            <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="#">Action</a>
+                                </li>
+                                <li><a href="#">Another action</a>
+                                </li>
+                                <li><a href="#">Something else here</a>
+                                </li>
+                                <li class="divider"></li>
+                                <li class="dropdown-header">Nav header</li>
+                                <li><a href="#">Separated link</a>
+                                </li>
+                                <li><a href="#">One more separated link</a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                <!--/.nav-collapse -->
+            </div>
+        </div>
+
+    </div>
     <div id="container">
         <div id="left"></div>
         <div id="center">
@@ -72,11 +122,18 @@
                 </ul>
             </form>
 
+
+
             <form name="setup_form" id="setup_form">
                 <div class="login-form" style="margin-top: 4%; background-color: #1abc9c">
-                    <div class="control-group">
+                    <div class="form-group">
                         <label>程序名称：</label>
                         <input type="text" class="form-control login-field " value="" placeholder="Enter your software name" required="required" name="softwarename" id="software-name">
+                    </div>
+
+                    <div class="form-group">
+                        <label>程序版本号：</label>
+                        <input type="text" class="form-control login-field " value="" placeholder="Enter your software version" required="required" name="softwareversion" id="software-version">
                     </div>
 
                     <div class="form-group">
@@ -93,6 +150,22 @@
                         <label>公司名称：</label>
                         <input type="text" class="form-control login-field" value="" placeholder="Enter your comanpy name" required="required" name="companyname" id="software-company">
                     </div>
+
+                    <div class="form-group">
+                        <label>是否显示主程序进度条：</label>
+                        <input type="checkbox" checked data-toggle="switch" data-on-color="success" data-off-color="warning" id="main_progressbar" />
+                    </div>
+
+                    <div class="form-group">
+                        <label>是否显示任务栏进度条：</label>
+                        <input type="checkbox" checked data-toggle="switch" data-on-color="success" data-off-color="warning" id="taskbar_progressbar" />
+                    </div>
+
+                    <div class="form-group">
+                        <label>是否生成桌面快捷方式：</label>
+                        <input type="checkbox" checked data-toggle="switch" data-on-color="success" data-off-color="warning" id="desktoplink" />
+                    </div>
+
                     <a id="onesetup" class="btn btn-block btn-lg btn-success">一键生成</a>
                 </div>
             </form>
