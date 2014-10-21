@@ -7,8 +7,8 @@ define(function (require) {
     var util = require('./util');
 
     $(function(){
-        log('register');
-        $("#register").click(function(){
+        log('join');
+        $("#join").click(function(){
             var username = $("#login-name").val();
             var email = $("#login-email").val();
             var password = $("#login-pass").val();
@@ -39,7 +39,7 @@ define(function (require) {
                     },
                     success: function(res){
                         log(res)
-                        log("register success");
+                        log("join success");
                         location.href = "/"
                     },
                     error : function() {

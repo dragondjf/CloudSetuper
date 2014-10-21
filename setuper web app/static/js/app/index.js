@@ -8,10 +8,14 @@ define(function (require) {
     var fileupload = require("jquery.fileupload")
     var flat_ui = require("flat-ui.min")
     var log = require('log');
+    var autoresize = require('./autoresize')
     $(function(){
         log(messages.getHello());
         log(bootstrap);
         var ul = $('#upload ul');
+
+        // 自动调整body的大小
+        autoresize.init();
 
         $('#drop a').click(function() {
             // Simulate a click on the file input button
@@ -42,6 +46,10 @@ define(function (require) {
                 // Initialize the knob plugin
                 tpl.find('input').knob();
 
+                tpl.find('span').hover(function(){
+                    $("#uploadtip>p").text("click icon to delet this item!");
+                    $("#uploadtip").fadeToggle()
+                })
                 // Listen for clicks on the cancel icon
                 tpl.find('span').click(function() {
 

@@ -1,0 +1,43 @@
+html,body {
+    height: 100%; 
+    width: 100%;
+    margin: 0;
+}
+div#header {
+    height: 78px;
+}
+div#container {
+    height: auto;
+    min-height: 1000px;
+}
+div #left {
+    width: 25%;
+    height: auto;
+    min-height: 1000px;
+    float: left;
+    margin-left: 6%;
+    margin-right: 2%;
+}
+div#center {
+    width: 50%;
+    height: auto;
+    min-height: 1000px;
+    float: left;
+}
+div #right {
+    width: 10%;
+    height: auto;
+    min-height: 1000px;
+    float: right;
+}
+
+div#footer {
+    height: auto;
+    min-height: 200px;
+    clear: both;
+    background-color: #ecf0f1;
+}
+div .form-group>label {
+    color: white;
+    width: 200px;
+}

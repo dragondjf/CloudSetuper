@@ -1,15 +1,17 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from registerhandler import RegisterHandler
+from joinhandler import JoinHandler
 from loginhandler import LoginHandler
 from indexhandler import IndexHandler
 from uploadfilehandler import UploadFileHandler
-
-
+from abouthandler import AboutHandler
+from contacthandler import ContactHandler
 routes = [
 	(r"/", IndexHandler),
-	(r"/join", RegisterHandler),
+	(r"/join", JoinHandler),
 	(r"/login", LoginHandler),
 	(r"/upload", UploadFileHandler),
+	(r"/about", AboutHandler),
+	(r"/contact", ContactHandler)
 ]

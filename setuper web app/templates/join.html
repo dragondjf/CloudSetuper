@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block appcss %}
+<link href="../static/css/login.css" rel="stylesheet">
+{% end %}
+
+{% block appjs %}
+<script data-main="../static/js/join" src="static/js/lib/require.min.js"></script>
+{% end %}
+
+{% block center %}
+	<div class="login" style="background-image: none">
+        <form  name="user_form" id="user_form">
+            <div class="login-form" style="margin-left: 25%;margin-right: 25%; margin-top: 8%;">
+                <div class="form-group">
+                    <input type="text" class="form-control login-field " value="" placeholder="Enter your name" required="required" name="username" id="login-name">
+                    <label class="login-field-icon fui-user" for="login-name"></label>
+                </div>
+
+                <div class="form-group">
+                    <input type="email" class="form-control login-field" value="" placeholder="Enter your email" required="required" name="email" id="login-email">
+                    <label class="login-field-icon fui-mail" for="login-email"></label>
+                </div>
+
+                <div class="form-group">
+                    <input type="password" class="form-control login-field" value="" placeholder="Password" required="required" name="password" id="login-pass">
+                    <label class="login-field-icon fui-lock" for="login-pass"></label>
+                </div>
+
+                <input id="join" class="btn btn-primary btn-lg btn-block" value="register"/>
+                <a id="lostpassword" class="login-link" href="#">Lost your password?</a>
+            </div>
+        </form>
+        <div id="tipmessage" style="margin-top: 20px; margin-left: 25%; margin-right: 25%">
+            <p style="color: red"></p>
+        </div>
+    </div>
+{% end %}

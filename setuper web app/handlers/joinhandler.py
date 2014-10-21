@@ -3,10 +3,10 @@
 
 from basehandlers import BaseHandler
 
-class RegisterHandler(BaseHandler):
+class JoinHandler(BaseHandler):
 
     def get(self):
-        self.render("register.html", title="Join Cloud Setuper")
+        self.render("join.html", title="Join Cloud Setuper")
 
     def post(self):
         username = self.get_argument("username", "")
