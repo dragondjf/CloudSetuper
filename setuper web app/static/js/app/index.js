@@ -23,6 +23,59 @@ define(function (require) {
             $(this).parent().find('input').click();
         });
 
+
+        function add2tpl(data){
+            var tpl = $('<li class="working"><input type="text" value="0" data-width="48" data-height="48"' +
+                    ' data-fgColor="#0788a5" data-readOnly="1" data-bgColor="#3e4043" /><p></p><span></span></li>');
+
+            // Append the file name and file size
+            tpl.find('p').html('<i id="filename">' + data.name + '</i>')
+                .append('<i>' + formatFileSize(data.size) + '</i>');
+
+            // Add the HTML to the UL element
+            tpl.appendTo(ul);
+
+            // Initialize the knob plugin
+            tpl.find('input').knob();
+
+            tpl.find('span').hover(
+                function(){
+                    $("#uploadtip>p").text("click icon to delet this item!");
+                    $("#uploadtip").fadeIn();
+                }, function(){
+                    $("#uploadtip>p").text("click icon to delet this item!");
+                    $("#uploadtip").fadeOut();
+                }
+            )
+            // Listen for clicks on the cancel icon
+            tpl.find('span').click(function() {
+                $.ajax({
+                    url: '/upload',
+                    type: 'delete',
+                    dataType: 'json',
+                    data: {
+                        'filename': tpl.find("#filename").text()
+                    },
+                    success: function(res) {
+                        log(res)
+                        log("delete success");
+                        tpl.fadeOut(function() {
+                            tpl.remove();
+                        });
+                    },
+                    error: function() {
+                        log("异常！");
+                        tpl.fadeOut(function() {
+                            tpl.remove();
+                        });
+                    }
+                })
+                $("#uploadtip").fadeOut();
+            });
+
+            return tpl.appendTo(ul);
+        }
+
         // Initialize the jQuery File Upload plugin
         $('#upload').fileupload({
 
@@ -33,53 +86,7 @@ define(function (require) {
             // either via the browse button, or via drag/drop:
             add: function(e, data) {
 
-                var tpl = $('<li class="working"><input type="text" value="0" data-width="48" data-height="48"' +
-                    ' data-fgColor="#0788a5" data-readOnly="1" data-bgColor="#3e4043" /><p></p><span></span></li>');
-
-                // Append the file name and file size
-                tpl.find('p').html('<i id="filename">' + data.files[0].name + '</i>')
-                    .append('<i>' + formatFileSize(data.files[0].size) + '</i>');
-
-                // Add the HTML to the UL element
-                data.context = tpl.appendTo(ul);
-
-                // Initialize the knob plugin
-                tpl.find('input').knob();
-
-                tpl.find('span').hover(function(){
-                    $("#uploadtip>p").text("click icon to delet this item!");
-                    $("#uploadtip").fadeToggle()
-                })
-                // Listen for clicks on the cancel icon
-                tpl.find('span').click(function() {
-
-                    if (tpl.hasClass('working')) {
-                        jqXHR.abort();
-                    }
-
-                    $.ajax({
-                        url: '/upload',
-                        type: 'delete',
-                        dataType: 'json',
-                        data: {
-                            'filename': tpl.find("#filename").text()
-                        },
-                        success: function(res) {
-                            log(res)
-                            log("delete success");
-                            tpl.fadeOut(function() {
-                                tpl.remove();
-                            });
-                        },
-                        error: function() {
-                            log("异常！");
-                            tpl.fadeOut(function() {
-                                tpl.remove();
-                            });
-                        }
-                    })
-                });
-
+                data.context = add2tpl(data.files[0]);
                 // Automatically upload the file once it is added to the queue
                 var jqXHR = data.submit();
             },
