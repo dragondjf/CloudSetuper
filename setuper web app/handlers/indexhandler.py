@@ -12,7 +12,7 @@ class IndexHandler(BaseHandler):
         if not self.current_user:  
             self.redirect("/login")  
             return
-        self.render("index.html", title="Cloud Setuper")
+        self.render("index.html", title="Cloud Setuper", username=self.current_user)
 
     def post(self):
         softwarename = self.get_argument("softwarename", "")

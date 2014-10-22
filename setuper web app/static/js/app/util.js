@@ -4,25 +4,25 @@ define(function () {
             if(str.length == 0){
                 return {
                     "status": false,
-                    "tipmessage": "用户名长度必须大于0"
+                    "tipmessage": "The username's length must greater than zero!"
                 }
             }
             else if(str.length > 45){
                 return {
                     "status": false,
-                    "tipmessage": "用户名长度必须小于45个字符"
+                    "tipmessage": "The username's length must less than 45!"
                 }
             } 
             else{
                 if (str.match(/^([u4e00-u9fa5]|[ufe30-uffa0]|[a-za-z0-9_])*$/)){
                     return {
                         "status": true,
-                        "tipmessage": "用户名校验成功"
+                        "tipmessage": "The username valid successfully."
                     }
                 }else{
                     return {
                     "status": false,
-                    "tipmessage": "用户名只能包含大小写英文字母、汉字、数字和下划线"
+                    "tipmessage": 'The username can only contains character, digital number and "_ "'
                 }
                 }
             }
@@ -31,25 +31,25 @@ define(function () {
             if(str.length == 0){
                 return {
                     "status": false,
-                    "tipmessage": "密码长度必须大于0"
+                    "tipmessage": "The password's length must greater than zero"
                 }
             }
             else if(str.length > 45){
                 return {
                     "status": false,
-                    "tipmessage": "密码长度必须小于45个字符"
+                    "tipmessage": "The password's length must less than 45!"
                 }
             } 
             else{
                 if (str.match(/^([u4e00-u9fa5]|[ufe30-uffa0]|[a-za-z0-9_])*$/)){
                     return {
                         "status": true,
-                        "tipmessage": "密码校验成功"
+                        "tipmessage": "The password valid successfully."
                     }
                 }else{
                     return {
                     "status": false,
-                    "tipmessage": "密码只能包含大小写英文字母、汉字、数字和下划线"
+                    "tipmessage":  'The password can only contains character, digital number and "_ "'
                 }
                 }
             }
@@ -58,14 +58,24 @@ define(function () {
             if(str.match(/^[A-Za-z0-9+]+[A-Za-z0-9\.\_\-+]*@([A-Za-z0-9\-]+\.)+[A-Za-z0-9]+$/)){
                 return {
                     "status": true,
-                    "tipmessage": "email校验成功"
+                    "tipmessage": "email valid success"
                 }
 
             }else{
                 return {
                     "status": false,
-                    "tipmessage": "email格式不正确"
+                    "tipmessage": "email format invalid"
                 }
+            }
+        },
+        'deleteAllCookies': function() {
+            var cookies = document.cookie.split(";");
+
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = cookies[i];
+                var eqPos = cookie.indexOf("=");
+                var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+                document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
             }
         }
     };

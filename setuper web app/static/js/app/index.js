@@ -9,6 +9,7 @@ define(function (require) {
     var flat_ui = require("flat-ui.min")
     var log = require('log');
     var autoresize = require('./autoresize')
+    var util = require('./util');
     $(function(){
         log(messages.getHello());
         log(bootstrap);
@@ -22,6 +23,22 @@ define(function (require) {
             // to show the file browser dialog
             $(this).parent().find('input').click();
         });
+
+        $('#Signout').click(function(){
+             $.ajax({
+                url: '/logout',
+                type: 'post',
+                success: function(res) {
+                    log(res)
+                    log("logout success");
+                    util.deleteAllCookies();
+                },
+                error: function() {
+                    util.deleteAllCookies();
+                    location.href="/login";
+                }
+            })
+        })
 
 
         function add2tpl(data){

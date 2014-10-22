@@ -37,9 +37,11 @@
                         </li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
+                        {% block Sign %}
                         <li class="active"><a href="/login">Sign in</a>
                         </li>
                         <li><a href="/join">Sign up</a>
+                        {% end %}
                         {% block Dropmenu %}
                         {% end %}
                     </ul>

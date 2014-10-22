@@ -21,7 +21,7 @@ define(function (require) {
             }
             if(result_username['status'] && result_password['status']){
                 $.ajax({
-                    url: '/join',
+                    url: '/login',
                     type: 'post',
                     dataType: 'json',
                     data:{
@@ -31,7 +31,11 @@ define(function (require) {
                     success: function(res){
                         log(res)
                         log("login success");
-                        // location.href = "/"
+                        if (res['status'] == "success"){
+                            location.href = "/"
+                        }else{
+                            $("#tipmessage>p").html(res['info']);
+                        }
                     },
                     error : function() {
                         log("异常！");    

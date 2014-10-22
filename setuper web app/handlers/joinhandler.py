@@ -3,8 +3,7 @@
 
 from basehandlers import BaseHandler
 from models import User
-
-print User
+import logging
 
 class JoinHandler(BaseHandler):
 
@@ -24,7 +23,7 @@ class JoinHandler(BaseHandler):
         checkstatus = self.checkUser(user)
         if checkstatus['status']:
             objId = self.saveUser2DB(user)
-            print objId
+            logging.info(objId)
             self.set_secure_cookie("user", username)
             response = {
                 'status': "success",
@@ -38,7 +37,7 @@ class JoinHandler(BaseHandler):
         self.write(response)
 
     def checkUser(self, user):
-        col = self.connection['setuperDB']['userCol']
+        col = User.getCollection()
         userCount = col.find({'username': user['username']}).count()
         emailCount = col.find({'email': user['email']}).count()
         if userCount == 0 and emailCount == 0:
