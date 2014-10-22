@@ -4,6 +4,8 @@
 from basehandlers import BaseHandler
 from models import User
 import logging
+import base64
+
 
 class JoinHandler(BaseHandler):
 
@@ -18,7 +20,7 @@ class JoinHandler(BaseHandler):
         user = {
                 'username': username,
                 'email': email,
-                'password': password
+                'password': base64.encodestring(password)
             }
         checkstatus = self.checkUser(user)
         if checkstatus['status']:

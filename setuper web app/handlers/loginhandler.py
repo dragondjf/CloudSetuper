@@ -5,6 +5,8 @@ from tornado.web import authenticated
 from basehandlers import BaseHandler
 from models import User
 import logging
+import base64
+
 
 class LoginHandler(BaseHandler):
 
@@ -36,7 +38,7 @@ class LoginHandler(BaseHandler):
         col = User.getCollection()
         result = col.find_one({'username': user['username']})
         if result:
-            if result['password'] == user['password']:
+            if base64.decodestring(result['password']) == user['password']:
                 return {
                     'status': True,
                     'info': "login success"
