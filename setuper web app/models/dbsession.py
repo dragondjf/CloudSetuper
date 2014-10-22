@@ -1,11 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+from mongokit import Connection
 
-class DBSession(object):
-    
-    """DBSession manage db connection  """
-
-    def __init__(self, *arg, **kwargs):
-        super(DBSession, self).__init__()
-
+connection = Connection()

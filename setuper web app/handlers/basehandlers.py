@@ -9,7 +9,7 @@ class BaseHandler(RequestHandler):
     def initialize(self):
         ''' Setup sessions, etc '''
         self.session = None
-        self.dbSession = self.application.dbSession
+        self.connection = self.application.connection
 
     def get_current_user(self):
         ''' Get current user object from database '''

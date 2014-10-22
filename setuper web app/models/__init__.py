@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from dbsession import DBSession
-
-dbSession = DBSession()
+from dbsession import connection
+from user import User

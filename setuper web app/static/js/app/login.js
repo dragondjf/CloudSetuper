@@ -31,7 +31,7 @@ define(function (require) {
                     success: function(res){
                         log(res)
                         log("login success");
-                        location.href = "/"
+                        // location.href = "/"
                     },
                     error : function() {
                         log("异常！");    

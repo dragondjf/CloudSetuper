@@ -10,7 +10,6 @@ class UploadFileHandler(BaseHandler):
 
     @authenticated
     def get(self):
-        print self.dbSession, '+++++++', self.current_user
         if not self.current_user:  
             self.redirect("/login")  
             return
@@ -43,5 +42,3 @@ class UploadFileHandler(BaseHandler):
                 "status": "fail",
             }
         self.write(response)
-
-

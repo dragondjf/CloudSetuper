@@ -10,7 +10,7 @@ import os.path
 import uuid
 
 from handlers import routes
-from models import dbSession
+from models import connection
 
 from tornado.options import define, options
 define("port", default=12306, help="run on the given port", type=int)
@@ -29,7 +29,7 @@ class Application(tornado.web.Application):
             debug=True,
         )
         tornado.web.Application.__init__(self, handlers, **settings)
-        self.dbSession = dbSession
+        self.connection = connection
 
 
 def main():

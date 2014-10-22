@@ -8,5 +8,4 @@ from basehandlers import BaseHandler
 class AboutHandler(BaseHandler):
 
     def get(self):
-        print self.dbSession, '+++++++', self.current_user
         self.render("about.html", title="Cloud Setuper")

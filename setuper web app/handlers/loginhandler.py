@@ -8,7 +8,6 @@ class LoginHandler(BaseHandler):
     def get(self):
         self.render("login.html", title="Cloud Setuper Sign in")
 
-
     def post(self):
         username = self.get_argument("username", "")
         password = self.get_argument("password", "")
@@ -26,4 +25,5 @@ class LoginHandler(BaseHandler):
             self.write(response)
 
     def checkUser(self, user):
+        col = self.connection['setuperDB']['userCol']
         return True

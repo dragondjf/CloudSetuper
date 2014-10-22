@@ -2,6 +2,9 @@
 # -*- coding: utf-8 -*-
 
 from basehandlers import BaseHandler
+from models import User
+
+print User
 
 class JoinHandler(BaseHandler):
 
@@ -18,21 +21,43 @@ class JoinHandler(BaseHandler):
                 'email': email,
                 'password': password
             }
-        flag = self.checkUser(user)
-        if flag:
-            self.saveUser2DB(user)
+        checkstatus = self.checkUser(user)
+        if checkstatus['status']:
+            objId = self.saveUser2DB(user)
+            print objId
             self.set_secure_cookie("user", username)
-            print user
             response = {
-                'status': "success"
+                'status': "success",
+                'info': "register success"
             }
-            self.write(response)
         else:
-            pass
+            response = {
+                'status': "fail",
+                'info': checkstatus['info']
+            }
+        self.write(response)
 
     def checkUser(self, user):
-        return True
+        col = self.connection['setuperDB']['userCol']
+        userCount = col.find({'username': user['username']}).count()
+        emailCount = col.find({'email': user['email']}).count()
+        if userCount == 0 and emailCount == 0:
+            return {
+                'status': True,
+                'info': "new user"
+            }
+        elif userCount !=0:
+            return {
+                'status': False,
+                'info': "This user has been registered"
+            }
+        elif emailCount != 0:
+            return {
+                'status': False,
+                'info': "This email has been registered"
+            }
 
-    def saveUser2DB(self, user):
-        # print user
-        return True
+    def saveUser2DB(self, dictobj):
+        user = self.connection.User()
+        objId = user.loadFromDict(dictobj)
+        return objId

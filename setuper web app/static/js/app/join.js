@@ -40,10 +40,15 @@ define(function (require) {
                     success: function(res){
                         log(res)
                         log("join success");
-                        location.href = "/"
+                        if(res['status'] == "success"){
+                            location.href = "/";
+                        }else{
+                            $("#tipmessage>p").html(res['info']);
+                        }
                     },
                     error : function() {
-                        log("异常！");    
+                        log("error");
+                        $("#tipmessage>p").html("internet error."); 
                     }
                 })
             }
