@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="gb2312"?>
+<project ver="6" name="installerUI" libEmbed="true" icon="res\setup_green.ico" ui="win" output="Setuper.exe" CompanyName="单位名称" FileDescription="installerUI" LegalCopyright="Copyright (C) 作者 2014" ProductName="installerUI" InternalName="installerUI" FileVersion="0.0.0.38" ProductVersion="0.0.0.38" publishDir="/Publish/">
+	<file name="main.aau" path="installerUI.main.aau" comment="installerUI.main.aau"/>
+	<folder name="资源文件" path="res" embed="true">
+		<file name="setup_red.ico" path="res\setup_red.ico" comment="res\setup_red.ico"/>
+		<file name="setup_green.ico" path="res\setup_green.ico" comment="res\setup_green.ico"/>
+		<file name="setup_gray.ico" path="res\setup_gray.ico" comment="res\setup_gray.ico"/>
+		<file name="setup_blue.ico" path="res\setup_blue.ico" comment="res\setup_blue.ico"/>
+		<file name="QFramer.png" path="res\QFramer.png" comment="res\QFramer.png"/>
+		<file name="QFramer.7z" path="res\QFramer.7z" comment="res\QFramer.7z"/>
+		<file name="progress.jpg" path="res\progress.jpg" comment="res\progress.jpg"/>
+		<file name="progress-bg.jpg" path="res\progress-bg.jpg" comment="res\progress-bg.jpg"/>
+		<file name="pie.png" path="res\pie.png" comment="res\pie.png"/>
+		<file name="pie-bg.png" path="res\pie-bg.png" comment="res\pie-bg.png"/>
+		<file name="close-hover.png" path="res\close-hover.png" comment="res\close-hover.png"/>
+		<file name="close-default.png" path="res\close-default.png" comment="res\close-default.png"/>
+		<file name="close-active.png" path="res\close-active.png" comment="res\close-active.png"/>
+		<file name="appbar.settings.white.png" path="res\appbar.settings.white.png" comment="res\appbar.settings.white.png"/>
+		<file name="appbar.settings.black.png" path="res\appbar.settings.black.png" comment="res\appbar.settings.black.png"/>
+		<file name="appbar.minus.png" path="res\appbar.minus.png" comment="res\appbar.minus.png"/>
+		<file name="appbar.close.png" path="res\appbar.close.png" comment="res\appbar.close.png"/>
+		<file name="5.jpg" path="res\5.jpg" comment="res\5.jpg"/>
+		<file name="4.jpg" path="res\4.jpg" comment="res\4.jpg"/>
+		<file name="3.jpg" path="res\3.jpg" comment="res\3.jpg"/>
+		<file name="2.jpg" path="res\2.jpg" comment="res\2.jpg"/>
+		<file name="1.jpg" path="res\1.jpg" comment="res\1.jpg"/>
+	</folder>
+</project>

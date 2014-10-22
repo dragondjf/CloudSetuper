@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?> 
+<assembly 
+xmlns="urn:schemas-microsoft-com:asm.v1" 
+manifestVersion="1.0">
+<assemblyIdentity 
+    processorArchitecture="x86" 
+    version="5.1.0.0"
+    type="win32"
+    name="快手工程15.exe"/>
+    <description>installerUI</description>
+    <dependency>
+    <dependentAssembly>
+    <assemblyIdentity
+        type="win32"
+        name="Microsoft.Windows.Common-Controls"
+        version="6.0.0.0"
+        publicKeyToken="6595b64144ccf1df"
+        language="*"
+        processorArchitecture="x86"/>
+    </dependentAssembly>
+    </dependency>
+    <compatibility xmlns="urn:schemas-microsoft-com:compatibility.v1">
+      <application>
+          <!--The ID below indicates application support for Windows Vista -->
+          <supportedOS Id="{e2011457-1546-43c5-a5fe-008deee3d3f0}"/>
+          <!--The ID below indicates application support for Windows 7 -->
+          <supportedOS Id="{35138b9a-5d96-4fbd-8e2d-a2440225f93a}"/>
+		  <!--The ID below indicates application support for Windows 8 -->  
+		  <supportedOS Id="{4a2f28e3-53b9-4441-ba9c-d69d4a4a6e38}"/>
+      </application>
+    </compatibility>
+    <trustInfo xmlns="urn:schemas-microsoft-com:asm.v3">
+    	<security>
+        	<requestedPrivileges>
+			<!-- 
+				可任选以下配置之一指定一个进程权限：
+				<requestedExecutionLevel level="asInvoker" uiAccess="false" />
+				<requestedExecutionLevel level="requireAdministrator" uiAccess="false" /> 
+				<requestedExecutionLevel level="highestAvailable" uiAccess="false" />
+				
+				requireAdministrator 为管理员权限，
+				highestAvailable 为可以获取到的最高权限，
+				asInvoker 为默认值,即调用进程当前权限,一般不需要显式指定,指定后会禁用虚拟化。
+				
+				虚拟化指Vista以后系统禁止写 Program File目录,启用虚拟化则重定向到%localappdata%\VirtualStore目录，
+				而注册表 HKEY_LOCAL_MACHINE\Software 则重定向到HKEY_CURRENT_USER\Software\Classes\VirtualStore\MACHINE\Software
+			--> 
+        	</requestedPrivileges>
+    	</security>
+	</trustInfo>
+</assembly>

@@ -1,0 +1,295 @@
+import win.ui;
+import win.animate;
+import key.hook;
+import console;
+/*DSG{{*/
+winform = ..win.form(text="Setuper";right=650;bottom=560;border="none")
+winform.add(
+btnbrowser={cls="button";text="浏览...";left=419;top=451;right=509;bottom=474;z=7};
+btnSetup={cls="button";text="安装";left=514;top=451;right=611;bottom=473;z=8};
+ButtonClose={cls="plus";left=608;top=0;right=650;bottom=40;background="\res\appbar.close.png";notify=1;repeat="scale";z=1};
+ButtonMin={cls="plus";left=576;top=0;right=617;bottom=40;background="\res\appbar.minus.png";notify=1;repeat="scale";z=2};
+edit={cls="edit";text="edit";left=61;top=451;right=414;bottom=473;edge=1;z=6};
+PictureViwer={cls="plus";left=38;top=40;right=609;bottom=432;foreground="\res\2.jpg";foreRepeat="scale";notify=1;repeat="scale";z=5};
+pie={cls="plus";left=0;top=0;right=80;bottom=40;background="\res\pie-bg.png";color=15793151;font=LOGFONT( h=-11 );foreground="\res\pie.png";foreRepeat="scale";repeat="scale";z=3};
+progress={cls="plus";left=0;top=490;right=648;bottom=522;align="right";background="\res\progress-bg.jpg";bgcolor=65280;color=2719744;font=LOGFONT( h=-16 );foreground="\res\progress.jpg";foreRepeat="expand";z=4}
+)
+/*}}*/
+
+OutputFolderName="";
+JsonData="";
+
+winform.PictureViwer.skin(
+	background = { 
+		hover = "/res/images/btn-hover.png";
+		focus = "/res/images/btn-focus.jpg";
+		active = "/res/images/btn-active.png";
+		disabled = "/res/images/btn-disabled.png"; 
+	}
+)
+winform.PictureViwer.oncommand = function(id,event){
+	
+}
+//最小化按钮	
+winform.ButtonMin.skin(
+     background = { 
+         hover = "/res/appbar.minus.png";
+         focus = "/res/appbar.minus.png";
+         active = "/res/appbar.minus.png";
+         default = "/res/appbar.minus.png"; 
+     }
+    color = {
+        hover = 0xFFFF0000; //鼠标移上去的颜色
+        active = 0xFF00FF00; //鼠标按下去的颜色
+    } 
+)
+winform.ButtonMin.oncommand = function(id,event){
+	winform.hitmin();
+}
+
+//关闭按钮
+winform.ButtonClose.skin(
+	background = { 
+		hover = "/res/appbar.close.png";
+		active = "/res/appbar.close.png";
+		default = "/res/appbar.close.png"; 
+	}
+	color = {
+		hover = 0xFFFF0000; //鼠标移上去的颜色
+        active = 0xFF00FF00; //鼠标按下去的颜色
+	}
+)
+winform.ButtonClose.show(true);
+winform.ButtonClose.oncommand = function( id,event ){
+	winform.close();
+}
+
+// 进度条范围设定，接受解压线程的值
+winform.pie.setPieRange(1,100);
+winform.progress.setProgressRange(1,100)
+
+
+import thread.command;
+var listener = thread.command();
+listener.print = function( percent ){
+    winform.pie.text =  percent + " %";
+	winform.progress.text = percent + "%";
+	winform.pie.progressPercentage = percent;
+	winform.progress.progressPercentage = percent;
+	
+/*	ProgressInformation[#ProgressInformation+1]=percent;
+	for(i=1;#ProgressInformation;1){
+		console.log(ProgressInformation[i]);
+	}*/
+} 
+
+import thread.table;
+var progress_tab = thread.table("ProgressTable",true )
+
+var task_7zSource = function(install_path, output_folder_name){
+	import console;
+	console.log("start decode", install_path);
+	
+	import sevenZip.decoder2;
+	var archive = sevenZip.decoder2();
+
+	archive.printError = function(name,message){
+		console.log("Decode 7zSource failed. ", name,message ) 
+	}
+	
+	import web.json;
+	archive.open(output_folder_name + "ExeSource.7z")
+	archive.extractSetCompleted = function(lowSize,hiSize,percent){
+//		import thread.command;
+//		thread.command.post("print",percent);
+//		sleep(50);
+
+/**		import thread.table;
+		tab = thread.table("ProgressTable")
+		console.log("decode7z----",tab.len());
+		tab.push(percent);
+		sleep(50);**/
+	}
+
+	if( archive.extract( install_path ) ){
+		console.log("setup ok")
+	}
+	else {
+		console.log("setup fail")
+	}
+}
+
+winform.btnSetup.oncommand = function(id,event){
+//	hThread=thread.create(task_t,winform.pie.hwnd,winform.progress.hwnd);
+//	thread.waitOne(hThread);
+//	return ; 
+	
+	winform.edit.disabled=true;
+	winform.btnbrowser.disabled=true;
+	winform.btnSetup.disabled=true;
+	
+	hThread=thread.create(task_7zSource,winform.edit.text,OutputFolderName);
+	thread.waitOne(hThread);
+
+	winform.edit.disabled=false;
+	winform.btnbrowser.disabled=false;
+	winform.btnSetup.disabled=false;
+	
+	//winform.close();
+}
+ 
+winform.btnbrowser.oncommand = function(id,event){
+
+}
+
+// 监听键盘按钮事件
+var hook = key.hook();
+//录制回调函数
+hook.proc = function(msg,vkcode,scancode,injected,flags,timeStamp,extraInfo){ 
+	if( injected ) return; //模拟鼠标不处理
+  
+    var kn = key.getName( vkcode ); 
+    	
+    select(msg) {
+    	case 0x100/*_WM_KEYDOWN*/ ,0x104/*_WM_SYSKEYDOWN*/ {
+    	    //console.log("按下","键名:" + kn,"键码:"+vkcode)
+    	    if(kn == "ESC"){
+    	    	winform.close();
+    	    };
+    	}
+    	case 0x101/*_WM_KEYUP*/,0x105/*_WM_SYSKEYUP*/ {
+    	    //console.log("弹起","键名:" + kn,"键码:"+vkcode)
+    	}  
+    } 
+    
+    if( win.getForeground() == winform.hwnd ) return true;  
+}
+
+
+//添加下面的代码以支持鼠标拖动窗体
+winform.wndproc = {
+	[ 0x201/*_WM_LBUTTONDOWN*/ ] = function(hwnd,message,wParam,lParam){
+		winform.hitCaption();
+	}
+}
+
+
+// 程序显示关闭动画
+winform.onClose = function(hwnd,message,wParam,lParam){
+    win.animate.fade(winform).hide()
+}
+
+var getfilefromexe = function(){
+	import console;
+
+	import process;
+	path=process.getPath();
+
+	import fsys.file;
+	exefile=io.open("F:\MyProjects\CloudSetuper\AAutoSetuper-master\Publish\setup.exe","rb");
+	if (null == exefile)
+	{
+		console.log("open file fail");
+		return false; 
+	}
+	exefile.seek("end");
+	var readlen=0;
+	var readbuf="";
+	while(true){
+		readbuf=exefile.readback(1);
+		readlen++;
+		
+		if (readlen > 100){
+			console.log("get json file fail");
+			return false; 
+		}
+		
+		if (readbuf == "|"){
+			break ;	
+		}
+	}
+	
+	console.log(readlen);
+	exefile.seek("end");
+	var jsonlen=exefile.readback(readlen-1);
+	console.log(jsonlen);
+	
+	exefile.seek("cur",-1);
+	var jsondata=exefile.readback(tonumber(jsonlen));
+	console.log(jsondata);
+	JsonData=jsondata;
+	
+	import web.json;
+	var jsonobject=web.json.parse(jsondata);
+	var jsonarray=jsonobject["Files"];
+
+	import fsys;
+	OutputFolderName = fsys.getTempDir() + jsonobject['OutputFolderName'] + "\" ;
+	io.print(OutputFolderName);
+	fsys.createDir(OutputFolderName);
+	
+	for(i=#jsonarray;1;-1){
+		import fsys.file;
+		console.log(jsonarray[i]['name']);
+		console.log(jsonarray[i]['size']);
+
+		sourcefile=io.open( OutputFolderName + jsonarray[i]['name'],'wb' );
+		sourcefile.write(exefile.readback( tonumber( jsonarray[i]['size'] ) ) );
+		sourcefile.close();
+	}
+	return true; 
+}
+
+if (!getfilefromexe())
+{
+	winform.msgbox("解析文件失败");
+	return ; 
+}
+
+
+//定时播放图片
+var i = 1;
+var tmId = winform.addtimer( 
+	1000,
+	function(hwnd,msg,id,tick){
+		import fsys;
+		var picturePath=OutputFolderName + string.format("%d.png", i);
+		
+		winform.PictureViwer.setForeground(picturePath);
+		if(i < 5){
+			i = i + 1
+		}
+		else {
+			i = 1;
+		}
+		
+	} 
+)
+
+var tmProgressId = winform.addtimer( 
+	100,
+	function(hwnd,msg,id,tick){
+		var i=10;
+		while( i > 0 ){
+			i--;
+			var percent = progress_tab.remove()
+			if (null==percent)
+				return ; 
+		    winform.pie.text =  percent + " %";
+			winform.progress.text = percent + "%";
+			winform.pie.progressPercentage = percent;
+			winform.progress.progressPercentage = percent;
+		}
+	} 
+)
+
+//
+import web.json;
+var jsonobject=web.json.parse(JsonData);
+import fsys;
+winform.edit.text=fsys.getSpecial(0x26)+"\"+jsonobject['OutputFolderName'];
+
+; 
+winform.show(true)
+win.loopMessage();  
+hook.close();
