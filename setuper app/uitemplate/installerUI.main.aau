@@ -58,6 +58,7 @@ winform.pie.setPieRange(1,100);
 winform.progress.setProgressRange(1,100)
 
 
+//	进度条更新，[问题]频率高卡主窗口，控制频率
 import thread.command;
 var listener = thread.command();
 listener.print = function( percent ){
@@ -65,20 +66,42 @@ listener.print = function( percent ){
 	winform.progress.text = percent + "%";
 	winform.pie.progressPercentage = percent;
 	winform.progress.progressPercentage = percent;
-	
-/*	ProgressInformation[#ProgressInformation+1]=percent;
-	for(i=1;#ProgressInformation;1){
-		console.log(ProgressInformation[i]);
-	}*/
 } 
 
-import thread.table;
-var progress_tab = thread.table("ProgressTable",true )
+//	进度条更新，控制线程，50ms累加percent
+var task_fv_progress = function(arg){
+	//	线程函数内部要添加自已的import语句
+    import win; 
+    
+    percent=0;
+    last_time=0;
+    //	在子线程启动消息循环
+    win.loopMessage(
+    	//	注册一个消息钩子函数
+    	function(msg){
+			import thread.command;
+    		percent += msg.message;
+    		
+    		if (last_time==0)
+    		{
+				thread.command.post("print",percent);
+    		}
+    		else if (time()-last_time >=50)
+    		{
+				thread.command.post("print",percent);
+    		}
+    		last_time = time();
+    	} 
+    ) 
+}
 
-var task_7zSource = function(install_path, output_folder_name,pg_hwnd){
+
+
+//	解压源安装包线程函数
+var task_7zSource = function(install_path, output_folder_name/*,pg_hwnd*/,fv_progress_id/*频率降低线程id*/){
 	import console;
 	//console.log("start decode", install_path);
-	
+	console.log(fv_progress_id);
 	import sevenZip.decoder2;
 	var archive = sevenZip.decoder2();
 
@@ -86,46 +109,75 @@ var task_7zSource = function(install_path, output_folder_name,pg_hwnd){
 		//console.log("Decode 7zSource failed. ", name,message ) 
 	}
 	
+	last_percent=0;	
+	last_time=0;
+	now_time = time();
+	
 	import web.json;
 	archive.open(output_folder_name + "ExeSource.7z")
 	archive.extractSetCompleted = function(lowSize,hiSize,percent){
-//		import thread.command;
-//		thread.command.post("print",percent);
-//		sleep(50);
-
-/**		import thread.table;
-		tab = thread.table("ProgressTable")
-		console.log("decode7z----",tab.len());
-		tab.push(percent);
-		sleep(50);**/
+		import thread.command;
+		import time.performance;		
+		now_time = time.performance.tick();
+		console.log("now_time",now_time,"last_time",last_time,"percent",percent);
 		
-//		win_form.pie.text =  percent + " %";
-//		win_form.progress.text = percent + "%";
-//		win_form.pie.progressPercentage = percent;
-//		win_form.progress.progressPercentage = percent;
-		import win;
-		win.setText(pg_hwnd,tostring(percent));
+		if (percent != last_percent){
+			last_percent = percent;
+			
+			if ( last_time == 0){
+				last_time=now_time;
+				thread.command.post("print",percent);
+			}
+			else if (now_time - last_time >= 50 ){
+				last_time=now_time;
+				thread.command.post("print",percent);
+			}
+			else if (percent == 100){
+				last_time=now_time;
+				thread.command.post("print",percent);
+			}
+		}
+//		sleep(50);	// 会使解压速度变慢，不要用
+		return ; 
 
+//		import win;
+//		win.setText(pg_hwnd,tostring(percent));
+		console.log("----",fv_progress_id);
+		console.log("----",percent);
+
+		//	投递请求，程序崩溃，原因未知
+//		::PostThreadMessage(fv_progress_id,percent,0,0);
 	}
 
 	if( archive.extract( install_path ) ){
 		console.log("setup ok")
+		
+		//	投递请求，程序崩溃，原因未知
+		//	给线程发送退出消息
+		//::PostThreadMessage(id_t,0x12/*_WM_QUIT*/,0,0)
+
 	}
 	else {
 		console.log("setup fail")
+		//	给线程发送退出消息
+		//	投递请求，程序崩溃，原因未知
+		//::PostThreadMessage(id_t,0x12/*_WM_QUIT*/,0,0)
 	}
 }
 
+
+//	安装按钮响应函数
 winform.btnSetup.oncommand = function(id,event){
-//	hThread=thread.create(task_t,winform.pie.hwnd,winform.progress.hwnd);
-//	thread.waitOne(hThread);
-//	return ; 
 	
 	winform.edit.disabled=true;
 	winform.btnbrowser.disabled=true;
 	winform.btnSetup.disabled=true;
 	
-	hThread=thread.create(task_7zSource,winform.edit.text,OutputFolderName,winform.progress.hwnd);
+	//	启动线程刷新频率降低线程
+	hfv_thread, fv_thread_id = thread.create(task_fv_progress);
+	console.log("----++++",fv_thread_id);
+	//	启动解压安装线程
+	hThread=thread.create(task_7zSource,winform.edit.text,OutputFolderName/*,winform.pie.hwnd*/,fv_thread_id);
 	thread.waitOne(hThread);
 
 	winform.edit.disabled=false;
@@ -190,10 +242,11 @@ var getfilefromexe = function(){
 
 	import fsys.file;
 	//console.log(path);
+	path="F:\MyProjects\CloudInstall\CloudSetuper\setuper app\uitemplate\Publish\setup.exe";
 	exefile=io.open(path,"rb");
 	if (null == exefile)
 	{
-		//console.log("open file fail");
+		console.log("open file fail");
 		return false; 
 	}
 	exefile.seek("end");
@@ -204,7 +257,7 @@ var getfilefromexe = function(){
 		readlen++;
 		
 		if (readlen > 100){
-			//console.log("get json file fail");
+			console.log("get json file fail");
 			return false; 
 		}
 		
@@ -213,19 +266,16 @@ var getfilefromexe = function(){
 		}
 	}
 	
-	//console.log(readlen);
 	exefile.seek("end");
 	var jsonlen=exefile.readback(readlen-1);
-	//console.log(jsonlen);
 	
 	exefile.seek("cur",-1);
 	var jsondata=exefile.readback(tonumber(jsonlen));
-	//console.log(jsondata);
 	JsonData=jsondata;
 	
 	import web.json;
 	var jsonobject=web.json.parse(jsondata);
-	var jsonarray=jsonobject["Files"];
+	var jsonarray=jsonobject["files"];
 
 	import fsys;
 	OutputFolderName = fsys.getTempDir() + jsonobject['OutputFolderName'] + "\" ;
@@ -234,9 +284,6 @@ var getfilefromexe = function(){
 	
 	for(i=#jsonarray;1;-1){
 		import fsys.file;
-		//console.log(jsonarray[i]['name']);
-		//console.log(jsonarray[i]['size']);
-
 		sourcefile=io.open( OutputFolderName + jsonarray[i]['name'],'wb' );
 		sourcefile.write(exefile.readback( tonumber( jsonarray[i]['size'] ) ) );
 		sourcefile.close();
@@ -254,7 +301,7 @@ if (!getfilefromexe())
 //定时播放图片
 var i = 1;
 var tmId = winform.addtimer( 
-	1000,
+	500,
 	function(hwnd,msg,id,tick){
 		import fsys;
 		var picturePath=OutputFolderName + string.format("%d.png", i);
@@ -270,8 +317,9 @@ var tmId = winform.addtimer(
 	} 
 )
 
+/*
 var tmProgressId = winform.addtimer( 
-	100,
+	5000,
 	function(hwnd,msg,id,tick){
 		var i=10;
 		while( i > 0 ){
@@ -286,7 +334,7 @@ var tmProgressId = winform.addtimer(
 			//winform.taskbar.SetProgressValue(winform.hwnd, percent, 100);
 		}
 	} 
-)
+)*/
 
 //
 import web.json;
@@ -294,7 +342,7 @@ var jsonobject=web.json.parse(JsonData);
 import fsys;
 winform.edit.text=fsys.getSpecial(0x26)+"\"+jsonobject['OutputFolderName'];
 
-; 
-winform.show(true)
+ 
+winform.show(true);
 win.loopMessage();  
 hook.close();
