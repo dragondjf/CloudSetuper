@@ -251,7 +251,7 @@ var getfilefromexe = function(){
 
 	import fsys.file;
 	//console.log(path);
-	path="F:\MyProjects\CloudInstall\CloudSetuper\setuper app\uitemplate\Publish\setup.exe";
+//	path="F:\MyProjects\CloudInstall\CloudSetuper\setuper app\uitemplate\Publish\setup.exe";
 	exefile=io.open(path,"rb");
 	if (null == exefile)
 	{
