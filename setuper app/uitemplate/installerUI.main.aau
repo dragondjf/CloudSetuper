@@ -86,7 +86,7 @@ var task_fv_progress = function(arg){
     		{
 				thread.command.post("print",percent);
     		}
-    		else if (time()-last_time >=50)
+    		else if (time()-last_time >=300)
     		{
 				thread.command.post("print",percent);
     		}
@@ -173,7 +173,7 @@ winform.btnSetup.oncommand = function(id,event){
 	winform.btnbrowser.disabled=true;
 	winform.btnSetup.disabled=true;
 	
-	//	启动线程刷新频率降低线程
+	//	启动线程刷新频率降低线程----投递请求崩溃，原因未知
 	hfv_thread, fv_thread_id = thread.create(task_fv_progress);
 	console.log("----++++",fv_thread_id);
 	//	启动解压安装线程
@@ -275,7 +275,7 @@ var getfilefromexe = function(){
 	
 	import web.json;
 	var jsonobject=web.json.parse(jsondata);
-	var jsonarray=jsonobject["files"];
+	var jsonarray=jsonobject["Files"];
 
 	import fsys;
 	OutputFolderName = fsys.getTempDir() + jsonobject['OutputFolderName'] + "\" ;
@@ -301,13 +301,13 @@ if (!getfilefromexe())
 //定时播放图片
 var i = 1;
 var tmId = winform.addtimer( 
-	500,
+	1500,
 	function(hwnd,msg,id,tick){
 		import fsys;
 		var picturePath=OutputFolderName + string.format("%d.png", i);
 		
 		winform.PictureViwer.setForeground(picturePath);
-		if(i < 5){
+		if(i < 4){
 			i = i + 1
 		}
 		else {
