@@ -21,8 +21,12 @@ define(function (require) {
         $('#drop a').click(function() {
             // Simulate a click on the file input button
             // to show the file browser dialog
+
             $(this).parent().find('input').click();
         });
+
+
+
 
         $('#Signout').click(function(){
              $.ajax({
@@ -46,7 +50,7 @@ define(function (require) {
                     ' data-fgColor="#0788a5" data-readOnly="1" data-bgColor="#3e4043" /><p></p><span></span></li>');
 
             // Append the file name and file size
-            tpl.find('p').html('<i id="filename">' + data.name + '</i>')
+            tpl.find('p').html('<i class="filename">' + data.name + '</i>')
                 .append('<i>' + formatFileSize(data.size) + '</i>');
 
             // Add the HTML to the UL element
@@ -71,7 +75,7 @@ define(function (require) {
                     type: 'delete',
                     dataType: 'json',
                     data: {
-                        'filename': tpl.find("#filename").text()
+                        'filename': tpl.find(".filename").text()
                     },
                     success: function(res) {
                         log(res)
@@ -160,10 +164,23 @@ define(function (require) {
             var main_progressbar_on = $(".bootstrap-switch-id-main_progressbar").hasClass("bootstrap-switch-on");
             var taskbar_progressbar_on = $(".bootstrap-switch-id-taskbar_progressbar").hasClass("bootstrap-switch-on");
             var desktoplink_on = $(".bootstrap-switch-id-desktoplink").hasClass("bootstrap-switch-on");
+            var files = [];
+
+            if(softwarename.length == 0){
+                $("#tipmessage").fadeIn();
+                $("#tipmessage>p").html("software name's length must greater than zero!");
+                return;
+            }
+
+            $.each($(".filename"), function(index, value){
+                files.push($(value).text())
+            });
+
             $.ajax({
                 url: '/',
                 type: 'post',
                 dataType: 'json',
+                traditional: true,
                 data: {
                     'softwarename': softwarename,
                     'softwareauthor': softwareauthor,
@@ -171,7 +188,8 @@ define(function (require) {
                     'softwarecompany': softwarecompany,
                     'main_progressbar_on': main_progressbar_on,
                     'taskbar_progressbar_on': taskbar_progressbar_on,
-                    'desktoplink_on': desktoplink_on
+                    'desktoplink_on': desktoplink_on,
+                    'files': files
                 },
                 success: function(res) {
                     log(res)
@@ -190,8 +208,20 @@ define(function (require) {
             $('.dropdown-menu').fadeToggle();
         })
 
+        $('.dropdown-menu').hover(function(){}, function(){
+            $('.dropdown-menu').fadeOut();
+        })
+
+        document.getElementById("container").addEventListener('click', function(){
+            $('.dropdown-menu').fadeOut();
+        })
+
         $('.bootstrap-switch-id-progressbar').click(function(){
             log($(this).hasClass("bootstrap-switch-on"));
         })
 
+        //监测input输入实时改变事件
+        $("#software-name").bind("input propertychange", function(){
+            $("#tipmessage").fadeOut();
+        });
 });

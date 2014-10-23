@@ -231,9 +231,10 @@ winform.wndproc = function(hwnd,message,wParam,lParam){
 
 // 程序显示关闭动画
 winform.onClose = function(hwnd,message,wParam,lParam){
-    win.animate.fade(winform).hide()
+    win.animate.fade(winform).hide(150)
 }
 
+<<<<<<< HEAD
 // 单例运行
 import process.mutex
 mutex=process.mutex("installer_ui_process_id")
@@ -242,6 +243,8 @@ if( mutex.conflict ){
 	winform.msgbox("安装程序已经运行!");
     return ; 
 }
+=======
+>>>>>>> c39787d0e3214730803aeac6f153e98ebdd71a70
 
 var getfilefromexe = function(){
 	import console;

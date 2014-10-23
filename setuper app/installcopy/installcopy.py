@@ -8,12 +8,13 @@ import time
 import argparse
 
 def getOrderFromJson(pacakgejson, args):
+    pwd = os.getcwd()
     os.chdir(args.package)
     if os.path.exists(pacakgejson):
         with open(pacakgejson, 'r') as fp:
             config = json.load(fp)
         fsize = {}
-        for item in config['Files']:
+        for item in config['files']:
             if isinstance(item, dict):
                 filesize = os.path.getsize(item['path'])
                 item.update({u"size": filesize})
@@ -33,16 +34,18 @@ def getOrderFromJson(pacakgejson, args):
     else:
         print "The [%s]  isn't exits!" % pacakgejson
         result = None
-    os.chdir('..')
-    config['Files'] = result[::-1]
+    os.chdir(pwd)
+    config['files'] = result[::-1]
+    print result[::-1]
     return config
 
 def copyFile2Exe(config, args):
-    ftemplate = open(args.template, 'rb')
+    ftemplate = open(os.path.abspath(args.template), 'rb')
     content = ftemplate.read()
     ftemplate.close()
-    os.chdir(args.package)
-    for f in config['Files']:
+    pwd = os.getcwd()
+    os.chdir(os.path.abspath(args.package))
+    for f in config['files']:
         fp = open(f['path'], 'rb')
         content += fp.read()
         fp.close()
@@ -55,7 +58,7 @@ def copyFile2Exe(config, args):
     foutput = open(buildtime + args.output, 'wb')
     foutput.write(content)
     foutput.close()
-    os.chdir('..')
+    os.chdir(pwd)
 
 
 def main():
@@ -86,9 +89,8 @@ def main():
 
     parser.add_argument('--version', action='version', version='%(prog)s 1.0')
     args = parser.parse_args()
-
-    if os.path.exists(os.sep.join([os.getcwd(), args.package])):
-        pacakgejson = os.sep.join([os.getcwd(), args.package, 'package.json'])
+    if os.path.exists(os.path.abspath(args.package)):
+        pacakgejson = os.sep.join([os.path.abspath(args.package), 'package.json'])
         config = getOrderFromJson(pacakgejson, args)
         copyFile2Exe(config, args)
     else:
