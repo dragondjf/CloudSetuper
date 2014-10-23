@@ -234,6 +234,15 @@ winform.onClose = function(hwnd,message,wParam,lParam){
     win.animate.fade(winform).hide()
 }
 
+// 单例运行
+import process.mutex
+mutex=process.mutex("installer_ui_process_id")
+
+if( mutex.conflict ){
+	winform.msgbox("安装程序已经运行!");
+    return ; 
+}
+
 var getfilefromexe = function(){
 	import console;
 
