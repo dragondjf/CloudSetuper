@@ -3,16 +3,16 @@ import win.animate;
 import key.hook;
 import console;
 /*DSG{{*/
-winform = ..win.form(text="Setuper";right=650;bottom=560;border="none")
+winform = ..win.form(text="Setuper";right=650;bottom=610;bgcolor=4734261;border="none")
 winform.add(
-btnbrowser={cls="button";text="浏览...";left=419;top=451;right=509;bottom=474;z=7};
-btnSetup={cls="button";text="安装";left=514;top=451;right=611;bottom=473;z=8};
+btnbrowser={cls="button";text="浏览...";left=376;top=574;right=466;bottom=597;z=7};
+btnSetup={cls="button";text="安装";left=472;top=574;right=569;bottom=596;z=8};
 ButtonClose={cls="plus";left=608;top=0;right=650;bottom=40;background="\res\appbar.close.png";notify=1;repeat="scale";z=1};
 ButtonMin={cls="plus";left=576;top=0;right=617;bottom=40;background="\res\appbar.minus.png";notify=1;repeat="scale";z=2};
-edit={cls="edit";text="edit";left=61;top=451;right=414;bottom=473;edge=1;z=6};
-PictureViwer={cls="plus";left=38;top=40;right=609;bottom=432;foreground="\res\2.jpg";foreRepeat="scale";repeat="scale";z=5};
+edit={cls="edit";text="edit";left=17;top=574;right=370;bottom=596;edge=1;z=6};
+PictureViwer={cls="plus";left=0;top=40;right=651;bottom=528;foreground="\res\2.jpg";foreRepeat="scale";repeat="scale";z=5};
 pie={cls="plus";left=0;top=0;right=80;bottom=40;background="\res\pie-bg.png";color=15793151;font=LOGFONT( h=-11 );foreground="\res\pie.png";foreRepeat="scale";repeat="scale";z=3};
-progress={cls="plus";left=0;top=490;right=648;bottom=522;align="right";background="\res\progress-bg.jpg";bgcolor=65280;color=2719744;font=LOGFONT( h=-16 );foreground="\res\progress.jpg";foreRepeat="expand";z=4}
+progress={cls="plus";left=0;top=528;right=648;bottom=560;align="right";background="\res\progress-bg.jpg";bgcolor=65280;color=2719744;font=LOGFONT( h=-16 );foreground="\res\progress.jpg";foreRepeat="expand";z=4}
 )
 /*}}*/
 
@@ -75,7 +75,7 @@ listener.print = function( percent ){
 import thread.table;
 var progress_tab = thread.table("ProgressTable",true )
 
-var task_7zSource = function(install_path, output_folder_name){
+var task_7zSource = function(install_path, output_folder_name,pg_hwnd){
 	import console;
 	//console.log("start decode", install_path);
 	
@@ -93,18 +93,26 @@ var task_7zSource = function(install_path, output_folder_name){
 //		thread.command.post("print",percent);
 //		sleep(50);
 
-		import thread.table;
+/**		import thread.table;
 		tab = thread.table("ProgressTable")
-		//console.log("decode7z----",tab.len());
+		console.log("decode7z----",tab.len());
 		tab.push(percent);
-		//sleep(50);
+		sleep(50);**/
+		
+//		win_form.pie.text =  percent + " %";
+//		win_form.progress.text = percent + "%";
+//		win_form.pie.progressPercentage = percent;
+//		win_form.progress.progressPercentage = percent;
+		import win;
+		win.setText(pg_hwnd,tostring(percent));
+
 	}
 
 	if( archive.extract( install_path ) ){
-		//console.log("setup ok")
+		console.log("setup ok")
 	}
 	else {
-		//console.log("setup fail")
+		console.log("setup fail")
 	}
 }
 
@@ -117,7 +125,7 @@ winform.btnSetup.oncommand = function(id,event){
 	winform.btnbrowser.disabled=true;
 	winform.btnSetup.disabled=true;
 	
-	hThread=thread.create(task_7zSource,winform.edit.text,OutputFolderName);
+	hThread=thread.create(task_7zSource,winform.edit.text,OutputFolderName,winform.progress.hwnd);
 	thread.waitOne(hThread);
 
 	winform.edit.disabled=false;
