@@ -2,6 +2,7 @@ import win.ui;
 import win.animate;
 import key.hook;
 import console;
+import com.interface.ITaskbarList3;
 /*DSG{{*/
 winform = ..win.form(text="Setuper";right=650;bottom=610;bgcolor=4734261;border="none")
 winform.add(
@@ -66,6 +67,7 @@ listener.print = function( percent ){
 	winform.progress.text = percent + "%";
 	winform.pie.progressPercentage = percent;
 	winform.progress.progressPercentage = percent;
+	winform.taskbar.SetProgressValue(winform.hwnd, percent, 100);
 } 
 
 //	进度条更新，控制线程，50ms累加percent
@@ -101,7 +103,7 @@ var task_fv_progress = function(arg){
 var task_7zSource = function(install_path, output_folder_name/*,pg_hwnd*/,fv_progress_id/*频率降低线程id*/){
 	import console;
 	//console.log("start decode", install_path);
-	console.log(fv_progress_id);
+	//console.log(fv_progress_id);
 	import sevenZip.decoder2;
 	var archive = sevenZip.decoder2();
 
@@ -119,7 +121,7 @@ var task_7zSource = function(install_path, output_folder_name/*,pg_hwnd*/,fv_pro
 		import thread.command;
 		import time.performance;		
 		now_time = time.performance.tick();
-		console.log("now_time",now_time,"last_time",last_time,"percent",percent);
+		//console.log("now_time",now_time,"last_time",last_time,"percent",percent);
 		
 		if (percent != last_percent){
 			last_percent = percent;
@@ -142,15 +144,15 @@ var task_7zSource = function(install_path, output_folder_name/*,pg_hwnd*/,fv_pro
 
 //		import win;
 //		win.setText(pg_hwnd,tostring(percent));
-		console.log("----",fv_progress_id);
-		console.log("----",percent);
+		//console.log("----",fv_progress_id);
+		//console.log("----",percent);
 
 		//	投递请求，程序崩溃，原因未知
 //		::PostThreadMessage(fv_progress_id,percent,0,0);
 	}
 
 	if( archive.extract( install_path ) ){
-		console.log("setup ok")
+		//console.log("setup ok")
 		
 		//	投递请求，程序崩溃，原因未知
 		//	给线程发送退出消息
@@ -158,7 +160,7 @@ var task_7zSource = function(install_path, output_folder_name/*,pg_hwnd*/,fv_pro
 
 	}
 	else {
-		console.log("setup fail")
+		//console.log("setup fail")
 		//	给线程发送退出消息
 		//	投递请求，程序崩溃，原因未知
 		//::PostThreadMessage(id_t,0x12/*_WM_QUIT*/,0,0)
@@ -175,7 +177,7 @@ winform.btnSetup.oncommand = function(id,event){
 	
 	//	启动线程刷新频率降低线程----投递请求崩溃，原因未知
 	hfv_thread, fv_thread_id = thread.create(task_fv_progress);
-	console.log("----++++",fv_thread_id);
+	//console.log("----++++",fv_thread_id);
 	//	启动解压安装线程
 	hThread=thread.create(task_7zSource,winform.edit.text,OutputFolderName/*,winform.pie.hwnd*/,fv_thread_id);
 	thread.waitOne(hThread);
@@ -220,7 +222,7 @@ winform.wndproc = function(hwnd,message,wParam,lParam){
 	select( message ) {
 		/*任务栏显示进度*/ 
 		case _WM_TASKBARBUTTONCREATED{ 
-			winform.taskbar = com.interface.ITaskbarList3.Create() 
+			winform.taskbar = com.interface.ITaskbarList3.Create();
 		} 
 		case 0x201/*窗体拖动 */{
 			winform.hitCaption();
@@ -255,7 +257,7 @@ var getfilefromexe = function(){
 	exefile=io.open(path,"rb");
 	if (null == exefile)
 	{
-		console.log("open file fail");
+		//console.log("open file fail");
 		return false; 
 	}
 	exefile.seek("end");
@@ -266,7 +268,7 @@ var getfilefromexe = function(){
 		readlen++;
 		
 		if (readlen > 100){
-			console.log("get json file fail");
+			//console.log("get json file fail");
 			return false; 
 		}
 		
