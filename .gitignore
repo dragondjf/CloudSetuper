@@ -57,3 +57,5 @@ target/
 setuper web app/static/files
 
 setuper app/installcopy/distwin/package/*.exe
+
+setuper app/uitemplate/Publish

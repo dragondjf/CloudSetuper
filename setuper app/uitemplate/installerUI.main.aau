@@ -10,7 +10,7 @@ btnSetup={cls="button";text="安装";left=514;top=451;right=611;bottom=473;z=8};
 ButtonClose={cls="plus";left=608;top=0;right=650;bottom=40;background="\res\appbar.close.png";notify=1;repeat="scale";z=1};
 ButtonMin={cls="plus";left=576;top=0;right=617;bottom=40;background="\res\appbar.minus.png";notify=1;repeat="scale";z=2};
 edit={cls="edit";text="edit";left=61;top=451;right=414;bottom=473;edge=1;z=6};
-PictureViwer={cls="plus";left=38;top=40;right=609;bottom=432;foreground="\res\2.jpg";foreRepeat="scale";notify=1;repeat="scale";z=5};
+PictureViwer={cls="plus";left=38;top=40;right=609;bottom=432;foreground="\res\2.jpg";foreRepeat="scale";repeat="scale";z=5};
 pie={cls="plus";left=0;top=0;right=80;bottom=40;background="\res\pie-bg.png";color=15793151;font=LOGFONT( h=-11 );foreground="\res\pie.png";foreRepeat="scale";repeat="scale";z=3};
 progress={cls="plus";left=0;top=490;right=648;bottom=522;align="right";background="\res\progress-bg.jpg";bgcolor=65280;color=2719744;font=LOGFONT( h=-16 );foreground="\res\progress.jpg";foreRepeat="expand";z=4}
 )
@@ -171,8 +171,9 @@ winform.wndproc = function(hwnd,message,wParam,lParam){
 
 // 程序显示关闭动画
 winform.onClose = function(hwnd,message,wParam,lParam){
-    win.animate.fade(winform).hide()
+    win.animate.fade(winform).hide(150)
 }
+
 
 var getfilefromexe = function(){
 	import console;
@@ -217,7 +218,7 @@ var getfilefromexe = function(){
 	
 	import web.json;
 	var jsonobject=web.json.parse(jsondata);
-	var jsonarray=jsonobject["Files"];
+	var jsonarray=jsonobject["files"];
 
 	import fsys;
 	OutputFolderName = fsys.getTempDir() + jsonobject['OutputFolderName'] + "\" ;

@@ -1,8 +1,13 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import os
 from tornado.web import authenticated
 from basehandlers import BaseHandler
+import logging
+import json
+import shutil
+import subprocess
 
 
 class IndexHandler(BaseHandler):
@@ -22,7 +27,7 @@ class IndexHandler(BaseHandler):
         main_progressbar_on = self.get_argument("main_progressbar_on", "")
         taskbar_progressbar_on = self.get_argument("taskbar_progressbar_on", "")
         desktoplink_on = self.get_argument("desktoplink_on", "")
-
+        files =  self.get_arguments("files", [])
         software = {
             'softwarename': softwarename,
             'softwareauthor': softwareauthor,
@@ -30,14 +35,62 @@ class IndexHandler(BaseHandler):
             'softwarecompany': softwarecompany,
             'main_progressbar_on': main_progressbar_on,
             'taskbar_progressbar_on': taskbar_progressbar_on,
-            'desktoplink_on': desktoplink_on
+            'desktoplink_on': desktoplink_on,
+            'files': files,
+            'OutputFolderName': softwarename
         }
-        print software
-        flag = self.onesetup(software)
-        response = {
-            'status': "success"
-        }
+        result = self.checkSoftware(software)
+        if result['status']:
+            link = self.onesetup(software)
+            response = {
+                'status': "success",
+                'info': result['info'],
+                'link': link
+            }
+        else:
+            response = {
+                'status': "fail",
+                'info': result['info'],
+                'link': ""
+            }
         self.write(response)
 
+    def checkSoftware(self, software):
+        if software['softwarename']:
+            return {
+                'status': True,
+                'info': "new software"
+            }
+        else:
+            return {
+                'status': False,
+                'info': "Software name must be assigned."
+            }
+
     def onesetup(self, software):
-    	print "onesetup==================="
+        files = []
+        staticfilesfloder = os.sep.join([os.getcwd(), 'static', 'files'])
+        userfolder = os.sep.join([os.getcwd(), 'static', 'files', self.current_user])
+        if not os.path.exists(userfolder):
+            os.mkdir(userfolder)
+        softwarefolder = os.sep.join([os.getcwd(), 'static', 'files', self.current_user, software['softwarename']])
+        if not os.path.exists(softwarefolder):
+            os.mkdir(softwarefolder)
+        for item in software['files']:
+            shutil.move(os.sep.join([staticfilesfloder, item]), os.sep.join([softwarefolder, item]))
+            f = {}
+            f['name'] = item
+            f['path'] = item
+            files.append(f)
+        software['files'] = files
+
+        fd = open(os.sep.join([softwarefolder, 'package.json']), 'wb')
+        fd.write(json.dumps(software, indent=4))
+        fd.close()
+
+        toolPath = os.sep.join([staticfilesfloder, 'tools'])
+
+        cwd = os.getcwd()
+        os.chdir(toolPath)
+        subprocess.Popen(['./installcopy', '-p', '%s'%softwarefolder], shell=False)
+        os.chdir(cwd)
