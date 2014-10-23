@@ -19,17 +19,6 @@ progress={cls="plus";left=0;top=490;right=648;bottom=522;align="right";backgroun
 OutputFolderName="";
 JsonData="";
 
-winform.PictureViwer.skin(
-	background = { 
-		hover = "/res/images/btn-hover.png";
-		focus = "/res/images/btn-focus.jpg";
-		active = "/res/images/btn-active.png";
-		disabled = "/res/images/btn-disabled.png"; 
-	}
-)
-winform.PictureViwer.oncommand = function(id,event){
-	
-}
 //最小化按钮	
 winform.ButtonMin.skin(
      background = { 
@@ -88,13 +77,13 @@ var progress_tab = thread.table("ProgressTable",true )
 
 var task_7zSource = function(install_path, output_folder_name){
 	import console;
-	console.log("start decode", install_path);
+	//console.log("start decode", install_path);
 	
 	import sevenZip.decoder2;
 	var archive = sevenZip.decoder2();
 
 	archive.printError = function(name,message){
-		console.log("Decode 7zSource failed. ", name,message ) 
+		//console.log("Decode 7zSource failed. ", name,message ) 
 	}
 	
 	import web.json;
@@ -104,18 +93,18 @@ var task_7zSource = function(install_path, output_folder_name){
 //		thread.command.post("print",percent);
 //		sleep(50);
 
-/**		import thread.table;
+		import thread.table;
 		tab = thread.table("ProgressTable")
-		console.log("decode7z----",tab.len());
+		//console.log("decode7z----",tab.len());
 		tab.push(percent);
-		sleep(50);**/
+		//sleep(50);
 	}
 
 	if( archive.extract( install_path ) ){
-		console.log("setup ok")
+		//console.log("setup ok")
 	}
 	else {
-		console.log("setup fail")
+		//console.log("setup fail")
 	}
 }
 
@@ -167,10 +156,16 @@ hook.proc = function(msg,vkcode,scancode,injected,flags,timeStamp,extraInfo){
 
 
 //添加下面的代码以支持鼠标拖动窗体
-winform.wndproc = {
-	[ 0x201/*_WM_LBUTTONDOWN*/ ] = function(hwnd,message,wParam,lParam){
-		winform.hitCaption();
-	}
+winform.wndproc = function(hwnd,message,wParam,lParam){
+	select( message ) {
+		/*任务栏显示进度*/ 
+		case _WM_TASKBARBUTTONCREATED{ 
+			winform.taskbar = com.interface.ITaskbarList3.Create() 
+		} 
+		case 0x201/*窗体拖动 */{
+			winform.hitCaption();
+		}
+	} 
 }
 
 
@@ -186,10 +181,11 @@ var getfilefromexe = function(){
 	path=process.getPath();
 
 	import fsys.file;
-	exefile=io.open("F:\MyProjects\CloudSetuper\AAutoSetuper-master\Publish\setup.exe","rb");
+	//console.log(path);
+	exefile=io.open(path,"rb");
 	if (null == exefile)
 	{
-		console.log("open file fail");
+		//console.log("open file fail");
 		return false; 
 	}
 	exefile.seek("end");
@@ -200,7 +196,7 @@ var getfilefromexe = function(){
 		readlen++;
 		
 		if (readlen > 100){
-			console.log("get json file fail");
+			//console.log("get json file fail");
 			return false; 
 		}
 		
@@ -209,14 +205,14 @@ var getfilefromexe = function(){
 		}
 	}
 	
-	console.log(readlen);
+	//console.log(readlen);
 	exefile.seek("end");
 	var jsonlen=exefile.readback(readlen-1);
-	console.log(jsonlen);
+	//console.log(jsonlen);
 	
 	exefile.seek("cur",-1);
 	var jsondata=exefile.readback(tonumber(jsonlen));
-	console.log(jsondata);
+	//console.log(jsondata);
 	JsonData=jsondata;
 	
 	import web.json;
@@ -230,8 +226,8 @@ var getfilefromexe = function(){
 	
 	for(i=#jsonarray;1;-1){
 		import fsys.file;
-		console.log(jsonarray[i]['name']);
-		console.log(jsonarray[i]['size']);
+		//console.log(jsonarray[i]['name']);
+		//console.log(jsonarray[i]['size']);
 
 		sourcefile=io.open( OutputFolderName + jsonarray[i]['name'],'wb' );
 		sourcefile.write(exefile.readback( tonumber( jsonarray[i]['size'] ) ) );
@@ -279,6 +275,7 @@ var tmProgressId = winform.addtimer(
 			winform.progress.text = percent + "%";
 			winform.pie.progressPercentage = percent;
 			winform.progress.progressPercentage = percent;
+			//winform.taskbar.SetProgressValue(winform.hwnd, percent, 100);
 		}
 	} 
 )
