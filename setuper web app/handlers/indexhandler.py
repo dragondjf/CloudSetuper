@@ -91,5 +91,7 @@ class IndexHandler(BaseHandler):
 
         cwd = os.getcwd()
         os.chdir(toolPath)
-        subprocess.Popen(['python', 'installcopy.py','-p', '%s'%softwarefolder], shell=False)
+        subprocess.Popen(['python', 'installcopy.py','-p', '%s'%softwarefolder, '-u', '%s.exe' % software['softwarename']], shell=False)
         os.chdir(cwd)
+
+        return os.sep.join([self.settings['static_path'], 'files', self.current_user, software['softwarename'], '%s.exe' % software['softwarename']])
