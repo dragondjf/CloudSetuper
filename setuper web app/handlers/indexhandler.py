@@ -14,11 +14,9 @@ class IndexHandler(BaseHandler):
 
     @authenticated
     def get(self):
-        if not self.current_user:  
-            self.redirect("/login")  
-            return
         self.render("index.html", title="Cloud Setuper", username=self.current_user)
 
+    @authenticated
     def post(self):
         softwarename = self.get_argument("softwarename", "")
         softwareauthor = self.get_argument("softwareauthor", "")
