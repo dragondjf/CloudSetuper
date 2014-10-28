@@ -27,6 +27,10 @@ div #right {
     float: right;
 }
 
+div #download{
+    margin-top: 10px;
+}
+
 div#footer {
     height: auto;
     clear: both;

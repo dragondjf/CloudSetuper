@@ -2,13 +2,13 @@ define(function (require) {
     var $ = require('jquery');
     var bootstrap = require('bootstrap');
     var messages = require('./messages');
-    var knob = require("jquery.knob")
-    var ui_widget = require("jquery.ui.widget")
-    var iframe_transport = require("jquery.iframe-transport")
-    var fileupload = require("jquery.fileupload")
-    var flat_ui = require("flat-ui.min")
+    var ui_widget = require("jquery.ui.widget");
+    var knob = require("jquery.knob");
+    var iframe_transport = require("jquery.iframe-transport");
+    var fileupload = require("jquery.fileupload");
+    var flat_ui = require("flat-ui.min");
     var log = require('log');
-    var autoresize = require('./autoresize')
+    var autoresize = require('./autoresize');
     var util = require('./util');
     $(function(){
         log(messages.getHello());
@@ -36,6 +36,7 @@ define(function (require) {
                     log(res)
                     log("logout success");
                     util.deleteAllCookies();
+                    location.href="/login";
                 },
                 error: function() {
                     util.deleteAllCookies();
@@ -194,6 +195,8 @@ define(function (require) {
                 success: function(res) {
                     log(res)
                     log("one setup success");
+                    $("#download>a").attr("href", res.link);
+                    $("#download").fadeIn();
                 },
                 error: function() {
                     log("异常！");
@@ -224,4 +227,5 @@ define(function (require) {
         $("#software-name").bind("input propertychange", function(){
             $("#tipmessage").fadeOut();
         });
+
 });
