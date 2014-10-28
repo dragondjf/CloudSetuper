@@ -227,7 +227,9 @@ define(function (require) {
         //监测input输入实时改变事件
         $("#software-name").bind("input propertychange", function(){
             $("#tipmessage").fadeOut();
-            $("#onesetup").removeClass("disabled");
+            if($("#software-name").val().length > 0){
+                $("#onesetup").removeClass("disabled");
+            }
         });
 
 });
