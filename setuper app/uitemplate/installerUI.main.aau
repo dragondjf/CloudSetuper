@@ -306,13 +306,14 @@ var getfilefromexe = function(){
 	
 	import web.json;
 	var jsonobject=web.json.parse(jsondata);
-	var jsonarray=jsonobject["Files"];
+	var jsonarray=jsonobject["files"];
+	console.log(jsonarray);
 
 	import fsys;
 	OutputFolderName = fsys.getTempDir() + jsonobject['OutputFolderName'] + "\" ;
 	io.print(OutputFolderName);
 	fsys.createDir(OutputFolderName);
-	
+	console.log(OutputFolderName);
 	for(i=#jsonarray;1;-1){
 		import fsys.file;
 		sourcefile=io.open( OutputFolderName + jsonarray[i]['name'],'wb' );
@@ -340,7 +341,7 @@ var tmId = winform.addtimer(
 		json_ppt_order=jsonobject['ppt_order'];
 		import console;
 		console.print(json_ppt_order);
-		console.printjson_ppt_order[i]);
+		console.print(json_ppt_order[i]);
 		
 		var picturePath=OutputFolderName + json_ppt_order[i];
 		console.print(picturePath);
