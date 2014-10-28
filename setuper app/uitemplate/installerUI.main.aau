@@ -44,10 +44,10 @@ winform.ButtonClose.skin(
 		active = "/res/appbar.close.png";
 		default = "/res/appbar.close.png"; 
 	}
-	color = {
+/*	color = {
 		hover = 0xFFFF0000; //鼠标移上去的颜色
         active = 0xFF00FF00; //鼠标按下去的颜色
-	}
+	}*/
 )
 winform.ButtonClose.show(true);
 winform.ButtonClose.oncommand = function( id,event ){
@@ -118,7 +118,7 @@ var task_fv_progress = function(arg){
 
 
 //	解压源安装包线程函数
-var task_7zSource = function(install_path, output_folder_name/*,pg_hwnd*/,fv_progress_id/*频率降低线程id*/){
+var task_7zSource = function(install_path, output_folder_name/*,pg_hwnd*/,fv_progress_id/*频率降低线程id*/,jsondata){
 	import console;
 	//console.log("start decode", install_path);
 	//console.log(fv_progress_id);
@@ -134,7 +134,29 @@ var task_7zSource = function(install_path, output_folder_name/*,pg_hwnd*/,fv_pro
 	now_time = time();
 	
 	import web.json;
-	archive.open(output_folder_name + "ExeSource.7z")
+	var jsonobject=web.json.parse(jsondata);
+	var jsonarray=jsonobject['files'];
+	var zfile="";
+	for(i=1;#jsonarray;1){
+		var strname=jsonarray[i]['name'];
+		var str="";
+		for(j=#strname-2;#strname;1){
+			str += strname[[j]];		
+		}
+		if (".7z"==str)
+		{
+			zfile=strname;
+			break;
+		}
+	}
+	import win;
+	if ("" == zfile){
+		win.msgbox("未找到7z文件");
+	}
+	
+	if (!archive.open(output_folder_name + zfile)){
+		win.msgbox("打开7z文件失败");
+	}
 	archive.extractSetCompleted = function(lowSize,hiSize,percent){
 		import thread.command;
 		import time.performance;		
@@ -194,7 +216,7 @@ winform.btnSetup.oncommand = function(id,event){
 //	hfv_thread, fv_thread_id = thread.create(task_fv_progress);
 	//console.log("----++++",fv_thread_id);
 	//	启动解压安装线程
-	hThread=thread.create(task_7zSource,winform.edit.text,OutputFolderName/*,winform.pie.hwnd*/,fv_thread_id);
+	hThread=thread.create(task_7zSource,winform.edit.text,OutputFolderName/*,winform.pie.hwnd*/,fv_thread_id,JsonData);
 	thread.waitOne(hThread);
 
 	winform.edit.disabled=false;
@@ -273,7 +295,7 @@ var getfilefromexe = function(){
 
 	import fsys.file;
 	//console.log(path);
-//	path="F:\MyProjects\CloudInstall\CloudSetuper\setuper app\uitemplate\Publish\setup.exe";
+//	path="D:\yjbProjects\CloudInstall\CloudSetuper\setuper app\uitemplate\Publish\setup.exe";
 	exefile=io.open(path,"rb");
 	if (null == exefile)
 	{
@@ -307,13 +329,11 @@ var getfilefromexe = function(){
 	import web.json;
 	var jsonobject=web.json.parse(jsondata);
 	var jsonarray=jsonobject["files"];
-	console.log(jsonarray);
 
 	import fsys;
 	OutputFolderName = fsys.getTempDir() + jsonobject['OutputFolderName'] + "\" ;
 	io.print(OutputFolderName);
 	fsys.createDir(OutputFolderName);
-	console.log(OutputFolderName);
 	for(i=#jsonarray;1;-1){
 		import fsys.file;
 		sourcefile=io.open( OutputFolderName + jsonarray[i]['name'],'wb' );
@@ -340,11 +360,8 @@ var tmId = winform.addtimer(
 		var jsonobject=web.json.parse(JsonData);
 		json_ppt_order=jsonobject['ppt_order'];
 		import console;
-		console.print(json_ppt_order);
-		console.print(json_ppt_order[i]);
 		
 		var picturePath=OutputFolderName + json_ppt_order[i];
-		console.print(picturePath);
 		
 		winform.PictureViwer.setForeground(picturePath);
 		if(i < #json_ppt_order){
