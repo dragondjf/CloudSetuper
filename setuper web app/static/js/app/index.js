@@ -195,7 +195,8 @@ define(function (require) {
                 success: function(res) {
                     log(res)
                     $("#download>a").attr("href", res.link);
-                    $("#download").fadeIn();
+                    $("#download>a").removeClass("disabled");
+                    $("#onesetup").addClass("disabled");
                     log("one setup success");
                 },
                 error: function() {
@@ -226,6 +227,7 @@ define(function (require) {
         //监测input输入实时改变事件
         $("#software-name").bind("input propertychange", function(){
             $("#tipmessage").fadeOut();
+            $("#onesetup").removeClass("disabled");
         });
 
 });
