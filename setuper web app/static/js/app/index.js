@@ -2,13 +2,13 @@ define(function (require) {
     var $ = require('jquery');
     var bootstrap = require('bootstrap');
     var messages = require('./messages');
-    var knob = require("jquery.knob")
-    var ui_widget = require("jquery.ui.widget")
-    var iframe_transport = require("jquery.iframe-transport")
-    var fileupload = require("jquery.fileupload")
-    var flat_ui = require("flat-ui.min")
+    var ui_widget = require("jquery.ui.widget");
+    var knob = require("jquery.knob");
+    var iframe_transport = require("jquery.iframe-transport");
+    var fileupload = require("jquery.fileupload");
+    var flat_ui = require("flat-ui.min");
     var log = require('log');
-    var autoresize = require('./autoresize')
+    var autoresize = require('./autoresize');
     var util = require('./util');
     $(function(){
         log(messages.getHello());
@@ -36,6 +36,7 @@ define(function (require) {
                     log(res)
                     log("logout success");
                     util.deleteAllCookies();
+                    location.href="/login";
                 },
                 error: function() {
                     util.deleteAllCookies();
@@ -193,6 +194,9 @@ define(function (require) {
                 },
                 success: function(res) {
                     log(res)
+                    $("#download>a").attr("href", res.link);
+                    $("#download>a").removeClass("disabled");
+                    $("#onesetup").addClass("disabled");
                     log("one setup success");
                 },
                 error: function() {
@@ -223,5 +227,11 @@ define(function (require) {
         //监测input输入实时改变事件
         $("#software-name").bind("input propertychange", function(){
             $("#tipmessage").fadeOut();
+            if($("#software-name").val().length > 0){
+                $("#onesetup").removeClass("disabled");
+            }else{
+                $("#onesetup").addClass("disabled");
+            }
         });
+
 });

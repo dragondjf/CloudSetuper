@@ -60,3 +60,4 @@ class LogoutHandler(BaseHandler):
     @authenticated
     def post(self):
         self.clear_cookie(self.get_current_user())
+        # self.clear_all_cookies()

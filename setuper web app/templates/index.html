@@ -12,7 +12,7 @@
             <li><a href="#">Project manager</a>
             </li>
             <li class="divider"></li>
-            <li><a id="Signout" href="/login">Sign out</a>
+            <li><a id="Signout" href="#">Sign out</a>
             </li>
             </li>
         </ul>
@@ -77,11 +77,15 @@
                 <input type="checkbox" checked data-toggle="switch" data-on-color="success" data-off-color="warning" id="desktoplink" />
             </div>
 
-            <a id="onesetup" class="btn btn-block btn-lg btn-success">一键生成</a>
+            <a id="onesetup" class="btn btn-block btn-lg btn-success disabled">一键生成</a>
         </div>
     </form>
     <div id="tipmessage" style="margin-top: 20px; margin-left: 5%; margin-right: 5%">
         <p style="color: red"></p>
+    </div>
+    <div id="download">
+        <a href="#" class="btn btn-primary btn-lg btn-block disabled">Download</a>
+        <p>Your can download your own setuper!</p>
     </div>
 {% end %}
 

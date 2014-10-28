@@ -7,6 +7,10 @@ from indexhandler import IndexHandler
 from uploadfilehandler import UploadFileHandler
 from abouthandler import AboutHandler
 from contacthandler import ContactHandler
+import os
+import tornado.web
+
+
 routes = [
     (r"/", IndexHandler),
     (r"/join", JoinHandler),
@@ -14,5 +18,6 @@ routes = [
     (r"/logout", LogoutHandler),
     (r"/upload", UploadFileHandler),
     (r"/about", AboutHandler),
-    (r"/contact", ContactHandler)
+    (r"/contact", ContactHandler),
+    (r'/static', tornado.web.StaticFileHandler, {'path': os.path.join(os.getcwd(), "static")})
 ]

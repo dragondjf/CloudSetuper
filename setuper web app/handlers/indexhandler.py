@@ -14,11 +14,9 @@ class IndexHandler(BaseHandler):
 
     @authenticated
     def get(self):
-        if not self.current_user:  
-            self.redirect("/login")  
-            return
         self.render("index.html", title="Cloud Setuper", username=self.current_user)
 
+    @authenticated
     def post(self):
         softwarename = self.get_argument("softwarename", "")
         softwareauthor = self.get_argument("softwareauthor", "")
@@ -77,7 +75,8 @@ class IndexHandler(BaseHandler):
         if not os.path.exists(softwarefolder):
             os.mkdir(softwarefolder)
         for item in software['files']:
-            shutil.move(os.sep.join([staticfilesfloder, item]), os.sep.join([softwarefolder, item]))
+            if os.path.exists(os.sep.join([staticfilesfloder, item])):
+                shutil.move(os.sep.join([staticfilesfloder, item]), os.sep.join([softwarefolder, item]))
             f = {}
             f['name'] = item
             f['path'] = item
@@ -92,5 +91,7 @@ class IndexHandler(BaseHandler):
 
         cwd = os.getcwd()
         os.chdir(toolPath)
-        subprocess.Popen(['./installcopy', '-p', '%s'%softwarefolder], shell=False)
+        subprocess.Popen(['python', 'installcopy.py','-p', '%s'%softwarefolder, '-u', '%s.exe' % software['softwarename']], shell=False)
         os.chdir(cwd)
+
+        return '/'.join([self.settings['static_path'], 'files', self.current_user, software['softwarename'], '%s.exe' % software['softwarename']])
