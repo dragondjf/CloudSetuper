@@ -194,9 +194,9 @@ define(function (require) {
                 },
                 success: function(res) {
                     log(res)
-                    log("one setup success");
                     $("#download>a").attr("href", res.link);
                     $("#download").fadeIn();
+                    log("one setup success");
                 },
                 error: function() {
                     log("异常！");
