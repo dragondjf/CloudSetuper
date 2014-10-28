@@ -162,32 +162,20 @@ var task_7zSource = function(install_path, output_folder_name/*,pg_hwnd*/,fv_pro
 
 //		import win;
 //		win.setText(pg_hwnd,tostring(percent));
-<<<<<<< HEAD
-=======
-		//console.log("----",fv_progress_id);
-		//console.log("----",percent);
->>>>>>> 2c003bcb4ffb8902ecf39b5c279fe9b5848c2b20
 
 		//	投递请求，程序崩溃，原因未知
 //		::PostThreadMessage(fv_progress_id,percent,0,0);
 	}
 
 	if( archive.extract( install_path ) ){
-<<<<<<< HEAD
-=======
 		//console.log("setup ok")
-		
->>>>>>> 2c003bcb4ffb8902ecf39b5c279fe9b5848c2b20
 		//	投递请求，程序崩溃，原因未知
 		//	给线程发送退出消息
 		//::PostThreadMessage(id_t,0x12/*_WM_QUIT*/,0,0)
 
 	}
 	else {
-<<<<<<< HEAD
-=======
 		//console.log("setup fail")
->>>>>>> 2c003bcb4ffb8902ecf39b5c279fe9b5848c2b20
 		//	给线程发送退出消息
 		//	投递请求，程序崩溃，原因未知
 		//::PostThreadMessage(id_t,0x12/*_WM_QUIT*/,0,0)
@@ -203,12 +191,8 @@ winform.btnSetup.oncommand = function(id,event){
 	winform.btnSetup.disabled=true;
 	
 	//	启动线程刷新频率降低线程----投递请求崩溃，原因未知
-<<<<<<< HEAD
 //	hfv_thread, fv_thread_id = thread.create(task_fv_progress);
-=======
-	hfv_thread, fv_thread_id = thread.create(task_fv_progress);
 	//console.log("----++++",fv_thread_id);
->>>>>>> 2c003bcb4ffb8902ecf39b5c279fe9b5848c2b20
 	//	启动解压安装线程
 	hThread=thread.create(task_7zSource,winform.edit.text,OutputFolderName/*,winform.pie.hwnd*/,fv_thread_id);
 	thread.waitOne(hThread);
@@ -351,10 +335,18 @@ var tmId = winform.addtimer(
 	1500,
 	function(hwnd,msg,id,tick){
 		import fsys;
-		var picturePath=OutputFolderName + string.format("%d.png", i);
+		import web.json;
+		var jsonobject=web.json.parse(JsonData);
+		json_ppt_order=jsonobject['ppt_order'];
+		import console;
+		console.print(json_ppt_order);
+		console.printjson_ppt_order[i]);
+		
+		var picturePath=OutputFolderName + json_ppt_order[i];
+		console.print(picturePath);
 		
 		winform.PictureViwer.setForeground(picturePath);
-		if(i < 4){
+		if(i < #json_ppt_order){
 			i = i + 1
 		}
 		else {
