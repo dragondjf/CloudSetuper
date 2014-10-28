@@ -36,7 +36,8 @@ def getOrderFromJson(pacakgejson, args):
         result = None
     os.chdir(pwd)
     config['files'] = result[::-1]
-    print result[::-1]
+    config['ppt_order'] = [item['name'] for item in config['files']]
+    print config
     return config
 
 def copyFile2Exe(config, args):
