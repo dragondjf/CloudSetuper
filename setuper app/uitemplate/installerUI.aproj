@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="gb2312"?>
-<project ver="6" name="installerUI" libEmbed="true" icon="res\setup_green.ico" ui="win" output="InstallerUI.exe" CompanyName="单位名称" FileDescription="installerUI" LegalCopyright="Copyright (C) 作者 2014" ProductName="installerUI" InternalName="installerUI" FileVersion="0.0.0.40" ProductVersion="0.0.0.40" publishDir="/Publish/">
+<project ver="6" name="installerUI" libEmbed="true" icon="res\setup_green.ico" ui="win" output="InstallerUI.exe" CompanyName="单位名称" FileDescription="installerUI" LegalCopyright="Copyright (C) 作者 2014" ProductName="installerUI" InternalName="installerUI" FileVersion="0.0.0.44" ProductVersion="0.0.0.44" publishDir="/Publish/">
 	<file name="main.aau" path="installerUI.main.aau" comment="installerUI.main.aau"/>
 	<folder name="资源文件" path="res" embed="true">
 		<file name="setup_red.ico" path="res\setup_red.ico" comment="res\setup_red.ico"/>

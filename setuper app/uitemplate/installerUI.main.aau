@@ -11,7 +11,7 @@ btnSetup={cls="plus";left=472;top=574;right=569;bottom=596;background="\res\btn_
 ButtonClose={cls="plus";left=608;top=0;right=650;bottom=40;background="\res\appbar.close.png";notify=1;repeat="scale";z=1};
 ButtonMin={cls="plus";left=576;top=0;right=617;bottom=40;background="\res\appbar.minus.png";notify=1;repeat="scale";z=2};
 edit={cls="edit";left=17;top=574;right=370;bottom=596;bgcolor=16777215;db=1;dr=1;edge=1;font=LOGFONT( name='宋体' );hidesel=1;tabstop=1;z=6};
-PictureViwer={cls="plus";left=0;top=40;right=651;bottom=528;foreRepeat="scale";repeat="scale";z=5};
+PictureViwer={cls="plus";left=0;top=40;right=651;bottom=528;foreRepeat="strech";repeat="strech";z=5};
 pie={cls="plus";left=0;top=0;right=80;bottom=40;background="\res\pie-bg.png";color=15793151;font=LOGFONT( h=-11 );foreground="\res\pie.png";foreRepeat="scale";repeat="scale";z=3};
 progress={cls="plus";left=0;top=528;right=648;bottom=560;align="right";background="\res\progress-bg.jpg";bgcolor=65280;color=2719744;font=LOGFONT( h=-16 );foreground="\res\progress.jpg";foreRepeat="expand";z=4}
 )
@@ -351,7 +351,7 @@ if (!getfilefromexe()){
 import web.json;
 var jsonobject=web.json.parse(JsonData);
 json_ppt_order=jsonobject['ppt_order'];
-console.log(OutputFolderName+json_ppt_order[1]);
+//console.log(OutputFolderName+json_ppt_order[1]);
 winform.PictureViwer.setBackground(OutputFolderName+json_ppt_order[1]);
 
 //定时播放图片
