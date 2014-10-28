@@ -35,8 +35,7 @@ def getOrderFromJson(pacakgejson, args):
         print("The [%s]  isn't exits!" % pacakgejson)
         result = None
     os.chdir(pwd)
-    conf
-    ig['files'] = result[::-1]
+    config['files'] = result[::-1]
     config['ppt_order'] = [item['name'] for item in config['files']]
     print(config)
     return config

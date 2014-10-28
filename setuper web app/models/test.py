@@ -27,4 +27,4 @@ objId = user.loadFromDict({
                 'password': 'password'
             })
 
-print objId
+print(objId)
