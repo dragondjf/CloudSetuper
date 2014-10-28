@@ -32,12 +32,12 @@ def getOrderFromJson(pacakgejson, args):
             item['path'] = pathOrder[i]
             result.append(item)
     else:
-        print "The [%s]  isn't exits!" % pacakgejson
+        print("The [%s]  isn't exits!" % pacakgejson)
         result = None
     os.chdir(pwd)
     config['files'] = result[::-1]
     config['ppt_order'] = [item['name'] for item in config['files']]
-    print config
+    print(config)
     return config
 
 def copyFile2Exe(config, args):
