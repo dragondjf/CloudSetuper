@@ -229,6 +229,8 @@ define(function (require) {
             $("#tipmessage").fadeOut();
             if($("#software-name").val().length > 0){
                 $("#onesetup").removeClass("disabled");
+            }else{
+                $("#onesetup").addClass("disabled");
             }
         });
 
