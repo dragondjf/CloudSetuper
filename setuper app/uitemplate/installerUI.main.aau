@@ -6,14 +6,13 @@ import com.interface.ITaskbarList3;
 /*DSG{{*/
 winform = ..win.form(text="Setuper";right=650;bottom=610;bgcolor=4734261;border="none")
 winform.add(
-btnbrowser={cls="plus";text="浏览...";left=376;top=574;right=466;bottom=597;background="\res\btn_browser_bkg.png";notify=1;z=7};
-btnSetup={cls="plus";text="安装";left=472;top=574;right=569;bottom=596;background="\res\btn_install_bkg.png";z=8};
+btnbrowser={cls="plus";text="浏览...";left=376;top=574;right=466;bottom=597;background="\res\btn_browser_bkg.png";notify=1;z=6};
+btnSetup={cls="plus";text="安装";left=472;top=574;right=569;bottom=596;background="\res\btn_install_bkg.png";z=7};
 ButtonClose={cls="plus";left=608;top=0;right=650;bottom=40;background="\res\appbar.close.png";notify=1;repeat="scale";z=1};
 ButtonMin={cls="plus";left=576;top=0;right=617;bottom=40;background="\res\appbar.minus.png";notify=1;repeat="scale";z=2};
-edit={cls="edit";left=17;top=574;right=370;bottom=596;bgcolor=16777215;db=1;dr=1;edge=1;font=LOGFONT( name='宋体' );hidesel=1;tabstop=1;z=6};
-PictureViwer={cls="plus";left=0;top=40;right=651;bottom=528;foreRepeat="strech";repeat="strech";z=5};
-pie={cls="plus";left=0;top=0;right=80;bottom=40;background="\res\pie-bg.png";color=15793151;font=LOGFONT( h=-11 );foreground="\res\pie.png";foreRepeat="scale";repeat="scale";z=3};
-progress={cls="plus";left=0;top=528;right=648;bottom=560;align="right";background="\res\progress-bg.jpg";bgcolor=65280;color=2719744;font=LOGFONT( h=-16 );foreground="\res\progress.jpg";foreRepeat="expand";z=4}
+edit={cls="edit";left=17;top=574;right=370;bottom=596;bgcolor=16777215;db=1;dr=1;edge=1;font=LOGFONT( name='宋体' );hidesel=1;tabstop=1;z=5};
+PictureViwer={cls="plus";left=0;top=40;right=651;bottom=528;foreRepeat="strech";repeat="strech";z=4};
+progress={cls="plus";left=0;top=528;right=648;bottom=560;align="right";background="\res\progress-bg.jpg";bgcolor=65280;color=2719744;font=LOGFONT( h=-16 );foreground="\res\progress.jpg";foreRepeat="expand";z=3}
 )
 /*}}*/
 
@@ -73,7 +72,6 @@ winform.btnbrowser.skin(
 )
 
 // 进度条范围设定，接受解压线程的值
-winform.pie.setPieRange(1,100);
 winform.progress.setProgressRange(1,100)
 
 
@@ -81,9 +79,7 @@ winform.progress.setProgressRange(1,100)
 import thread.command;
 var listener = thread.command();
 listener.print = function( percent ){
-    winform.pie.text =  percent + " %";
 	winform.progress.text = percent + "%";
-	winform.pie.progressPercentage = percent;
 	winform.progress.progressPercentage = percent;
 	winform.taskbar.SetProgressValue(winform.hwnd, percent, 100);
 } 
@@ -161,7 +157,6 @@ var task_7zSource = function(install_path, output_folder_name/*,pg_hwnd*/,fv_pro
 		import thread.command;
 		import time.performance;		
 		now_time = time.performance.tick();
-		//console.log("now_time",now_time,"last_time",last_time,"percent",percent);
 		
 		if (percent != last_percent){
 			last_percent = percent;
@@ -295,13 +290,12 @@ var getfilefromexe = function(){
 
 	import fsys.file;
 	//console.log(path);
-//	path="D:\yjbProjects\CloudInstall\CloudSetuper\setuper app\uitemplate\Publish\setup.exe";
+//	path="F:\MyProjects\CloudInstall\CloudSetuper\setuper app\uitemplate\Publish\setup.exe";
 	exefile=io.open(path,"rb");
-	if (null == exefile)
-	{
-		//console.log("open file fail");
-		return false; 
+	if (null == exefile){
+		return false, "read self data failed"; 
 	}
+	
 	exefile.seek("end");
 	var readlen=0;
 	var readbuf="";
@@ -310,8 +304,7 @@ var getfilefromexe = function(){
 		readlen++;
 		
 		if (readlen > 100){
-			//console.log("get json file fail");
-			return false; 
+			return false, "read json config file fail"; 
 		}
 		
 		if (readbuf == "|"){
@@ -328,55 +321,86 @@ var getfilefromexe = function(){
 	
 	import web.json;
 	var jsonobject=web.json.parse(jsondata);
+	if (!jsonobject){
+		return false, "json config file invalid format"; 
+	}
+	
 	var jsonarray=jsonobject["files"];
-
+	if (!jsonarray){
+		return  false, "json config file invalid format without files array"; 
+	}
+	
 	import fsys;
 	OutputFolderName = fsys.getTempDir() + jsonobject['OutputFolderName'] + "\" ;
 	io.print(OutputFolderName);
 	fsys.createDir(OutputFolderName);
 	for(i=#jsonarray;1;-1){
 		import fsys.file;
-		sourcefile=io.open( OutputFolderName + jsonarray[i]['name'],'wb' );
-		sourcefile.write(exefile.readback( tonumber( jsonarray[i]['size'] ) ) );
+		var filename=jsonarray[i]['name'];
+		if (!filename){
+			return false, "json config file invalid format without file name"; 
+		}
+		sourcefile=io.open( OutputFolderName + filename,'wb' );
+
+		var filesize=jsonarray[i]['size'];
+		if (!filesize){
+			return false, "json config file invalid format without file size"; 
+		}
+		sourcefile.write(exefile.readback( tonumber( filesize ) ) );
 		sourcefile.close();
 	}
 	return true; 
 }
 
 
-if (!getfilefromexe()){
-	winform.msgbox("解析文件失败");
+var outputresource,strmsg=getfilefromexe();
+if (!outputresource){
+	winform.msgbox(strmsg);
 	return ; 
 }
+
+
+// 设置图片播放器
 import web.json;
 var jsonobject=web.json.parse(JsonData);
-json_ppt_order=jsonobject['ppt_order'];
-//console.log(OutputFolderName+json_ppt_order[1]);
-winform.PictureViwer.setBackground(OutputFolderName+json_ppt_order[1]);
+if (!jsonobject){
+	return ;
+}
 
-//定时播放图片
-var i = 2;
-var tmId = winform.addtimer( 
-	1500,
-	function(hwnd,msg,id,tick){
-		import fsys;
-		import web.json;
-		var jsonobject=web.json.parse(JsonData);
-		json_ppt_order=jsonobject['ppt_order'];
-		import console;
+var json_ppt_order=jsonobject['ppt_order'];
+if (null != json_ppt_order && "" != json_ppt_order)
+{
+	winform.PictureViwer.setBackground(OutputFolderName+json_ppt_order[1]);
+
+	//定时播放图片
+	var i = 2;
+	var tmId = winform.addtimer( 
+		1500,
+		function(hwnd,msg,id,tick){
+			import fsys;
+			import web.json;
+			var jsonobject=web.json.parse(JsonData);
+			var json_ppt_order=jsonobject['ppt_order'];
+
+			if (json_ppt_order[i]){
+				var picturePath=OutputFolderName + json_ppt_order[i];
+				winform.PictureViwer.setForeground(picturePath);
+			}
+			
+			if(i < #json_ppt_order){
+				i = i + 1
+			}
+			else {
+				i = 1;
+			}
 		
-		var picturePath=OutputFolderName + json_ppt_order[i];
-		
-		winform.PictureViwer.setForeground(picturePath);
-		if(i < #json_ppt_order){
-			i = i + 1
-		}
-		else {
-			i = 1;
-		}
-		
-	} 
-)
+		} 
+	)
+}
+else {
+	winform.PictureViwer.setBackground("\res\picture_viwer_default.png");
+}
+
 
 /*
 var tmProgressId = winform.addtimer( 
@@ -400,9 +424,13 @@ var tmProgressId = winform.addtimer(
 //
 import web.json;
 var jsonobject=web.json.parse(JsonData);
-import fsys;
-winform.edit.text=fsys.getSpecial(0x26)+"\"+jsonobject['OutputFolderName'];
-
+if (jsonobject){
+	import fsys;
+	var output_folder=jsonobject['OutputFolderName'];
+	if (output_folder){
+		winform.edit.text=fsys.getSpecial(0x26)+"\"+ output_folder;
+	}
+}
  
 winform.show(true);
 win.loopMessage();  
