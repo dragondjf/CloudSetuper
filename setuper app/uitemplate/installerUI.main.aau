@@ -6,13 +6,13 @@ import com.interface.ITaskbarList3;
 /*DSG{{*/
 winform = ..win.form(text="Setuper";right=650;bottom=610;bgcolor=4734261;border="none")
 winform.add(
-btnbrowser={cls="plus";text="浏览...";left=376;top=574;right=466;bottom=597;background="\res\btn_browser_bkg.png";notify=1;z=6};
-btnSetup={cls="plus";text="安装";left=472;top=574;right=569;bottom=596;background="\res\btn_install_bkg.png";z=7};
-ButtonClose={cls="plus";left=608;top=0;right=650;bottom=40;background="\res\appbar.close.png";notify=1;repeat="scale";z=1};
-ButtonMin={cls="plus";left=576;top=0;right=617;bottom=40;background="\res\appbar.minus.png";notify=1;repeat="scale";z=2};
-edit={cls="edit";left=17;top=574;right=370;bottom=596;bgcolor=16777215;db=1;dr=1;edge=1;font=LOGFONT( name='宋体' );hidesel=1;tabstop=1;z=5};
-PictureViwer={cls="plus";left=0;top=40;right=651;bottom=528;foreRepeat="strech";repeat="strech";z=4};
-progress={cls="plus";left=0;top=528;right=648;bottom=560;align="right";background="\res\progress-bg.jpg";bgcolor=65280;color=2719744;font=LOGFONT( h=-16 );foreground="\res\progress.jpg";foreRepeat="expand";z=3}
+btnbrowser={cls="plus";text="浏览...";left=400;top=571;right=490;bottom=594;background="\res\btn_browser_bkg.png";notify=1;z=6};
+btnSetup={cls="plus";text="安装";left=496;top=571;right=593;bottom=593;background="\res\btn_install_bkg.png";z=7};
+ButtonClose={cls="plus";left=612;top=0;right=648;bottom=30;notify=1;repeat="center";z=1};
+ButtonMin={cls="plus";left=579;top=0;right=610;bottom=30;notify=1;repeat="center";z=2};
+edit={cls="edit";left=41;top=571;right=394;bottom=593;bgcolor=16777215;db=1;dr=1;edge=1;font=LOGFONT( name='宋体' );hidesel=1;tabstop=1;z=5};
+PictureViwer={cls="plus";left=0;top=33;right=651;bottom=521;foreRepeat="strech";repeat="strech";z=4};
+progress={cls="plus";left=0;top=522;right=651;bottom=554;align="right";background="\res\progress-bg.jpg";bgcolor=65280;color=2719744;font=LOGFONT( h=-16 );foreground="\res\progress.jpg";foreRepeat="expand";z=3}
 )
 /*}}*/
 
@@ -22,10 +22,9 @@ JsonData="";
 //最小化按钮	
 winform.ButtonMin.skin(
      background = { 
-         hover = "/res/appbar.minus.png";
-         focus = "/res/appbar.minus.png";
-         active = "/res/appbar.minus.png";
-         default = "/res/appbar.minus.png"; 
+         hover = "/res/min-hover.png";
+         active = "/res/min-active.png";
+         default = "/res/min-default.png"; 
      }
     color = {
         hover = 0xFFFF0000; //鼠标移上去的颜色
@@ -39,9 +38,9 @@ winform.ButtonMin.oncommand = function(id,event){
 //关闭按钮
 winform.ButtonClose.skin(
 	background = { 
-		hover = "/res/appbar.close.png";
-		active = "/res/appbar.close.png";
-		default = "/res/appbar.close.png"; 
+		hover = "/res/close-hover.png";
+		active = "/res/close-active.png";
+		default = "/res/close-default.png"; 
 	}
 	color = {
 		hover = 0xFFFF0000; //鼠标移上去的颜色
