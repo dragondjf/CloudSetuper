@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block appcss %}
+<link href="../static/css/setuper.css" rel="stylesheet">
+<link href="../static/css/flat-ui-docs.css" rel="stylesheet">
+{% end %}
+
+{% block appjs %}
+<script data-main="../static/js/help" src="static/js/lib/require.min.js"></script>
+{% end %}
+
+{% block container %}
+    <h1 class="demo-headline">Getting started</h1>
+    <div class="container">
+        <div class="demo-row">
+            <div class="demo-title">
+              <h3>What is cloud setuper?</h3>
+            </div>
+            <div class="demo-content demo-content-article">
+              <p>
+                <code>Cloud setuper </code> is an free online tool for software developer to pack their software in one setup exe which has same function like <a href="http://nsis.sourceforge.net/">NSIS</a> or <a href="http://www.jrsoftware.org/isinfo.php">Inno Setup</a>.
+                Cloud setuper is much more pretty.
+              </p>
+              <code>
+                It is very simple to use. You only need to register an account.
+              </code>
+            </div>
+        </div>
+
+        <div class="demo-row">
+            <div class="demo-title">
+              <h3>How to use cloud setuper?</h3>
+            </div>
+            <div class="demo-content demo-content-article">
+              <img src="../static/img/help.png" style="height: 500px">
+            </div>
+        </div>
+    </div>
+{% end %}

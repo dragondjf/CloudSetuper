@@ -31,6 +31,8 @@
                     <ul class="nav navbar-nav">
                         <li class="active"><a href="/">Home</a>
                         </li>
+                        <li><a href="/help">Help</a>
+                        </li>
                         <li><a href="/about">About</a>
                         </li>
                         <li><a href="/contact">Contact</a>
@@ -51,6 +53,7 @@
             </div>
         </div>
     </div>
+    {% block container %}
     <div id="container">
         <div id="left">
             {% block left %}{% end %}
@@ -62,6 +65,7 @@
             {% block right %}{% end %}
         </div>
     </div>
+    {% end %}
     <div id="footer">
         {% block footer %}{% end %}
     </div>
