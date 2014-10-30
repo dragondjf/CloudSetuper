@@ -1,16 +1,27 @@
 <?xml version="1.0" encoding="gb2312"?>
-<project ver="6" name="installerUI" libEmbed="true" icon="res\setup_green.ico" ui="win" output="InstallerUI.exe" CompanyName="单位名称" FileDescription="installerUI" LegalCopyright="Copyright (C) 作者 2014" ProductName="installerUI" InternalName="installerUI" FileVersion="0.0.0.44" ProductVersion="0.0.0.44" publishDir="/Publish/">
+<project ver="6" name="installerUI" libEmbed="true" icon="res\setup_green.ico" ui="win" output="InstallerUI.exe" CompanyName="单位名称" FileDescription="installerUI" LegalCopyright="Copyright (C) 作者 2014" ProductName="installerUI" InternalName="installerUI" FileVersion="0.0.0.64" ProductVersion="0.0.0.64" publishDir="/Publish/">
 	<file name="main.aau" path="installerUI.main.aau" comment="installerUI.main.aau"/>
 	<folder name="资源文件" path="res" embed="true">
 		<file name="setup_red.ico" path="res\setup_red.ico" comment="res\setup_red.ico"/>
 		<file name="setup_green.ico" path="res\setup_green.ico" comment="res\setup_green.ico"/>
 		<file name="setup_gray.ico" path="res\setup_gray.ico" comment="res\setup_gray.ico"/>
 		<file name="setup_blue.ico" path="res\setup_blue.ico" comment="res\setup_blue.ico"/>
+		<file name="restore-hover.png" path="res\restore-hover.png" comment="res\restore-hover.png"/>
+		<file name="restore-default.png" path="res\restore-default.png" comment="res\restore-default.png"/>
+		<file name="restore-active.png" path="res\restore-active.png" comment="res\restore-active.png"/>
 		<file name="QFramer.png" path="res\QFramer.png" comment="res\QFramer.png"/>
 		<file name="progress.jpg" path="res\progress.jpg" comment="res\progress.jpg"/>
 		<file name="progress-bg.jpg" path="res\progress-bg.jpg" comment="res\progress-bg.jpg"/>
 		<file name="pie.png" path="res\pie.png" comment="res\pie.png"/>
 		<file name="pie-bg.png" path="res\pie-bg.png" comment="res\pie-bg.png"/>
+		<file name="picture_viwer_default.png" path="res\picture_viwer_default.png" comment="res\picture_viwer_default.png"/>
+		<file name="min-hover.png" path="res\min-hover.png" comment="res\min-hover.png"/>
+		<file name="min-default.png" path="res\min-default.png" comment="res\min-default.png"/>
+		<file name="min-active.png" path="res\min-active.png" comment="res\min-active.png"/>
+		<file name="max-hover.png" path="res\max-hover.png" comment="res\max-hover.png"/>
+		<file name="max-default.png" path="res\max-default.png" comment="res\max-default.png"/>
+		<file name="max-active.png" path="res\max-active.png" comment="res\max-active.png"/>
+		<file name="close-normal.png" path="res\close-normal.png" comment="res\close-normal.png"/>
 		<file name="close-hover.png" path="res\close-hover.png" comment="res\close-hover.png"/>
 		<file name="close-default.png" path="res\close-default.png" comment="res\close-default.png"/>
 		<file name="close-active.png" path="res\close-active.png" comment="res\close-active.png"/>
