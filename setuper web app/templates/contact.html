@@ -1,5 +1,14 @@
 {% extends "base.html" %}
 
+{% block appcss %}
+<link href="../static/css/setuper.css" rel="stylesheet">
+<link href="../static/css/flat-ui-docs.css" rel="stylesheet">
+{% end %}
+
+{% block appjs %}
+<script data-main="../static/js/contact" src="static/js/lib/require.min.js"></script>
+{% end %}
+
 {% block container %}
 <div class="container">
     <div class="row">
