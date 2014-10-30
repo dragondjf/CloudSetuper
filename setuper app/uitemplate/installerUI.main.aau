@@ -367,7 +367,10 @@ if (!jsonobject){
 }
 
 var json_ppt_order=jsonobject['ppt_order'];
-if (null != json_ppt_order && "" != json_ppt_order)
+
+var min, max = table.range(json_ppt_order);
+
+if (max != 0)
 {
 	winform.PictureViwer.setBackground(OutputFolderName+json_ppt_order[1]);
 
