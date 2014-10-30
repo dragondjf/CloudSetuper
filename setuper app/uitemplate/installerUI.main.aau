@@ -367,7 +367,7 @@ if (!jsonobject){
 }
 
 var json_ppt_order=jsonobject['ppt_order'];
-if (null != json_ppt_order && "" != json_ppt_order)
+if (null != json_ppt_order && 0 != #json_ppt_order)
 {
 	winform.PictureViwer.setBackground(OutputFolderName+json_ppt_order[1]);
 
