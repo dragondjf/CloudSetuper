@@ -5,6 +5,8 @@
 
 var require = {
     shim : {
+    	"jquery.fileupload": { "deps" :['jquery'] },
+    	"jquery.knob": { "deps" :['jquery'] },
         "bootstrap" : { "deps" :['jquery'] }
     },
     paths: {
