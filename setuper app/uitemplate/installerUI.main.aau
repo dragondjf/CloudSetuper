@@ -367,38 +367,43 @@ if (!jsonobject){
 }
 
 var json_ppt_order=jsonobject['ppt_order'];
-
-var min, max = table.range(json_ppt_order);
-
-if (max != 0)
+if(null != json_ppt_order)
 {
-	winform.PictureViwer.setBackground(OutputFolderName+json_ppt_order[1]);
-
-	//定时播放图片
-	var i = 2;
-	var tmId = winform.addtimer( 
-		1500,
-		function(hwnd,msg,id,tick){
-			import fsys;
-			import web.json;
-			var jsonobject=web.json.parse(JsonData);
-			var json_ppt_order=jsonobject['ppt_order'];
-
-			if (json_ppt_order[i]){
-				var picturePath=OutputFolderName + json_ppt_order[i];
-				winform.PictureViwer.setForeground(picturePath);
-			}
+	var min, max = table.range(json_ppt_order);
+	if (max != 0)
+	{
+		winform.PictureViwer.setBackground(OutputFolderName+json_ppt_order[1]);
+	
+		//定时播放图片
+		var i = 2;
+		var tmId = winform.addtimer( 
+			1500,
+			function(hwnd,msg,id,tick){
+				import fsys;
+				import web.json;
+				var jsonobject=web.json.parse(JsonData);
+				var json_ppt_order=jsonobject['ppt_order'];
+	
+				if (json_ppt_order[i]){
+					var picturePath=OutputFolderName + json_ppt_order[i];
+					winform.PictureViwer.setForeground(picturePath);
+				}
+				
+				if(i < #json_ppt_order){
+					i = i + 1
+				}
+				else {
+					i = 1;
+				}
 			
-			if(i < #json_ppt_order){
-				i = i + 1
-			}
-			else {
-				i = 1;
-			}
-		
-		} 
-	)
-}
+			} 
+		)
+	}
+	else {
+		winform.PictureViwer.setBackground("\res\picture_viwer_default.png");
+	}
+	
+	}
 else {
 	winform.PictureViwer.setBackground("\res\picture_viwer_default.png");
 }
