@@ -2,7 +2,7 @@ import win.ui;
 import win.animate;
 import key.hook;
 import console;
-import com.interface.ITaskbarList3;
+//import com.interface.ITaskbarList3;
 /*DSG{{*/
 winform = ..win.form(text="Setuper";right=650;bottom=610;bgcolor=4734261;border="none")
 winform.add(
@@ -80,7 +80,7 @@ var listener = thread.command();
 listener.print = function( percent ){
 	winform.progress.text = percent + "%";
 	winform.progress.progressPercentage = percent;
-	winform.taskbar.SetProgressValue(winform.hwnd, percent, 100);
+	//winform.taskbar.SetProgressValue(winform.hwnd, percent, 100);
 } 
 
 //	进度条更新，控制线程，50ms累加percent
@@ -257,9 +257,9 @@ hook.proc = function(msg,vkcode,scancode,injected,flags,timeStamp,extraInfo){
 winform.wndproc = function(hwnd,message,wParam,lParam){
 	select( message ) {
 		/*任务栏显示进度*/ 
-		case _WM_TASKBARBUTTONCREATED{ 
+		/*case _WM_TASKBARBUTTONCREATED{ 
 			winform.taskbar = com.interface.ITaskbarList3.Create();
-		} 
+		} */
 		case 0x201/*窗体拖动 */{
 			winform.hitCaption();
 		}
