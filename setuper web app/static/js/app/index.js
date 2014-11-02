@@ -2,11 +2,11 @@ define(function (require) {
     var $ = require('jquery');
     var bootstrap = require('bootstrap');
     var messages = require('./messages');
+    var flat_ui = require("flat-ui.min");
     var ui_widget = require("jquery.ui.widget");
     var knob = require("jquery.knob");
     var iframe_transport = require("jquery.iframe-transport");
     var fileupload = require("jquery.fileupload");
-    var flat_ui = require("flat-ui.min");
     var log = require('log');
     var autoresize = require('./autoresize');
     var util = require('./util');
