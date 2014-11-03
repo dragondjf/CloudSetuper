@@ -12,6 +12,8 @@ import subprocess
 
 class IndexHandler(BaseHandler):
 
+    count = 0
+
     @authenticated
     def get(self):
         self.render("index.html", title="Cloud Setuper", username=self.current_user)
@@ -45,6 +47,7 @@ class IndexHandler(BaseHandler):
                 'info': result['info'],
                 'link': link
             }
+            self.count += 1
         else:
             response = {
                 'status': "fail",

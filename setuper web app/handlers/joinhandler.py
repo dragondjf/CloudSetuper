@@ -9,6 +9,8 @@ import base64
 
 class JoinHandler(BaseHandler):
 
+    count = 0
+
     def get(self):
         self.render("join.html", title="Join Cloud Setuper")
 
@@ -31,6 +33,7 @@ class JoinHandler(BaseHandler):
                 'status': "success",
                 'info': "register success"
             }
+            self.count += 1
         else:
             response = {
                 'status': "fail",

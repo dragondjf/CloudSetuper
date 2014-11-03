@@ -234,4 +234,25 @@ define(function (require) {
             }
         });
 
+        function startWebSocket() {
+            if ("WebSocket" in window) {
+                // messageContainer.innerHTML = "WebSocket is supported by your Browser!";
+                var ws = new WebSocket("ws://localhost:8000/ws");
+                ws.onopen = function() {
+                    ws.send("Message to send");
+                };
+                ws.onmessage = function (evt) { 
+                    var received_msg = evt.data;
+                    log(JSON.parse(received_msg));
+                };
+                ws.onclose = function() { 
+                    log("Connection is closed...");
+                    startWebSocket();
+                };
+            } else {
+                log("WebSocket NOT supported by your Browser!");
+            }
+        }
+
+        startWebSocket();
 });
