@@ -21,7 +21,8 @@ class UploadFileHandler(BaseHandler):
             for f in self.request.files['upl']:
                 httpfile = f
                 if httpfile:
-                    path = os.sep.join([os.getcwd(), 'static', 'files'])
+                    pwd = os.path.dirname(os.path.dirname(__file__))
+                    path = os.sep.join([pwd, 'static', 'files'])
                     if not os.path.exists(path):
                         os.mkdir(path)
                     fd = open("static/files/%s" % httpfile['filename'], "wb")
