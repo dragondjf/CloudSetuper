@@ -237,7 +237,7 @@ define(function (require) {
         function startWebSocket() {
             if ("WebSocket" in window) {
                 // messageContainer.innerHTML = "WebSocket is supported by your Browser!";
-                var ws = new WebSocket("ws://localhost:8000/ws");
+                var ws = new WebSocket("ws://setup.qframer.com/ws");
                 ws.onopen = function() {
                     ws.send("Message to send");
                 };
