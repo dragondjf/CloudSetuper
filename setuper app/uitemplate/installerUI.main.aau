@@ -189,6 +189,23 @@ var task_7zSource = function(install_path, output_folder_name/*,pg_hwnd*/,fv_pro
 		//	投递请求，程序崩溃，原因未知
 		//	给线程发送退出消息
 		//::PostThreadMessage(id_t,0x12/*_WM_QUIT*/,0,0)
+		
+		//	创建桌面快捷方式
+		import fsys.lnk;
+		desktop_lnk = fsys.lnk(); 
+		desktop_lnk.name = "这是一个快捷方式"  
+
+//		http://bbs.aau.cn/forum.php?mod=viewthread&tid=3963&page=1#pid22739
+//		desktop_lnk.path = io._exepath //设置目标路径
+//		desktop_lnk.setIcon(io._exepath,1); //设置图标
+
+//		desktop_lnk.save(fsys.joinpath( fsys.getSpecial(0x0010 /*_CSIDL_DESKTOPDIRECTORY*/ )	,"我的快捷方式.lnk" ) )
+		
+		//	创建开始菜单快捷方式
+		
+		//	自动运行
+		import process
+		//process.execute("notepad.exe");
 
 	}
 	else {
@@ -213,10 +230,18 @@ winform.btnSetup.oncommand = function(id,event){
 	//	启动解压安装线程
 	hThread=thread.create(task_7zSource,winform.edit.text,OutputFolderName/*,winform.pie.hwnd*/,fv_thread_id,JsonData);
 	thread.waitOne(hThread);
-
+	
 	winform.edit.disabled=false;
 	winform.btnbrowser.disabled=false;
 	winform.btnSetup.disabled=false;
+	
+	var n_exit_code=thread.getExitCode(hThread);
+	if (0 == n_exit_code)
+	{
+//		import process
+//		process.execute("notepad.exe");
+				
+	}
 	
 	//winform.close();
 }
