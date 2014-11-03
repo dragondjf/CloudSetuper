@@ -5,6 +5,7 @@
 
 var require = {
     shim : {
+    	"flat-ui.min": { "deps" :['jquery'] },
     	"jquery.fileupload": { "deps" :['jquery'] },
     	"jquery.knob": { "deps" :['jquery'] },
         "bootstrap" : { "deps" :['jquery'] }
