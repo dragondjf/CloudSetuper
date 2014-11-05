@@ -8,6 +8,7 @@ import logging
 import json
 import shutil
 import subprocess
+from models import BuildRecord, BuildCount
 
 
 class IndexHandler(BaseHandler):
@@ -47,7 +48,9 @@ class IndexHandler(BaseHandler):
                 'info': result['info'],
                 'link': link
             }
-            self.count += 1
+
+            self.updateCount(self.current_user)
+            
         else:
             response = {
                 'status': "fail",
@@ -55,6 +58,80 @@ class IndexHandler(BaseHandler):
                 'link': ""
             }
         self.write(response)
+
+    @classmethod
+    def getCount(cls, current_user):
+        currentuserCount = cls.getUserCount(current_user)
+        allcount = cls.getAllCount()
+        cls.sendCountNotification({
+            'userCount': currentuserCount,
+            'allCount': allcount
+        })
+
+    @classmethod
+    def getUserCount(cls, current_user):
+        col = BuildRecord.getCollection()
+        docs = col.find({'username': current_user})
+        if docs.count():
+            doc = col.one({'username': current_user})
+            return doc['count']
+        else:
+            return 0
+
+    @classmethod
+    def getAllCount(cls):
+        col = BuildCount.getCollection()
+        if col.count() > 0:
+            doc = col.one()
+            return doc['count']
+        else:
+            return 0
+
+    @classmethod
+    def updateCount(cls, current_user):
+        currentuserCount = cls.updateBuildRecord(current_user)
+        allcount = cls.updateBuildCount()
+        cls.sendCountNotification({
+            'userCount': currentuserCount,
+            'allCount': allcount
+        })
+
+    @classmethod
+    def updateBuildRecord(cls, current_user):
+        col = BuildRecord.getCollection()
+        docs = col.find({'username': current_user})
+        if docs.count():
+            col.find_and_modify({'username': current_user}, {'$inc':{'count':1}})
+            doc = col.one({'username': current_user})
+            return doc['count']
+        else:
+            buildrecord = {
+                'username': current_user,
+                'count': 1
+            }
+            doc = self.connection.BuildRecord()
+            doc.loadFromDict(buildrecord)
+            return 1
+    @classmethod
+    def updateBuildCount(cls):
+        col = BuildCount.getCollection()
+        if col.count() > 0:
+            doc = col.one()
+            col.update({'_id':doc['_id']}, {'$inc':{'count':1}})
+            return doc['count'] + 1
+        else:
+            buildCount = {
+                'count': 1
+            }
+            doc = self.connection.BuildCount()
+            doc.loadFromDict(buildCount)
+            return 1
+
+    @classmethod
+    def sendCountNotification(cls, notification):
+        from sockethandler import clients
+        for clientID, client in clients.items():
+            client.sendMessage(notification)
 
     def checkSoftware(self, software):
         if software['softwarename']:
