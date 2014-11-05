@@ -64,6 +64,7 @@ class IndexHandler(BaseHandler):
         currentuserCount = cls.getUserCount(current_user)
         allcount = cls.getAllCount()
         cls.sendCountNotification({
+            'current_user': current_user,
             'userCount': currentuserCount,
             'allCount': allcount
         })
@@ -92,6 +93,7 @@ class IndexHandler(BaseHandler):
         currentuserCount = cls.updateBuildRecord(current_user)
         allcount = cls.updateBuildCount()
         cls.sendCountNotification({
+            'current_user': current_user,
             'userCount': currentuserCount,
             'allCount': allcount
         })
@@ -113,6 +115,7 @@ class IndexHandler(BaseHandler):
             doc = connection.BuildRecord()
             doc.loadFromDict(buildrecord)
             return 1
+
     @classmethod
     def updateBuildCount(cls):
         col = BuildCount.getCollection()
@@ -133,7 +136,17 @@ class IndexHandler(BaseHandler):
     def sendCountNotification(cls, notification):
         from sockethandler import clients
         for clientID, client in clients.items():
-            client.sendMessage(notification)
+            if client.current_user == notification['current_user']:
+                res = {
+                    'userCount': notification['userCount'],
+                    'allCount': notification['allCount']
+                }
+                client.sendMessage(res)
+            else:
+                res = {
+                    'allCount': notification['allCount']
+                }
+                client.sendMessage(res)
 
     def checkSoftware(self, software):
         if software['softwarename']:

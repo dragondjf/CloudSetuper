@@ -271,8 +271,12 @@ define(function (require) {
                 ws.onmessage = function (evt) { 
                     var msg = JSON.parse(evt.data);
                     log(evt.data);
-                    $("#userCount>span").text(msg['userCount']);
-                    $("#allCount>span").text(msg['allCount']);
+                    if('userCount' in msg){
+                        $("#userCount>span").text(msg['userCount']);
+                    }
+                    if('allCount' in msg){
+                        $("#allCount>span").text(msg['allCount']);
+                    }
                 };
                 ws.onclose = function() { 
                     log("Connection is closed...");
