@@ -109,7 +109,8 @@ class IndexHandler(BaseHandler):
                 'username': current_user,
                 'count': 1
             }
-            doc = self.connection.BuildRecord()
+            from models import connection
+            doc = connection.BuildRecord()
             doc.loadFromDict(buildrecord)
             return 1
     @classmethod
@@ -123,7 +124,8 @@ class IndexHandler(BaseHandler):
             buildCount = {
                 'count': 1
             }
-            doc = self.connection.BuildCount()
+            from models import connection
+            doc = connection.BuildCount()
             doc.loadFromDict(buildCount)
             return 1
 
