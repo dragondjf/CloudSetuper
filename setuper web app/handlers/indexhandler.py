@@ -25,7 +25,6 @@ class IndexHandler(BaseHandler):
         softwareemail = self.get_argument("softwareemail", "")
         softwarecompany = self.get_argument("softwarecompany", "")
         main_progressbar_on = self.get_argument("main_progressbar_on", "")
-        taskbar_progressbar_on = self.get_argument("taskbar_progressbar_on", "")
         desktoplink_on = self.get_argument("desktoplink_on", "")
         language = self.get_argument("language", "zh_CN")
         files =  self.get_arguments("files", [])
@@ -35,7 +34,6 @@ class IndexHandler(BaseHandler):
             'softwareemail': softwareemail,
             'softwarecompany': softwarecompany,
             'main_progressbar_on': main_progressbar_on,
-            'taskbar_progressbar_on': taskbar_progressbar_on,
             'desktoplink_on': desktoplink_on,
             'language': language,
             'files': files,

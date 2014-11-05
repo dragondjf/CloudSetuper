@@ -165,7 +165,6 @@ define(function (require) {
             var softwareemail = $("#software-email").val();
             var softwarecompany = $("#software-company").val();
             var main_progressbar_on = $(".bootstrap-switch-id-main_progressbar").hasClass("bootstrap-switch-on");
-            var taskbar_progressbar_on = $(".bootstrap-switch-id-taskbar_progressbar").hasClass("bootstrap-switch-on");
             var desktoplink_on = $(".bootstrap-switch-id-desktoplink").hasClass("bootstrap-switch-on");
             
             var language = languages[parseInt($("#Language").val())];
@@ -192,7 +191,6 @@ define(function (require) {
                     'softwareemail': softwareemail,
                     'softwarecompany': softwarecompany,
                     'main_progressbar_on': main_progressbar_on,
-                    'taskbar_progressbar_on': taskbar_progressbar_on,
                     'desktoplink_on': desktoplink_on,
                     'language': language,
                     'files': files
@@ -241,10 +239,32 @@ define(function (require) {
             }
         });
 
+
+        //存储界面输入值
+        var storagekeys = ["software-name", "software-version", "software-author",
+            "software-email", "software-company"]
+
+        for (var i = 0; i < storagekeys.length; i++) {
+            var id = "#" + storagekeys[i];
+            if (storagekeys[i] in localStorage){
+                $(id).val(localStorage[storagekeys[i]]);
+            }
+            $(id).bind("input propertychange",{'index': i, 'id': id}, function(event){
+                var i = event.data.index;
+                var id = event.data.id;
+                localStorage[storagekeys[i]] = $(id).val();
+            });
+        };
+
+        if ("software-name" in localStorage && $("#software-name").val().length > 0){
+            $("#onesetup").removeClass("disabled");
+        }
+
+
         function startWebSocket() {
             if ("WebSocket" in window) {
                 // messageContainer.innerHTML = "WebSocket is supported by your Browser!";
-                var ws = new WebSocket("ws://setup.qframer.com/ws");
+                var ws = new WebSocket("ws://" + location.host + "/ws");
                 ws.onopen = function() {
                     ws.send("Message to send");
                 };
@@ -261,5 +281,5 @@ define(function (require) {
             }
         }
 
-        // startWebSocket();
+        startWebSocket();
 });
