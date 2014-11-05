@@ -3,7 +3,7 @@
 {% block Sign %}{% end %}
 
 {% block Dropmenu %}
-    </li>
+    <!-- </li>
         <li class="dropdown">
         <a id="user" href="#" class="dropdown-toggle" data-toggle="dropdown">{{ username }} <b class="caret"></b></a>
         <ul id="mainMenu" class="dropdown-menu">
@@ -16,7 +16,22 @@
             </li>
             </li>
         </ul>
-    </li>
+    </li> -->
+    <div class="btn-group" style="margin-top: 5px">
+        <button class="btn btn-inverse dropdown-toggle" type="button" data-toggle="dropdown">
+        {{ username }} <span class="caret"></span>
+        </button>
+        <ul id="mainMenu" class="dropdown-menu dropdown-menu-inverse" role="menu">
+            <li><a href="#">User info</a>
+            </li>
+            <li><a href="#">Project manager</a>
+            </li>
+            <li class="divider"></li>
+            <li><a id="Signout" href="#">Sign out</a>
+            </li>
+            <li class="divider"></li>
+        </ul>
+    </div>
 {% end %}
 
 {% block left %}
