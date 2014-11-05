@@ -6,7 +6,7 @@
     </li>
         <li class="dropdown">
         <a id="user" href="#" class="dropdown-toggle" data-toggle="dropdown">{{ username }} <b class="caret"></b></a>
-        <ul class="dropdown-menu">
+        <ul id="mainMenu" class="dropdown-menu">
             <li><a href="#">User info</a>
             </li>
             <li><a href="#">Project manager</a>
@@ -75,6 +75,17 @@
             <div class="form-group">
                 <label>Desktop link or not：</label>
                 <input type="checkbox" checked data-toggle="switch" data-on-color="success" data-off-color="warning" id="desktoplink" />
+            </div>
+
+            <div class="form-group">
+                <label>Language:</label>
+                <div class="btn-group">
+                    <select id="Language" data-toggle="select" class="form-control select select-inverse">
+                      <option value="0">en</option>
+                      <option value="1">zh-CN</option>
+                      <option value="2">zh-TW</option>
+                    </select>
+                </div>
             </div>
 
             <a id="onesetup" class="btn btn-block btn-lg btn-success disabled">Build</a>

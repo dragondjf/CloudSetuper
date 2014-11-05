@@ -156,7 +156,9 @@ define(function (require) {
             return (bytes / 1000).toFixed(2) + ' KB';
             }
         });
+    
 
+        var languages = ['en', 'zh_CN', 'zh_TW']
         $("#onesetup").click(function(){
             var softwarename = $("#software-name").val();
             var softwareauthor = $("#software-author").val();
@@ -165,6 +167,8 @@ define(function (require) {
             var main_progressbar_on = $(".bootstrap-switch-id-main_progressbar").hasClass("bootstrap-switch-on");
             var taskbar_progressbar_on = $(".bootstrap-switch-id-taskbar_progressbar").hasClass("bootstrap-switch-on");
             var desktoplink_on = $(".bootstrap-switch-id-desktoplink").hasClass("bootstrap-switch-on");
+            
+            var language = languages[parseInt($("#Language").val())];
             var files = [];
 
             if(softwarename.length == 0){
@@ -190,6 +194,7 @@ define(function (require) {
                     'main_progressbar_on': main_progressbar_on,
                     'taskbar_progressbar_on': taskbar_progressbar_on,
                     'desktoplink_on': desktoplink_on,
+                    'language': language,
                     'files': files
                 },
                 success: function(res) {
@@ -205,17 +210,19 @@ define(function (require) {
             })
         })
 
-
+        if ($('[data-toggle="select"]').length) {
+              $('[data-toggle="select"]').select2();
+        }
         $('[data-toggle="switch"]').bootstrapSwitch();
 
         $('[data-toggle="dropdown"]').click(function(){
-            $('.dropdown-menu').fadeToggle();
+            $('#mainMenu').fadeToggle();
         })
 
         $('.dropdown-menu').hover(function(){}, function(){
-            $('.dropdown-menu').fadeOut();
+            $('#mainMenu').fadeOut();
         })
-
+        
         document.getElementById("container").addEventListener('click', function(){
             $('.dropdown-menu').fadeOut();
         })
@@ -254,5 +261,5 @@ define(function (require) {
             }
         }
 
-        startWebSocket();
+        // startWebSocket();
 });
