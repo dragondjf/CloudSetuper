@@ -13,7 +13,7 @@ class LoginHandler(BaseHandler):
     count = 0
 
     def get(self):
-        self.render("login.html", title="Cloud Setuper Sign in")
+        self.render("login.html", title="Cloud Setuper Sign in", username=self.current_user)
 
     def post(self):
         username = self.get_argument("username", "")

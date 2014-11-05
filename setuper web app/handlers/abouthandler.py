@@ -8,4 +8,4 @@ from basehandlers import BaseHandler
 class AboutHandler(BaseHandler):
 
     def get(self):
-        self.render("about.html", title="Cloud Setuper")
+        self.render("about.html", title="Cloud Setuper", username=self.current_user)
