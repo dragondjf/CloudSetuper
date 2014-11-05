@@ -8,6 +8,7 @@ import logging
 import json
 import shutil
 import subprocess
+from models import BuildRecord, BuildCount
 
 
 class IndexHandler(BaseHandler):
@@ -25,8 +26,8 @@ class IndexHandler(BaseHandler):
         softwareemail = self.get_argument("softwareemail", "")
         softwarecompany = self.get_argument("softwarecompany", "")
         main_progressbar_on = self.get_argument("main_progressbar_on", "")
-        taskbar_progressbar_on = self.get_argument("taskbar_progressbar_on", "")
         desktoplink_on = self.get_argument("desktoplink_on", "")
+        language = self.get_argument("language", "zh_CN")
         files =  self.get_arguments("files", [])
         software = {
             'softwarename': softwarename,
@@ -34,8 +35,8 @@ class IndexHandler(BaseHandler):
             'softwareemail': softwareemail,
             'softwarecompany': softwarecompany,
             'main_progressbar_on': main_progressbar_on,
-            'taskbar_progressbar_on': taskbar_progressbar_on,
             'desktoplink_on': desktoplink_on,
+            'language': language,
             'files': files,
             'OutputFolderName': softwarename
         }
@@ -47,7 +48,9 @@ class IndexHandler(BaseHandler):
                 'info': result['info'],
                 'link': link
             }
-            self.count += 1
+
+            self.updateCount(self.current_user)
+            
         else:
             response = {
                 'status': "fail",
@@ -55,6 +58,95 @@ class IndexHandler(BaseHandler):
                 'link': ""
             }
         self.write(response)
+
+    @classmethod
+    def getCount(cls, current_user):
+        currentuserCount = cls.getUserCount(current_user)
+        allcount = cls.getAllCount()
+        cls.sendCountNotification({
+            'current_user': current_user,
+            'userCount': currentuserCount,
+            'allCount': allcount
+        })
+
+    @classmethod
+    def getUserCount(cls, current_user):
+        col = BuildRecord.getCollection()
+        docs = col.find({'username': current_user})
+        if docs.count():
+            doc = col.one({'username': current_user})
+            return doc['count']
+        else:
+            return 0
+
+    @classmethod
+    def getAllCount(cls):
+        col = BuildCount.getCollection()
+        if col.count() > 0:
+            doc = col.one()
+            return doc['count']
+        else:
+            return 0
+
+    @classmethod
+    def updateCount(cls, current_user):
+        currentuserCount = cls.updateBuildRecord(current_user)
+        allcount = cls.updateBuildCount()
+        cls.sendCountNotification({
+            'current_user': current_user,
+            'userCount': currentuserCount,
+            'allCount': allcount
+        })
+
+    @classmethod
+    def updateBuildRecord(cls, current_user):
+        col = BuildRecord.getCollection()
+        docs = col.find({'username': current_user})
+        if docs.count():
+            col.find_and_modify({'username': current_user}, {'$inc':{'count':1}})
+            doc = col.one({'username': current_user})
+            return doc['count']
+        else:
+            buildrecord = {
+                'username': current_user,
+                'count': 1
+            }
+            from models import connection
+            doc = connection.BuildRecord()
+            doc.loadFromDict(buildrecord)
+            return 1
+
+    @classmethod
+    def updateBuildCount(cls):
+        col = BuildCount.getCollection()
+        if col.count() > 0:
+            doc = col.one()
+            col.update({'_id':doc['_id']}, {'$inc':{'count':1}})
+            return doc['count'] + 1
+        else:
+            buildCount = {
+                'count': 1
+            }
+            from models import connection
+            doc = connection.BuildCount()
+            doc.loadFromDict(buildCount)
+            return 1
+
+    @classmethod
+    def sendCountNotification(cls, notification):
+        from sockethandler import clients
+        for clientID, client in clients.items():
+            if client.current_user == notification['current_user']:
+                res = {
+                    'userCount': notification['userCount'],
+                    'allCount': notification['allCount']
+                }
+                client.sendMessage(res)
+            else:
+                res = {
+                    'allCount': notification['allCount']
+                }
+                client.sendMessage(res)
 
     def checkSoftware(self, software):
         if software['softwarename']:
