@@ -25,14 +25,10 @@
 		<file name="close-hover.png" path="res\close-hover.png" comment="res\close-hover.png"/>
 		<file name="close-default.png" path="res\close-default.png" comment="res\close-default.png"/>
 		<file name="close-active.png" path="res\close-active.png" comment="res\close-active.png"/>
-		<file name="btn_install_hover.png" path="res\btn_install_hover.png" comment="res\btn_install_hover.png"/>
-		<file name="btn_install_disable.png" path="res\btn_install_disable.png" comment="res\btn_install_disable.png"/>
-		<file name="btn_install_bkg.png" path="res\btn_install_bkg.png" comment="res\btn_install_bkg.png"/>
-		<file name="btn_install_active.png" path="res\btn_install_active.png" comment="res\btn_install_active.png"/>
-		<file name="btn_browser_hover.png" path="res\btn_browser_hover.png" comment="res\btn_browser_hover.png"/>
-		<file name="btn_browser_disable.png" path="res\btn_browser_disable.png" comment="res\btn_browser_disable.png"/>
-		<file name="btn_browser_bkg.png" path="res\btn_browser_bkg.png" comment="res\btn_browser_bkg.png"/>
-		<file name="btn_browser_active.png" path="res\btn_browser_active.png" comment="res\btn_browser_active.png"/>
+		<file name="btn_hover.png" path="res\btn_hover.png" comment="res\btn_hover.png"/>
+		<file name="btn_disable.png" path="res\btn_disable.png" comment="res\btn_disable.png"/>
+		<file name="btn_default.png" path="res\btn_default.png" comment="res\btn_default.png"/>
+		<file name="btn_active.png" path="res\btn_active.png" comment="res\btn_active.png"/>
 		<file name="appbar.settings.white.png" path="res\appbar.settings.white.png" comment="res\appbar.settings.white.png"/>
 		<file name="appbar.settings.black.png" path="res\appbar.settings.black.png" comment="res\appbar.settings.black.png"/>
 		<file name="appbar.minus.png" path="res\appbar.minus.png" comment="res\appbar.minus.png"/>

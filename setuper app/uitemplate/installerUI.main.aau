@@ -119,7 +119,7 @@ listener.print = function( percent ){
 		import fsys.lnk;
 		import web.json;
 		var jsonobject=web.json.parse(JsonData);
-		if(jsonobject["desktoplink_on"]){
+		if(jsonobject["desktoplink_on"] == "true"){
 			desktop_lnk = fsys.lnk(); 
 			desktop_lnk.name = jsonobject["OutputFolderName"]; 
 			//http://bbs.aau.cn/forum.php?mod=viewthread&tid=3963&page=1#pid22739
