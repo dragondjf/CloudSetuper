@@ -119,12 +119,13 @@ listener.print = function( percent ){
 		import fsys.lnk;
 		import web.json;
 		var jsonobject=web.json.parse(JsonData);
-		if(jsonobject["desktoplink_on"] == "true"){
+		var targetPath = winform.edit.text;
+		var exePath = fsys.joinpath(targetPath, jsonobject["OutputFolderName"] + ".exe")
+		if(jsonobject["desktoplink_on"] == "true" && io.exist(exePath)){
 			desktop_lnk = fsys.lnk(); 
 			desktop_lnk.name = jsonobject["OutputFolderName"]; 
 			//http://bbs.aau.cn/forum.php?mod=viewthread&tid=3963&page=1#pid22739
-			var targetPath = winform.edit.text;
-			desktop_lnk.path = fsys.joinpath(targetPath, jsonobject["OutputFolderName"] + ".exe"); //设置目标路径
+			desktop_lnk.path = exePath; //设置目标路径
 			desktop_lnk.setIcon(desktop_lnk.path, 0); //设置图标
 			desktop_lnk.workDir = targetPath;         //起始位置
 			desktop_lnk.showCmd = 1;//运行方式：常规窗口=1,最小化=2，最大化=3
