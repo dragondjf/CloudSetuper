@@ -33,8 +33,9 @@ define(function (require) {
             function(hex, hsv, rgb) {
               // console.log(hsv.h, hsv.s, hsv.v);         // [0-359], [0-1], [0-1]
               //console.log(rgb.r, rgb.g, rgb.b);         // [0-255], [0-255], [0-255]
-              color_hex = hex       // #HEX
-              $("#colorPreview").css({"background-color":"#" + hex})
+              color_hex = hex;       // #HEX
+              // console.log(color_hex)
+              $("#colorPreview").css({"background-color": hex})
             });
         colorpicker.setHex(color_hex);
 

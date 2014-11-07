@@ -28,7 +28,7 @@ class IndexHandler(BaseHandler):
         main_progressbar_on = self.get_argument("main_progressbar_on", "")
         desktoplink_on = self.get_argument("desktoplink_on", "")
         language = self.get_argument("language", "zh_CN")
-        background_color = self.get_argument("background-color", "353d48")
+        background_color = "0x" + self.get_argument("background-color", "#353d48")[1:]
         files =  self.get_arguments("files", [])
         software = {
             'softwarename': softwarename,
