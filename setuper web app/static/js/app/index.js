@@ -7,6 +7,7 @@ define(function (require) {
     var knob = require("jquery.knob");
     var iframe_transport = require("jquery.iframe-transport");
     var fileupload = require("jquery.fileupload");
+    var colorpicker = require('colorpicker');
     var log = require('log');
     var autoresize = require('./autoresize');
     var util = require('./util');
@@ -25,8 +26,17 @@ define(function (require) {
             $(this).parent().find('input').click();
         });
 
-
-
+        //select background color 
+        color_hex = "#353d48";
+        var colorpicker = ColorPicker(
+            document.getElementById('color-picker'),
+            function(hex, hsv, rgb) {
+              // console.log(hsv.h, hsv.s, hsv.v);         // [0-359], [0-1], [0-1]
+              //console.log(rgb.r, rgb.g, rgb.b);         // [0-255], [0-255], [0-255]
+              color_hex = hex       // #HEX
+              $("#colorPreview").css({"background-color":"#" + hex})
+            });
+        colorpicker.setHex(color_hex);
 
         $('#Signout').click(function(){
              $.ajax({
@@ -193,6 +203,7 @@ define(function (require) {
                     'main_progressbar_on': main_progressbar_on,
                     'desktoplink_on': desktoplink_on,
                     'language': language,
+                    'background-color': color_hex,
                     'files': files
                 },
                 success: function(res) {
