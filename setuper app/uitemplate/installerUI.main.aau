@@ -38,8 +38,15 @@ winform.quickLoad.skin(
 //	"OutputFolderName": "QFramer", 
 //	"desktoplink_on": "true"}
 
-OutputFolderName="";
-JsonData="";
+////////////////////////////////////////////////////////////////////
+//	全局函数
+//	注意线程函数里边不能直接使用
+////////////////////////////////////////////////////////////////////
+g_OutputFolderName="";
+g_PackageJsonData="";
+g_PackageJsonManager=null;
+
+
 
 //最小化按钮	
 winform.ButtonMin.skin(
@@ -99,11 +106,9 @@ winform.quickLoad.show(false);
 
 winform.quickLoad.oncommand = function(id,event){
 	import process;
-	import web.json;
 	import io;
-	var jsonobject=web.json.parse(JsonData);
 	var targetPath = winform.edit.text;
-	var targetExe = fsys.joinpath(targetPath, jsonobject["OutputFolderName"] + ".exe"); //设置目标路径
+	var targetExe = fsys.joinpath(targetPath, g_PackageJsonManager["OutputFolderName"] + ".exe"); //设置目标路径
 	if(io.exist(targetExe)){
 		process.execute(targetExe);
 	}
@@ -123,32 +128,8 @@ listener.print = function( percent ){
 		winform.progress.progressPercentage = percent;
 	}
 	//winform.taskbar.SetProgressValue(winform.hwnd, percent, 100);
-
-/**	
-	if(percent == 110){
-		winform.edit.show(false);
-		winform.btnbrowser.show(false);
-		winform.btnSetup.show(false);
-		winform.quickLoad.show(true);
-		
-		import fsys.lnk;
-		import web.json;
-		var jsonobject=web.json.parse(JsonData);
-		var targetPath = winform.edit.text;
-		var exePath = fsys.joinpath(targetPath, jsonobject["OutputFolderName"] + ".exe")
-		if(jsonobject["desktoplink_on"] == "true" && io.exist(exePath)){
-			desktop_lnk = fsys.lnk(); 
-			desktop_lnk.name = jsonobject["OutputFolderName"]; 
-			//http://bbs.aau.cn/forum.php?mod=viewthread&tid=3963&page=1#pid22739
-			desktop_lnk.path = exePath; //设置目标路径
-			desktop_lnk.setIcon(desktop_lnk.path, 0); //设置图标
-			desktop_lnk.workDir = targetPath;         //起始位置
-			desktop_lnk.showCmd = 1;//运行方式：常规窗口=1,最小化=2，最大化=3
-			desktop_lnk.save(fsys.joinpath( fsys.getSpecial(0x0010 /*_CSIDL_DESKTOPDIRECTORY*/ ), jsonobject["OutputFolderName"] + ".lnk"));
-		}
-	}
-**/	
-} 
+}
+ 
 listener.extract_finish = function(finish){
 	if (finish == 100){
 		winform.edit.show(false);
@@ -157,21 +138,20 @@ listener.extract_finish = function(finish){
 		winform.quickLoad.show(true);
 		
 		import fsys.lnk;
-		import web.json;
-		var jsonobject=web.json.parse(JsonData);
 		var targetPath = winform.edit.text;
-		var exePath = fsys.joinpath(targetPath, jsonobject["OutputFolderName"] + ".exe")
-		if(jsonobject["desktoplink_on"] == "true" && io.exist(exePath)){
-			desktop_lnk = fsys.lnk(); 
-			desktop_lnk.name = jsonobject["OutputFolderName"]; 
-			//http://bbs.aau.cn/forum.php?mod=viewthread&tid=3963&page=1#pid22739
-			desktop_lnk.path = exePath; //设置目标路径
-			desktop_lnk.setIcon(desktop_lnk.path, 0); //设置图标
-			desktop_lnk.workDir = targetPath;         //起始位置
-			desktop_lnk.showCmd = 1;//运行方式：常规窗口=1,最小化=2，最大化=3
-			desktop_lnk.save(fsys.joinpath( fsys.getSpecial(0x0010 /*_CSIDL_DESKTOPDIRECTORY*/ ), jsonobject["OutputFolderName"] + ".lnk"));
+		var exePath = fsys.joinpath(targetPath, g_PackageJsonManager["OutputFolderName"] + ".exe")
+		if (g_PackageJsonManager["desktoplink_on"]){
+			if(g_PackageJsonManager["desktoplink_on"] == "true" && io.exist(exePath)){
+				desktop_lnk = fsys.lnk(); 
+				desktop_lnk.name = g_PackageJsonManager["OutputFolderName"]; 
+				//http://bbs.aau.cn/forum.php?mod=viewthread&tid=3963&page=1#pid22739
+				desktop_lnk.path = exePath; //设置目标路径
+				desktop_lnk.setIcon(desktop_lnk.path, 0); //设置图标
+				desktop_lnk.workDir = targetPath;         //起始位置
+				desktop_lnk.showCmd = 1;//运行方式：常规窗口=1,最小化=2，最大化=3
+				desktop_lnk.save(fsys.joinpath( fsys.getSpecial(0x0010 /*_CSIDL_DESKTOPDIRECTORY*/ ), g_PackageJsonManager["OutputFolderName"] + ".lnk"));
+			}
 		}
-
 	}
 }
 
@@ -208,8 +188,6 @@ var task_fv_progress = function(arg){
 //	解压源安装包线程函数
 var task_7zSource = function(install_path, output_folder_name/*,pg_hwnd*/,fv_progress_id/*频率降低线程id*/,jsondata){
 	import console;
-	//console.log("start decode", install_path);
-	//console.log(fv_progress_id);
 	import sevenZip.decoder2;
 	var archive = sevenZip.decoder2();
 
@@ -222,11 +200,11 @@ var task_7zSource = function(install_path, output_folder_name/*,pg_hwnd*/,fv_pro
 	now_time = time();
 	
 	import web.json;
-	var jsonobject=web.json.parse(jsondata);
-	var jsonarray=jsonobject['files'];
+	var json_object = web.json.parse(jsondata);
+	var json_array = json_object['files'];
 	var zfile="";
-	for(i=1;#jsonarray;1){
-		var strname=jsonarray[i]['name'];
+	for(i=1;#json_array;1){
+		var strname=json_array[i]['name'];
 		var str="";
 		for(j=#strname-2;#strname;1){
 			str += strname[[j]];		
@@ -307,22 +285,12 @@ winform.btnSetup.oncommand = function(id,event){
 //	hfv_thread, fv_thread_id = thread.create(task_fv_progress);
 	//console.log("----++++",fv_thread_id);
 	//	启动解压安装线程
-	hThread=thread.create(task_7zSource,winform.edit.text,OutputFolderName/*,winform.pie.hwnd*/,fv_thread_id,JsonData);
+	hThread=thread.create(task_7zSource,winform.edit.text,g_OutputFolderName/*,winform.pie.hwnd*/,fv_thread_id,g_PackageJsonData);
 	thread.waitOne(hThread);
 	
 	winform.edit.disabled=false;
 	winform.btnbrowser.disabled=false;
 	winform.btnSetup.disabled=false;
-	
-	var n_exit_code=thread.getExitCode(hThread);
-	if (0 == n_exit_code)
-	{
-//		import process
-//		process.execute("notepad.exe");
-				
-	}
-	
-	//winform.close();
 }
  
 winform.btnbrowser.oncommand = function(id,event){
@@ -394,7 +362,7 @@ var getfilefromexe = function(){
 
 	import fsys.file;
 	//console.log(path);
-//	path="F:\MyProjects\CloudInstall\CloudSetuper\setuper app\uitemplate\Publish\setup.exe";
+	//path="F:\MyProjects\CloudInstall\CloudSetuper\setuper app\uitemplate\Publish\setup.exe";
 	exefile=io.open(path,"rb");
 	if (null == exefile){
 		return false, "read self data failed"; 
@@ -420,31 +388,29 @@ var getfilefromexe = function(){
 	var jsonlen=exefile.readback(readlen-1);
 	
 	exefile.seek("cur",-1);
-	var jsondata=exefile.readback(tonumber(jsonlen));
-	JsonData=jsondata;
-	
+	g_PackageJsonData = exefile.readback(tonumber(jsonlen));
+
 	import web.json;
-	var jsonobject=web.json.parse(jsondata);
-	if (!jsonobject){
+	g_PackageJsonManager = web.json.parse(g_PackageJsonData);
+	if (null == g_PackageJsonManager){
 		return false, "json config file invalid format"; 
 	}
-	
-	var jsonarray=jsonobject["files"];
+
+	var jsonarray=g_PackageJsonManager["files"];
 	if (!jsonarray){
 		return  false, "json config file invalid format without files array"; 
 	}
 	
 	import fsys;
-	OutputFolderName = fsys.getTempDir() + jsonobject['OutputFolderName'] + "\" ;
-	io.print(OutputFolderName);
-	fsys.createDir(OutputFolderName);
+	g_OutputFolderName = fsys.getTempDir() + g_PackageJsonManager['OutputFolderName'] + "\" ;
+	fsys.createDir(g_OutputFolderName);
 	for(i=#jsonarray;1;-1){
 		import fsys.file;
 		var filename=jsonarray[i]['name'];
 		if (!filename){
 			return false, "json config file invalid format without file name"; 
 		}
-		sourcefile=io.open( OutputFolderName + filename,'wb' );
+		sourcefile=io.open( g_OutputFolderName + filename,'wb' );
 
 		var filesize=jsonarray[i]['size'];
 		if (!filesize){
@@ -465,32 +431,23 @@ if (!outputresource){
 
 
 // 设置图片播放器
-import web.json;
-var jsonobject=web.json.parse(JsonData);
-if (!jsonobject){
-	return ;
-}
-
-var json_ppt_order=jsonobject['ppt_order'];
+var json_ppt_order=g_PackageJsonManager['ppt_order'];
 if(null != json_ppt_order)
 {
 	var min, max = table.range(json_ppt_order);
 	if (max != 0)
 	{
-		winform.PictureViwer.setBackground(OutputFolderName+json_ppt_order[1]);
+		winform.PictureViwer.setBackground(g_OutputFolderName+json_ppt_order[1]);
 	
 		//定时播放图片
 		var i = 2;
 		var tmId = winform.addtimer( 
 			1500,
 			function(hwnd,msg,id,tick){
-				import fsys;
-				import web.json;
-				var jsonobject=web.json.parse(JsonData);
-				var json_ppt_order=jsonobject['ppt_order'];
-	
+
+				var json_ppt_order=g_PackageJsonManager['ppt_order'];
 				if (json_ppt_order[i]){
-					var picturePath=OutputFolderName + json_ppt_order[i];
+					var picturePath=g_OutputFolderName + json_ppt_order[i];
 					winform.PictureViwer.setForeground(picturePath);
 				}
 				
@@ -514,36 +471,9 @@ else {
 }
 
 
-/*
-var tmProgressId = winform.addtimer( 
-	5000,
-	function(hwnd,msg,id,tick){
-		var i=10;
-		while( i > 0 ){
-			i--;
-			var percent = progress_tab.remove()
-			if (null==percent)
-				return ; 
-		    winform.pie.text =  percent + " %";
-			winform.progress.text = percent + "%";
-			winform.pie.progressPercentage = percent;
-			winform.progress.progressPercentage = percent;
-			//winform.taskbar.SetProgressValue(winform.hwnd, percent, 100);
-		}
-	} 
-)*/
-
-//
-import web.json;
-var jsonobject=web.json.parse(JsonData);
-if (jsonobject){
-	import fsys;
-	var output_folder=jsonobject['OutputFolderName'];
-	if (output_folder){
-		winform.edit.text=fsys.getSpecial(0x26)+"\"+ output_folder;
-		winform.title.text = output_folder;
-	}
-}
+import fsys;
+winform.edit.text=fsys.getSpecial(0x26)+"\"+ g_PackageJsonManager['OutputFolderName'];
+winform.title.text = g_PackageJsonManager['OutputFolderName'];
  
 winform.show(true);
 win.loopMessage();  
