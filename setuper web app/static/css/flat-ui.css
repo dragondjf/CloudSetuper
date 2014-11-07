@@ -3165,7 +3165,7 @@ fieldset[disabled] .input-group-btn .btn-default.active {
 .dropdown-menu-inverse > li > a:hover,
 .dropdown-menu-inverse > li > a:focus {
   color: rgba(255, 255, 255, .85);
-  background-color: rgba(43, 60, 78, .5);
+  background-color: #1abc9c;
   }
 .dropdown-menu-inverse > .active > a,
 .dropdown-menu-inverse > .active > a:hover,
@@ -3748,7 +3748,7 @@ fieldset[disabled] .input-group-btn .btn-default.active {
   }
 .select2-drop .select2-highlighted > .select2-result-label {
   color: #fff;
-  background: #1abc9c;
+  background: #00A771;
   }
 .select2-drop .select2-result-with-children > .select2-result-label {
   margin-top: 5px;
@@ -4755,7 +4755,7 @@ fieldset[disabled] .navbar-inverse .navbar-btn.active {
   display: inline-block;
   width: 80px;
   height: 29px;
-  overflow: hidden;
+  /*overflow: hidden;*/
   font-size: 15px;
   line-height: 29px;
   text-align: left;

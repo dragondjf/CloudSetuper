@@ -10,8 +10,10 @@ import base64
 
 class LoginHandler(BaseHandler):
 
+    count = 0
+
     def get(self):
-        self.render("login.html", title="Cloud Setuper Sign in")
+        self.render("login.html", title="Cloud Setuper Sign in", username=self.current_user)
 
     def post(self):
         username = self.get_argument("username", "")
@@ -27,6 +29,7 @@ class LoginHandler(BaseHandler):
                 'status': "success",
                 'info': checkstatus['info']
             }
+            self.count += 1
         else:
             response = {
                 'status': "fail",
@@ -60,4 +63,5 @@ class LogoutHandler(BaseHandler):
     @authenticated
     def post(self):
         self.clear_cookie(self.get_current_user())
+        LoginHandler.count -= 1
         # self.clear_all_cookies()

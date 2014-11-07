@@ -22,7 +22,7 @@ Clound Setuper 运行手册
 
     + 运行server  python main.py
 
-    在浏览器中输入 `localhost:12306` 即可
+    在浏览器中输入 `localhost` 即可
 
 
 

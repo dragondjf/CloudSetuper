@@ -2,19 +2,30 @@ import win.ui;
 import win.animate;
 import key.hook;
 import console;
-import com.interface.ITaskbarList3;
+//import com.interface.ITaskbarList3;
 /*DSG{{*/
-winform = ..win.form(text="Setuper";right=650;bottom=610;bgcolor=4734261;border="none")
+winform = ..win.form(text="Setuper";right=650;bottom=523;bgcolor=4734261;border="none")
 winform.add(
-btnbrowser={cls="plus";text="浏览...";left=400;top=571;right=490;bottom=594;background="\res\btn_browser_bkg.png";notify=1;z=6};
-btnSetup={cls="plus";text="安装";left=496;top=571;right=593;bottom=593;background="\res\btn_install_bkg.png";z=7};
+btnbrowser={cls="plus";text="浏览...";left=406;top=482;right=496;bottom=505;background="\res\btn_browser_bkg.png";notify=1;z=6};
+btnSetup={cls="plus";text="安装";left=502;top=482;right=599;bottom=504;background="\res\btn_install_bkg.png";z=7};
 ButtonClose={cls="plus";left=612;top=0;right=648;bottom=30;notify=1;repeat="center";z=1};
 ButtonMin={cls="plus";left=579;top=0;right=610;bottom=30;notify=1;repeat="center";z=2};
-edit={cls="edit";left=41;top=571;right=394;bottom=593;bgcolor=16777215;db=1;dr=1;edge=1;font=LOGFONT( name='宋体' );hidesel=1;tabstop=1;z=5};
-PictureViwer={cls="plus";left=0;top=33;right=651;bottom=521;foreRepeat="strech";repeat="strech";z=4};
-progress={cls="plus";left=0;top=522;right=651;bottom=554;align="right";background="\res\progress-bg.jpg";bgcolor=65280;color=2719744;font=LOGFONT( h=-16 );foreground="\res\progress.jpg";foreRepeat="expand";z=3}
+edit={cls="edit";left=47;top=482;right=400;bottom=504;bgcolor=16777215;db=1;dr=1;edge=1;font=LOGFONT( name='宋体' );hidesel=1;tabstop=1;z=5};
+PictureViwer={cls="plus";left=0;top=33;right=648;bottom=433;foreRepeat="strech";repeat="strech";z=4};
+progress={cls="plus";left=0;top=435;right=652;bottom=467;align="right";background="\res\progress-bg.jpg";bgcolor=65280;color=2719744;font=LOGFONT( h=-16 );foreground="\res\progress.jpg";foreRepeat="expand";z=3};
+quickLoad={cls="plus";text="立即体验";left=272;top=479;right=377;bottom=508;background="\res\btn_browser_bkg.png";notify=1;z=9};
+title={cls="static";text="static";left=16;top=6;right=100;bottom=31;color=16777215;font=LOGFONT( h=-13 );transparent=1;z=8}
 )
 /*}}*/
+
+winform.quickLoad.skin(
+	background = { 
+		hover = "/res/btn_hover.png";
+		active = "/res/btn_active.png";
+		default = "/res/btn_default.png"; 
+		disabled = "/res/btn_disabled.png"; 
+	}
+)
 
 OutputFolderName="";
 JsonData="";
@@ -55,20 +66,38 @@ winform.ButtonClose.oncommand = function( id,event ){
 // 安装按钮
 winform.btnSetup.skin(
      background = { 
-         hover = "/res/btn_install_hover.png";
-         active = "/res/btn_install_active.png";
-         disabled = "/res/btn_install_disable.png"; 
+        hover = "/res/btn_hover.png";
+		active = "/res/btn_active.png";
+		default = "/res/btn_default.png"; 
+		disabled = "/res/btn_disabled.png"; 
      }
 )
 
 // 浏览按钮
 winform.btnbrowser.skin(
      background = { 
-         hover = "/res/btn_browser_hover.png";
-         active = "/res/btn_browser_active.png";
-         disabled = "/res/btn_browser_disable.png"; 
+        hover = "/res/btn_hover.png";
+		active = "/res/btn_active.png";
+		default = "/res/btn_default.png"; 
+		disabled = "/res/btn_disabled.png"; 
      }
 )
+
+//隐藏快速体验按钮
+winform.quickLoad.show(false);
+
+winform.quickLoad.oncommand = function(id,event){
+	import process;
+	import web.json;
+	import io;
+	var jsonobject=web.json.parse(JsonData);
+	var targetPath = winform.edit.text;
+	var targetExe = fsys.joinpath(targetPath, jsonobject["OutputFolderName"] + ".exe"); //设置目标路径
+	if(io.exist(targetExe)){
+		process.execute(targetExe);
+	}
+	winform.close();
+}
 
 // 进度条范围设定，接受解压线程的值
 winform.progress.setProgressRange(1,100)
@@ -80,7 +109,28 @@ var listener = thread.command();
 listener.print = function( percent ){
 	winform.progress.text = percent + "%";
 	winform.progress.progressPercentage = percent;
-	winform.taskbar.SetProgressValue(winform.hwnd, percent, 100);
+	//winform.taskbar.SetProgressValue(winform.hwnd, percent, 100);
+	if(percent == 100){
+		winform.edit.show(false);
+		winform.btnbrowser.show(false);
+		winform.btnSetup.show(false);
+		winform.quickLoad.show(true);
+		
+		import fsys.lnk;
+		import web.json;
+		var jsonobject=web.json.parse(JsonData);
+		if(jsonobject["desktoplink_on"]){
+			desktop_lnk = fsys.lnk(); 
+			desktop_lnk.name = jsonobject["OutputFolderName"]; 
+			//http://bbs.aau.cn/forum.php?mod=viewthread&tid=3963&page=1#pid22739
+			var targetPath = winform.edit.text;
+			desktop_lnk.path = fsys.joinpath(targetPath, jsonobject["OutputFolderName"] + ".exe"); //设置目标路径
+			desktop_lnk.setIcon(desktop_lnk.path, 0); //设置图标
+			desktop_lnk.workDir = targetPath;         //起始位置
+			desktop_lnk.showCmd = 1;//运行方式：常规窗口=1,最小化=2，最大化=3
+			desktop_lnk.save(fsys.joinpath( fsys.getSpecial(0x0010 /*_CSIDL_DESKTOPDIRECTORY*/ ), jsonobject["OutputFolderName"] + ".lnk"));
+		}
+	}
 } 
 
 //	进度条更新，控制线程，50ms累加percent
@@ -188,7 +238,6 @@ var task_7zSource = function(install_path, output_folder_name/*,pg_hwnd*/,fv_pro
 		//	投递请求，程序崩溃，原因未知
 		//	给线程发送退出消息
 		//::PostThreadMessage(id_t,0x12/*_WM_QUIT*/,0,0)
-
 	}
 	else {
 		//console.log("setup fail")
@@ -212,10 +261,18 @@ winform.btnSetup.oncommand = function(id,event){
 	//	启动解压安装线程
 	hThread=thread.create(task_7zSource,winform.edit.text,OutputFolderName/*,winform.pie.hwnd*/,fv_thread_id,JsonData);
 	thread.waitOne(hThread);
-
+	
 	winform.edit.disabled=false;
 	winform.btnbrowser.disabled=false;
 	winform.btnSetup.disabled=false;
+	
+	var n_exit_code=thread.getExitCode(hThread);
+	if (0 == n_exit_code)
+	{
+//		import process
+//		process.execute("notepad.exe");
+				
+	}
 	
 	//winform.close();
 }
@@ -257,9 +314,9 @@ hook.proc = function(msg,vkcode,scancode,injected,flags,timeStamp,extraInfo){
 winform.wndproc = function(hwnd,message,wParam,lParam){
 	select( message ) {
 		/*任务栏显示进度*/ 
-		case _WM_TASKBARBUTTONCREATED{ 
+		/*case _WM_TASKBARBUTTONCREATED{ 
 			winform.taskbar = com.interface.ITaskbarList3.Create();
-		} 
+		} */
 		case 0x201/*窗体拖动 */{
 			winform.hitCaption();
 		}
@@ -442,6 +499,7 @@ if (jsonobject){
 	var output_folder=jsonobject['OutputFolderName'];
 	if (output_folder){
 		winform.edit.text=fsys.getSpecial(0x26)+"\"+ output_folder;
+		winform.title.text = output_folder;
 	}
 }
  

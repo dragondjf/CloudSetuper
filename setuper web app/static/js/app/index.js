@@ -2,11 +2,11 @@ define(function (require) {
     var $ = require('jquery');
     var bootstrap = require('bootstrap');
     var messages = require('./messages');
+    var flat_ui = require("flat-ui.min");
     var ui_widget = require("jquery.ui.widget");
     var knob = require("jquery.knob");
     var iframe_transport = require("jquery.iframe-transport");
     var fileupload = require("jquery.fileupload");
-    var flat_ui = require("flat-ui.min");
     var log = require('log');
     var autoresize = require('./autoresize');
     var util = require('./util');
@@ -156,15 +156,18 @@ define(function (require) {
             return (bytes / 1000).toFixed(2) + ' KB';
             }
         });
+    
 
+        var languages = ['en', 'zh_CN', 'zh_TW']
         $("#onesetup").click(function(){
             var softwarename = $("#software-name").val();
             var softwareauthor = $("#software-author").val();
             var softwareemail = $("#software-email").val();
             var softwarecompany = $("#software-company").val();
             var main_progressbar_on = $(".bootstrap-switch-id-main_progressbar").hasClass("bootstrap-switch-on");
-            var taskbar_progressbar_on = $(".bootstrap-switch-id-taskbar_progressbar").hasClass("bootstrap-switch-on");
             var desktoplink_on = $(".bootstrap-switch-id-desktoplink").hasClass("bootstrap-switch-on");
+            
+            var language = languages[parseInt($("#Language").val())];
             var files = [];
 
             if(softwarename.length == 0){
@@ -188,8 +191,8 @@ define(function (require) {
                     'softwareemail': softwareemail,
                     'softwarecompany': softwarecompany,
                     'main_progressbar_on': main_progressbar_on,
-                    'taskbar_progressbar_on': taskbar_progressbar_on,
                     'desktoplink_on': desktoplink_on,
+                    'language': language,
                     'files': files
                 },
                 success: function(res) {
@@ -205,17 +208,19 @@ define(function (require) {
             })
         })
 
-
+        if ($('[data-toggle="select"]').length) {
+              $('[data-toggle="select"]').select2();
+        }
         $('[data-toggle="switch"]').bootstrapSwitch();
 
         $('[data-toggle="dropdown"]').click(function(){
-            $('.dropdown-menu').fadeToggle();
+            $('#mainMenu').fadeToggle();
         })
 
         $('.dropdown-menu').hover(function(){}, function(){
-            $('.dropdown-menu').fadeOut();
+            $('#mainMenu').fadeOut();
         })
-
+        
         document.getElementById("container").addEventListener('click', function(){
             $('.dropdown-menu').fadeOut();
         })
@@ -234,4 +239,53 @@ define(function (require) {
             }
         });
 
+
+        //存储界面输入值
+        var storagekeys = ["software-name", "software-version", "software-author",
+            "software-email", "software-company"]
+
+        for (var i = 0; i < storagekeys.length; i++) {
+            var id = "#" + storagekeys[i];
+            if (storagekeys[i] in localStorage){
+                $(id).val(localStorage[storagekeys[i]]);
+            }
+            $(id).bind("input propertychange",{'index': i, 'id': id}, function(event){
+                var i = event.data.index;
+                var id = event.data.id;
+                localStorage[storagekeys[i]] = $(id).val();
+            });
+        };
+
+        if ("software-name" in localStorage && $("#software-name").val().length > 0){
+            $("#onesetup").removeClass("disabled");
+        }
+
+
+        function startWebSocket() {
+            if ("WebSocket" in window) {
+                // messageContainer.innerHTML = "WebSocket is supported by your Browser!";
+                var ws = new WebSocket("ws://" + location.host + "/ws");
+                ws.onopen = function() {
+                    // ws.send("Message to send");
+                };
+                ws.onmessage = function (evt) { 
+                    var msg = JSON.parse(evt.data);
+                    log(evt.data);
+                    if('userCount' in msg){
+                        $("#userCount>span").text(msg['userCount']);
+                    }
+                    if('allCount' in msg){
+                        $("#allCount>span").text(msg['allCount']);
+                    }
+                };
+                ws.onclose = function() { 
+                    log("Connection is closed...");
+                    startWebSocket();
+                };
+            } else {
+                log("WebSocket NOT supported by your Browser!");
+            }
+        }
+
+        startWebSocket();
 });

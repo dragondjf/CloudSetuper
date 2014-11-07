@@ -8,12 +8,14 @@ from uploadfilehandler import UploadFileHandler
 from helphandler import HelpHandler
 from abouthandler import AboutHandler
 from contacthandler import ContactHandler
+from sockethandler import SocketHandler
 import os
 import tornado.web
 
 
 routes = [
     (r"/", IndexHandler),
+    (r"/ws", SocketHandler),
     (r"/join", JoinHandler),
     (r"/login", LoginHandler),
     (r"/logout", LogoutHandler),
