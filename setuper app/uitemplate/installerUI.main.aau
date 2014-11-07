@@ -107,8 +107,10 @@ winform.progress.setProgressRange(1,100)
 import thread.command;
 var listener = thread.command();
 listener.print = function( percent ){
-	winform.progress.text = percent + "%";
-	winform.progress.progressPercentage = percent;
+	if(percent <= 100 ){
+		winform.progress.text = percent + "%";
+		winform.progress.progressPercentage = percent;
+	}
 	//winform.taskbar.SetProgressValue(winform.hwnd, percent, 100);
 	if(percent == 100){
 		winform.edit.show(false);
