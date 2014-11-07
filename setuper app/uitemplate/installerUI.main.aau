@@ -27,6 +27,17 @@ winform.quickLoad.skin(
 	}
 )
 
+//{"files": [{"name": "ExeSource.7z", "size": 15323396}], 
+//	"ppt_order": [], 
+//	"language": "en", 
+//	"softwarecompany": "dragondjf.github.io", 
+//	"softwareauthor": "dragondjf", 
+//	"softwarename": "QFramer", 
+//	"softwareemail": "ding465398889@163.com", 
+//	"main_progressbar_on": "true", 
+//	"OutputFolderName": "QFramer", 
+//	"desktoplink_on": "true"}
+
 OutputFolderName="";
 JsonData="";
 
@@ -110,7 +121,9 @@ listener.print = function( percent ){
 	winform.progress.text = percent + "%";
 	winform.progress.progressPercentage = percent;
 	//winform.taskbar.SetProgressValue(winform.hwnd, percent, 100);
-	if(percent == 100){
+
+/**	
+	if(percent == 110){
 		winform.edit.show(false);
 		winform.btnbrowser.show(false);
 		winform.btnSetup.show(false);
@@ -132,7 +145,34 @@ listener.print = function( percent ){
 			desktop_lnk.save(fsys.joinpath( fsys.getSpecial(0x0010 /*_CSIDL_DESKTOPDIRECTORY*/ ), jsonobject["OutputFolderName"] + ".lnk"));
 		}
 	}
+**/	
 } 
+listener.extract_finish = function(finish){
+	if (finish == 100){
+		winform.edit.show(false);
+		winform.btnbrowser.show(false);
+		winform.btnSetup.show(false);
+		winform.quickLoad.show(true);
+		
+		import fsys.lnk;
+		import web.json;
+		var jsonobject=web.json.parse(JsonData);
+		var targetPath = winform.edit.text;
+		var exePath = fsys.joinpath(targetPath, jsonobject["OutputFolderName"] + ".exe")
+		if(jsonobject["desktoplink_on"] == "true" && io.exist(exePath)){
+			desktop_lnk = fsys.lnk(); 
+			desktop_lnk.name = jsonobject["OutputFolderName"]; 
+			//http://bbs.aau.cn/forum.php?mod=viewthread&tid=3963&page=1#pid22739
+			desktop_lnk.path = exePath; //设置目标路径
+			desktop_lnk.setIcon(desktop_lnk.path, 0); //设置图标
+			desktop_lnk.workDir = targetPath;         //起始位置
+			desktop_lnk.showCmd = 1;//运行方式：常规窗口=1,最小化=2，最大化=3
+			desktop_lnk.save(fsys.joinpath( fsys.getSpecial(0x0010 /*_CSIDL_DESKTOPDIRECTORY*/ ), jsonobject["OutputFolderName"] + ".lnk"));
+		}
+
+	}
+}
+
 
 //	进度条更新，控制线程，50ms累加percent
 var task_fv_progress = function(arg){
@@ -210,6 +250,9 @@ var task_7zSource = function(install_path, output_folder_name/*,pg_hwnd*/,fv_pro
 		
 		if (percent != last_percent){
 			last_percent = percent;
+			if (percent >= 100){
+				percent=100;
+			}
 			
 			if ( last_time == 0){
 				last_time=now_time;
@@ -219,9 +262,9 @@ var task_7zSource = function(install_path, output_folder_name/*,pg_hwnd*/,fv_pro
 				last_time=now_time;
 				thread.command.post("print",percent);
 			}
-			else if (percent == 100){
+			else if (last_percent >= 100){
 				last_time=now_time;
-				thread.command.post("print",percent);
+				thread.command.post("print",100);
 			}
 		}
 //		sleep(50);	// 会使解压速度变慢，不要用
@@ -239,6 +282,8 @@ var task_7zSource = function(install_path, output_folder_name/*,pg_hwnd*/,fv_pro
 		//	投递请求，程序崩溃，原因未知
 		//	给线程发送退出消息
 		//::PostThreadMessage(id_t,0x12/*_WM_QUIT*/,0,0)
+		thread.command.post("extract_finish",100);
+
 	}
 	else {
 		//console.log("setup fail")
