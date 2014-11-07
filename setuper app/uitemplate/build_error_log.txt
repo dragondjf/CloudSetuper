@@ -1,0 +1,12 @@
+错误发生在文件---------------:
+F:\MyProjects\CloudInstall\CloudSetuper\setuper app\uitemplate\installerUI.main.aau
+错误发生在代码---------------：
+
+错误信息---------------:
+
+error:
+line:#370
+file:...ts\CloudInstall\CloudSetuper\setuper app\uitemplate\installerUI.main.aau
+error:<unexpected symbol>
+near:...'<<'
+byte:0x3C
