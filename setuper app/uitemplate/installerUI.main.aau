@@ -46,6 +46,31 @@ g_OutputFolderName="";
 g_PackageJsonData="";
 g_PackageJsonManager=null;
 
+////////////////////////////////////////////////////////////////////
+//	提示信息-国际化
+////////////////////////////////////////////////////////////////////
+"1":"未找到7z文件"
+"2":"打开7z文件失败"
+"3":"解压失败"
+"4":"安装程序已经运行!"
+"5":"read self data failed"
+"6":"read json config file fail"
+"7":"json config file invalid format"
+"8":"json config file invalid format without files array"
+"9":"json config file invalid format without file name" 
+"10":"json config file invalid format without file size"
+
+g_ErrorMsgEn="[{'1':''},{}]"
+g_ErrorMsgCh="{}"
+var get_error_msg=function(msg_code){
+	var str_msg="";
+	if ("en" == g_PackageJsonManager['language']){
+	}
+	else {
+	}
+	
+	return str_msg; 
+}
 
 
 //最小化按钮	
@@ -188,6 +213,7 @@ var task_fv_progress = function(arg){
 //	解压源安装包线程函数
 var task_7zSource = function(install_path, output_folder_name/*,pg_hwnd*/,fv_progress_id/*频率降低线程id*/,jsondata){
 	import console;
+	var n_error_code=0;
 	import sevenZip.decoder2;
 	var archive = sevenZip.decoder2();
 
@@ -217,11 +243,13 @@ var task_7zSource = function(install_path, output_folder_name/*,pg_hwnd*/,fv_pro
 	}
 	import win;
 	if ("" == zfile){
-		win.msgbox("未找到7z文件");
+//		win.msgbox("未找到7z文件");
+		return 1; 
 	}
 	
 	if (!archive.open(output_folder_name + zfile)){
-		win.msgbox("打开7z文件失败");
+//		win.msgbox("打开7z文件失败");
+		return 2; 
 	}
 	archive.extractSetCompleted = function(lowSize,hiSize,percent){
 		import thread.command;
@@ -248,8 +276,6 @@ var task_7zSource = function(install_path, output_folder_name/*,pg_hwnd*/,fv_pro
 			}
 		}
 //		sleep(50);	// 会使解压速度变慢，不要用
-		return ; 
-
 //		import win;
 //		win.setText(pg_hwnd,tostring(percent));
 
@@ -263,13 +289,14 @@ var task_7zSource = function(install_path, output_folder_name/*,pg_hwnd*/,fv_pro
 		//	给线程发送退出消息
 		//::PostThreadMessage(id_t,0x12/*_WM_QUIT*/,0,0)
 		thread.command.post("extract_finish",100);
-
+		return 0; 
 	}
 	else {
 		//console.log("setup fail")
 		//	给线程发送退出消息
 		//	投递请求，程序崩溃，原因未知
 		//::PostThreadMessage(id_t,0x12/*_WM_QUIT*/,0,0)
+		return 3; //解压失败
 	}
 }
 
@@ -350,6 +377,7 @@ import process.mutex
 mutex=process.mutex("installer_ui_process_id")
 
 if( mutex.conflict ){
+//	4
 	winform.msgbox("安装程序已经运行!");
     return ; 
 }
@@ -362,10 +390,11 @@ var getfilefromexe = function(){
 
 	import fsys.file;
 	//console.log(path);
-	//path="F:\MyProjects\CloudInstall\CloudSetuper\setuper app\uitemplate\Publish\setup.exe";
+	path="F:\MyProjects\CloudInstall\CloudSetuper\setuper app\uitemplate\Publish\setup.exe";
 	exefile=io.open(path,"rb");
 	if (null == exefile){
-		return false, "read self data failed"; 
+//		return false, "read self data failed"; 
+		return false,5; 
 	}
 	
 	exefile.seek("end");
@@ -376,7 +405,8 @@ var getfilefromexe = function(){
 		readlen++;
 		
 		if (readlen > 100){
-			return false, "read json config file fail"; 
+			return false,6; 
+//			return false, "read json config file fail"; 
 		}
 		
 		if (readbuf == "|"){
@@ -393,12 +423,14 @@ var getfilefromexe = function(){
 	import web.json;
 	g_PackageJsonManager = web.json.parse(g_PackageJsonData);
 	if (null == g_PackageJsonManager){
-		return false, "json config file invalid format"; 
+		return false,7; 
+//		return false, "json config file invalid format"; 
 	}
 
 	var jsonarray=g_PackageJsonManager["files"];
 	if (!jsonarray){
-		return  false, "json config file invalid format without files array"; 
+		return false,8; 
+//		return  false, "json config file invalid format without files array"; 
 	}
 	
 	import fsys;
@@ -408,13 +440,15 @@ var getfilefromexe = function(){
 		import fsys.file;
 		var filename=jsonarray[i]['name'];
 		if (!filename){
-			return false, "json config file invalid format without file name"; 
+			return false,9; 
+//			return false, "json config file invalid format without file name"; 
 		}
 		sourcefile=io.open( g_OutputFolderName + filename,'wb' );
 
 		var filesize=jsonarray[i]['size'];
 		if (!filesize){
-			return false, "json config file invalid format without file size"; 
+			return false,10; 
+//			return false, "json config file invalid format without file size"; 
 		}
 		sourcefile.write(exefile.readback( tonumber( filesize ) ) );
 		sourcefile.close();
@@ -422,10 +456,9 @@ var getfilefromexe = function(){
 	return true; 
 }
 
-
-var outputresource,strmsg=getfilefromexe();
+var outputresource,n_error_msg_code = getfilefromexe();
 if (!outputresource){
-	winform.msgbox(strmsg);
+	winform.msgbox(get_error_msg(n_error_msg_code));
 	return ; 
 }
 
@@ -475,6 +508,18 @@ import fsys;
 winform.edit.text=fsys.getSpecial(0x26)+"\"+ g_PackageJsonManager['OutputFolderName'];
 winform.title.text = g_PackageJsonManager['OutputFolderName'];
  
+////////////////////////////////////////////////////////////////////////
+//	中英文处理
+////////////////////////////////////////////////////////////////////////
+if ("en" == g_PackageJsonManager['language']){
+	winform.btnbrowser.text='Browser';
+	winform.btnSetup.text='Setup';
+	winform.quickLoad.text='Run at once';
+}
+else {//默认中文
+}
+
+
 winform.show(true);
 win.loopMessage();  
 //hook.close();
