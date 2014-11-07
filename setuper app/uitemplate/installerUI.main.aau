@@ -424,13 +424,10 @@ if (!jsonobject){
 }
 
 var json_ppt_order=jsonobject['ppt_order'];
-<<<<<<< HEAD
 // if (null != json_ppt_order && 0 != #json_ppt_order)
 var min, max = table.range(json_ppt_order);
 if (max != 0)
-=======
 if(null != json_ppt_order)
->>>>>>> 31c15fe1e8b5e719b90c4292e25d907ad99fc915
 {
 	var min, max = table.range(json_ppt_order);
 	if (max != 0)
