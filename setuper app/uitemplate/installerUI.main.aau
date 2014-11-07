@@ -2,6 +2,7 @@ import win.ui;
 import win.animate;
 import key.hook;
 import console;
+import MessageMultiLanguage;
 //import com.interface.ITaskbarList3;
 /*DSG{{*/
 winform = ..win.form(text="Setuper";right=650;bottom=523;bgcolor=4734261;border="none")
@@ -45,19 +46,6 @@ winform.quickLoad.skin(
 g_OutputFolderName="";
 g_PackageJsonData="";
 g_PackageJsonManager=null;
-
-////////////////////////////////////////////////////////////////////
-//	提示信息-国际化
-////////////////////////////////////////////////////////////////////
-g_ErrorMsgCh='{"1":"未找到7z文件","2":"打开7z文件失败","3":"解压失败","4":"安装程序已经运行!","5":"读取源文件失败","6":"读取配置文件失败","7":"配置文件格式错误","8":"配置文件格式错误，没有找到files数组对象","9":"配置文件格式错误，没有找到name对象","10":"配置文件格式错误，没有找到size对象"}';
-g_ErrorMsgEn='{"1":"Not find the source package(a 7z file)","2":"Failed to open the source package(a 7z file)","3":"Extracting the source package(a 7z file) failed","4":"A install instance has run","5":"Reading self data failed","6":"Reading json config file failed","7":"json config file invalid format","8":"json config file invalid format without files array","9":"json config file invalid format without file name","10":"json config file invalid format without file size"}';
-g_ErrorMsgEnManager=null;
-g_ErrorMsgchManager=null;
-import web.json;
-g_ErrorMsgEnManager=web.json.parse(g_ErrorMsgEn);
-assert(g_ErrorMsgEnManager,"message failed");
-g_ErrorMsgChManager=web.json.parse(g_ErrorMsgCh);
-assert(g_ErrorMsgChManager,"message failed");
 
 //最小化按钮	
 winform.ButtonMin.skin(
@@ -443,24 +431,11 @@ var getfilefromexe = function(){
 	return true; 
 }
 
-var get_error_msg=function(msg_code){
-	var str_msg="";
-	if (g_PackageJsonManager['language'] == "en"){
-		str_msg=g_ErrorMsgEnManager[tostring(msg_code)];
-	}
-	else {
-		str_msg=g_ErrorMsgChManager[tostring(msg_code)];
-	}
-	
-	return str_msg; 
-}
-
-var outputresource,n_error_msg_code = getfilefromexe();
-if (!outputresource){
-	winform.msgbox(get_error_msg(n_error_msg_code));
+var output_resource,n_error_msg_code = getfilefromexe();
+if (!output_resource){
+	winform.msgbox( MessageMultiLanguage.GetErrorMessage( g_PackageJsonManager['language'], n_error_msg_code ) );
 	return ; 
 }
-
 
 // 设置图片播放器
 var json_ppt_order=g_PackageJsonManager['ppt_order'];
@@ -511,20 +486,22 @@ winform.title.text = g_PackageJsonManager['OutputFolderName'];
 ////////////////////////////////////////////////////////////////////////
 //	中英文处理
 ////////////////////////////////////////////////////////////////////////
-if ("en" == g_PackageJsonManager['language']){
+if ( "en" == g_PackageJsonManager['language'] ){
 	winform.btnbrowser.text='Browser...';
 	winform.btnSetup.text='Setup';
 	winform.quickLoad.text='Run at once';
 }
-else if ("zh-TW"){
+else if ( "zh-TW" == g_PackageJsonManager['language'] ){
 	winform.btnbrowser.text='瀏覽...';
 	winform.btnSetup.text='安裝';
 	winform.quickLoad.text='立即體驗';
 }
-else {//默认中文
+else if ( "zh-CN" == g_PackageJsonManager['language'] ){//默认中文
 }
 
-
+if ( null != g_PackageJsonManager['background-color'] ){
+	winform.bgcolor=g_PackageJsonManager['background-color'];
+}
 winform.show(true);
 win.loopMessage();  
 //hook.close();
