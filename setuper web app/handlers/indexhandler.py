@@ -25,6 +25,7 @@ class IndexHandler(BaseHandler):
         outputfoldername = self.get_argument("outputfoldername", "")
         exename = self.get_argument("exename", "")
         desktoplinkname = self.get_argument("desktoplinkname", "")
+        softwareversion = self.get_argument("softwareversion", "1.0.0")
         softwareauthor = self.get_argument("softwareauthor", "")
         softwareemail = self.get_argument("softwareemail", "")
         softwarecompany = self.get_argument("softwarecompany", "")
@@ -37,6 +38,7 @@ class IndexHandler(BaseHandler):
             'outputfoldername': outputfoldername,
             'exename':exename,
             'desktoplinkname': desktoplinkname,
+            'softwareversion': softwareversion,
             'softwareauthor': softwareauthor,
             'softwareemail': softwareemail,
             'softwarecompany': softwarecompany,
@@ -191,7 +193,10 @@ class IndexHandler(BaseHandler):
 
         cwd = os.getcwd()
         os.chdir(toolPath)
-        subprocess.Popen(['python', 'installcopy.py','-p', '%s'%softwarefolder, '-u', '%s.exe' % software['softwarename']], shell=False)
+
+        name = '%s-v%s.exe' % (software['softwarename'], software['softwareversion'])
+
+        subprocess.Popen(['python', 'installcopy.py','-p', '%s'%softwarefolder, '-u', name], shell=False)
         os.chdir(cwd)
 
-        return '/'.join([self.settings['static_path'], 'files', self.current_user, software['softwarename'], '%s.exe' % software['softwarename']])
+        return os.sep.join([self.settings['static_path'], 'files', self.current_user, software['softwarename'], name])

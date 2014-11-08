@@ -175,6 +175,7 @@ define(function (require) {
             var outputfoldername = $("#outputfolder-name").val();
             var exename = $("#exe-name").val();
             var desktoplinkname = $("#desktoplink-name").val();
+            var softwareversion = $("#software-version").val();
             var softwareauthor = $("#software-author").val();
             var softwareemail = $("#software-email").val();
             var softwarecompany = $("#software-company").val();
@@ -203,6 +204,7 @@ define(function (require) {
                     'outputfoldername': outputfoldername,
                     'exename':exename,
                     'desktoplinkname': desktoplinkname,
+                    'softwareversion': softwareversion,
                     'softwareauthor': softwareauthor,
                     'softwareemail': softwareemail,
                     'softwarecompany': softwarecompany,
