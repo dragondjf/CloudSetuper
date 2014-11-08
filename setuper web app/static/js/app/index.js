@@ -175,7 +175,6 @@ define(function (require) {
             var softwareauthor = $("#software-author").val();
             var softwareemail = $("#software-email").val();
             var softwarecompany = $("#software-company").val();
-            var main_progressbar_on = $(".bootstrap-switch-id-main_progressbar").hasClass("bootstrap-switch-on");
             var desktoplink_on = $(".bootstrap-switch-id-desktoplink").hasClass("bootstrap-switch-on");
             
             var language = languages[parseInt($("#Language").val())];
@@ -201,7 +200,6 @@ define(function (require) {
                     'softwareauthor': softwareauthor,
                     'softwareemail': softwareemail,
                     'softwarecompany': softwarecompany,
-                    'main_progressbar_on': main_progressbar_on,
                     'desktoplink_on': desktoplink_on,
                     'language': language,
                     'background-color': color_hex,

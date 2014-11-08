@@ -25,7 +25,6 @@ class IndexHandler(BaseHandler):
         softwareauthor = self.get_argument("softwareauthor", "")
         softwareemail = self.get_argument("softwareemail", "")
         softwarecompany = self.get_argument("softwarecompany", "")
-        main_progressbar_on = self.get_argument("main_progressbar_on", "")
         desktoplink_on = self.get_argument("desktoplink_on", "")
         language = self.get_argument("language", "zh-CN")
         background_color = self.get_argument("background-color", "#353d48")[1:]
@@ -35,7 +34,6 @@ class IndexHandler(BaseHandler):
             'softwareauthor': softwareauthor,
             'softwareemail': softwareemail,
             'softwarecompany': softwarecompany,
-            'main_progressbar_on': main_progressbar_on,
             'desktoplink_on': desktoplink_on,
             'language': language,
             'background-color': "0x" + background_color[-2:] + background_color[-4:-2] + background_color[0:2],
