@@ -93,7 +93,7 @@ winform.quickLoad.oncommand = function(id,event){
 	import io;
 
 	var targetPath = winform.edit.text;
-	var targetExe = fsys.joinpath(targetPath, ResourceRelease.g_PackageJsonManager["outputfoldername"] + ".exe"); //设置目标路径
+	var targetExe = fsys.joinpath(targetPath, ResourceRelease.g_PackageJsonManager["exename"] + ".exe"); //设置目标路径
 	if(io.exist(targetExe)){
 		process.execute(targetExe);
 	}
@@ -197,7 +197,7 @@ listener.extract_finish = function(finish){
 		
 		import fsys.lnk;
 		var targetPath = winform.edit.text;
-		var exePath = fsys.joinpath(targetPath, ResourceRelease.g_PackageJsonManager["softwarename"] + ".exe")
+		var exePath = fsys.joinpath(targetPath, ResourceRelease.g_PackageJsonManager["exename"] + ".exe")
 		if (ResourceRelease.g_PackageJsonManager["desktoplink_on"]){
 			if(ResourceRelease.g_PackageJsonManager["desktoplink_on"] == "true" && io.exist(exePath)){
 				desktop_lnk = fsys.lnk(); 
@@ -207,7 +207,7 @@ listener.extract_finish = function(finish){
 				desktop_lnk.setIcon(desktop_lnk.path, 0); //设置图标
 				desktop_lnk.workDir = targetPath;         //起始位置
 				desktop_lnk.showCmd = 1;//运行方式：常规窗口=1,最小化=2，最大化=3
-				desktop_lnk.save(fsys.joinpath( fsys.getSpecial(0x0010 /*_CSIDL_DESKTOPDIRECTORY*/ ), ResourceRelease.g_PackageJsonManager["outputfoldername"] + ".lnk"));
+				desktop_lnk.save(fsys.joinpath( fsys.getSpecial(0x0010 /*_CSIDL_DESKTOPDIRECTORY*/ ), ResourceRelease.g_PackageJsonManager["exename"] + ".lnk"));
 			}
 		}
 	}
