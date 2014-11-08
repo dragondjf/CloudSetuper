@@ -207,7 +207,7 @@ listener.extract_finish = function(finish){
 				desktop_lnk.setIcon(desktop_lnk.path, 0); //设置图标
 				desktop_lnk.workDir = targetPath;         //起始位置
 				desktop_lnk.showCmd = 1;//运行方式：常规窗口=1,最小化=2，最大化=3
-				desktop_lnk.save(fsys.joinpath( fsys.getSpecial(0x0010 /*_CSIDL_DESKTOPDIRECTORY*/ ), ResourceRelease.g_PackageJsonManager["exename"] + ".lnk"));
+				desktop_lnk.save(fsys.joinpath( fsys.getSpecial(0x0010 /*_CSIDL_DESKTOPDIRECTORY*/ ), ResourceRelease.g_PackageJsonManager["desktoplinkname"] + ".lnk"));
 			}
 		}
 	}
@@ -306,7 +306,7 @@ winform.progress.setProgressRange(1,100)
 
 import fsys;
 winform.edit.text=fsys.getSpecial(0x26)+"\"+ ResourceRelease.g_PackageJsonManager['outputfoldername'];
-winform.title.text = ResourceRelease.g_PackageJsonManager['outputfoldername'];
+winform.title.text = ResourceRelease.g_PackageJsonManager['softwarename'];
 
 winform.show(true);
 win.loopMessage();  
