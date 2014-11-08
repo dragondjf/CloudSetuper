@@ -1,0 +1,85 @@
+
+namespace ResourceInstall;
+	
+//	解压源安装包线程函数
+Task_Install = function(install_path, output_folder_name/*,pg_hwnd*/,fv_progress_id/*频率降低线程id*/,json_data){
+	import console;
+	import sevenZip.decoder2;
+
+	var archive = sevenZip.decoder2();
+
+	archive.printError = function(name,message){
+		//console.log("Decode 7zSource failed. ", name,message ) 
+	}
+	
+	last_percent=0;	
+	last_time=0;
+	now_time = time();
+	
+	import web.json;
+	var json_object = web.json.parse( json_data );
+	var json_array = json_object['files'];
+	var zfile="";
+	for( i=1; #json_array; 1){
+		var strname = json_array[i]['name'];
+		var str = "";
+		for( j=#strname-2; #strname; 1 ){
+			str += strname[[j]];		
+		}
+		if (".7z"==str)
+		{
+			zfile=strname;
+			break;
+		}
+	}
+	
+	import win;
+	if ("" == zfile){
+		return 1; //"未找到7z文件"
+	}
+	
+	if (!archive.open(output_folder_name + zfile)){
+		return 2; //"打开7z文件失败"
+	}
+	
+	archive.extractSetCompleted = function(lowSize,hiSize,percent){
+		import thread.command;
+		import time.performance;		
+		now_time = time.performance.tick();
+		
+		if (percent != last_percent){
+			last_percent = percent;
+			if (percent >= 100){
+				percent=100;
+			}
+			
+			if ( last_time == 0){
+				last_time=now_time;
+				thread.command.post("print",percent);
+			}
+			else if (now_time - last_time >= 50 ){
+				last_time=now_time;
+				thread.command.post("print",percent);
+			}
+			else if (last_percent >= 100){
+				last_time=now_time;
+				thread.command.post("print",100);
+			}
+		}
+//		sleep(50);	// 会使解压速度变慢，不要用
+//		import win;
+//		win.setText(pg_hwnd,tostring(percent));
+		//	投递请求，程序崩溃，原因未知
+//		::PostThreadMessage(fv_progress_id,percent,0,0);
+	}
+
+	if( archive.extract( install_path ) ){
+		thread.command.post("extract_finish",100);
+		return 0; 
+	}
+	else {
+		return 3; //解压失败
+	}
+	
+	return 0; 
+}
