@@ -28,7 +28,7 @@ class IndexHandler(BaseHandler):
         main_progressbar_on = self.get_argument("main_progressbar_on", "")
         desktoplink_on = self.get_argument("desktoplink_on", "")
         language = self.get_argument("language", "zh_CN")
-        background_color = "0x" + self.get_argument("background-color", "#353d48")[1:]
+        background_color = self.get_argument("background-color", "#353d48")[1:]
         files =  self.get_arguments("files", [])
         software = {
             'softwarename': softwarename,
@@ -38,7 +38,7 @@ class IndexHandler(BaseHandler):
             'main_progressbar_on': main_progressbar_on,
             'desktoplink_on': desktoplink_on,
             'language': language,
-            'background-color': background_color,
+            'background-color': "0x" + background_color[-2:] + background_color[-4:-2] + background_color[0:2],
             'files': files,
             'OutputFolderName': softwarename
         }
