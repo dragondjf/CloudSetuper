@@ -22,6 +22,9 @@ class IndexHandler(BaseHandler):
     @authenticated
     def post(self):
         softwarename = self.get_argument("softwarename", "")
+        outputfoldername = self.get_argument("outputfoldername", "")
+        exename = self.get_argument("exename", "")
+        desktoplinkname = self.get_argument("desktoplinkname", "")
         softwareauthor = self.get_argument("softwareauthor", "")
         softwareemail = self.get_argument("softwareemail", "")
         softwarecompany = self.get_argument("softwarecompany", "")
@@ -31,6 +34,9 @@ class IndexHandler(BaseHandler):
         files =  self.get_arguments("files", [])
         software = {
             'softwarename': softwarename,
+            'outputfoldername': outputfoldername,
+            'exename':exename,
+            'desktoplinkname': desktoplinkname,
             'softwareauthor': softwareauthor,
             'softwareemail': softwareemail,
             'softwarecompany': softwarecompany,
@@ -38,7 +44,6 @@ class IndexHandler(BaseHandler):
             'language': language,
             'background-color': "0x" + background_color[-2:] + background_color[-4:-2] + background_color[0:2],
             'files': files,
-            'OutputFolderName': softwarename
         }
         result = self.checkSoftware(software)
         if result['status']:

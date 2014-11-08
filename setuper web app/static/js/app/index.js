@@ -172,11 +172,14 @@ define(function (require) {
         var languages = ['en', 'zh-CN', 'zh-TW']
         $("#onesetup").click(function(){
             var softwarename = $("#software-name").val();
+            var outputfoldername = $("#outputfolder-name").val();
+            var exename = $("#exe-name").val();
+            var desktoplinkname = $("#desktoplink-name").val();
             var softwareauthor = $("#software-author").val();
             var softwareemail = $("#software-email").val();
             var softwarecompany = $("#software-company").val();
             var desktoplink_on = $(".bootstrap-switch-id-desktoplink").hasClass("bootstrap-switch-on");
-            
+
             var language = languages[parseInt($("#Language").val())];
             var files = [];
 
@@ -197,6 +200,9 @@ define(function (require) {
                 traditional: true,
                 data: {
                     'softwarename': softwarename,
+                    'outputfoldername': outputfoldername,
+                    'exename':exename,
+                    'desktoplinkname': desktoplinkname,
                     'softwareauthor': softwareauthor,
                     'softwareemail': softwareemail,
                     'softwarecompany': softwarecompany,
@@ -242,6 +248,10 @@ define(function (require) {
         //监测input输入实时改变事件
         $("#software-name").bind("input propertychange", function(){
             $("#tipmessage").fadeOut();
+            var v = $("#software-name").val();
+            $("#outputfolder-name").val(v);
+            $("#exe-name").val(v);
+            $("#desktoplink-name").val(v);
             if($("#software-name").val().length > 0){
                 $("#onesetup").removeClass("disabled");
             }else{
