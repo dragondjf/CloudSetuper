@@ -3,6 +3,8 @@ import win.animate;
 import key.hook;
 import console;
 import MessageMultiLanguage;
+import ResourceRelease;
+
 //import com.interface.ITaskbarList3;
 /*DSG{{*/
 winform = ..win.form(text="Setuper";right=650;bottom=523;bgcolor=4734261;border="none")
@@ -27,25 +29,6 @@ winform.quickLoad.skin(
 		disabled = "/res/btn_disabled.png"; 
 	}
 )
-
-//{"files": [{"name": "ExeSource.7z", "size": 15323396}], 
-//	"ppt_order": [], 
-//	"language": "en", 
-//	"softwarecompany": "dragondjf.github.io", 
-//	"softwareauthor": "dragondjf", 
-//	"softwarename": "QFramer", 
-//	"softwareemail": "ding465398889@163.com", 
-//	"main_progressbar_on": "true", 
-//	"OutputFolderName": "QFramer", 
-//	"desktoplink_on": "true"}
-
-////////////////////////////////////////////////////////////////////
-//	全局函数
-//	注意线程函数里边不能直接使用
-////////////////////////////////////////////////////////////////////
-g_OutputFolderName="";
-g_PackageJsonData="";
-g_PackageJsonManager=null;
 
 //最小化按钮	
 winform.ButtonMin.skin(
@@ -107,7 +90,7 @@ winform.quickLoad.oncommand = function(id,event){
 	import process;
 	import io;
 	var targetPath = winform.edit.text;
-	var targetExe = fsys.joinpath(targetPath, g_PackageJsonManager["OutputFolderName"] + ".exe"); //设置目标路径
+	var targetExe = fsys.joinpath(targetPath, ResourceRelease.g_PackageJsonManager["OutputFolderName"] + ".exe"); //设置目标路径
 	if(io.exist(targetExe)){
 		process.execute(targetExe);
 	}
@@ -138,17 +121,17 @@ listener.extract_finish = function(finish){
 		
 		import fsys.lnk;
 		var targetPath = winform.edit.text;
-		var exePath = fsys.joinpath(targetPath, g_PackageJsonManager["OutputFolderName"] + ".exe")
-		if (g_PackageJsonManager["desktoplink_on"]){
-			if(g_PackageJsonManager["desktoplink_on"] == "true" && io.exist(exePath)){
+		var exePath = fsys.joinpath(targetPath, ResourceRelease.g_PackageJsonManager["OutputFolderName"] + ".exe")
+		if (ResourceRelease.g_PackageJsonManager["desktoplink_on"]){
+			if(ResourceRelease.g_PackageJsonManager["desktoplink_on"] == "true" && io.exist(exePath)){
 				desktop_lnk = fsys.lnk(); 
-				desktop_lnk.name = g_PackageJsonManager["OutputFolderName"]; 
+				desktop_lnk.name = ResourceRelease.g_PackageJsonManager["OutputFolderName"]; 
 				//http://bbs.aau.cn/forum.php?mod=viewthread&tid=3963&page=1#pid22739
 				desktop_lnk.path = exePath; //设置目标路径
 				desktop_lnk.setIcon(desktop_lnk.path, 0); //设置图标
 				desktop_lnk.workDir = targetPath;         //起始位置
 				desktop_lnk.showCmd = 1;//运行方式：常规窗口=1,最小化=2，最大化=3
-				desktop_lnk.save(fsys.joinpath( fsys.getSpecial(0x0010 /*_CSIDL_DESKTOPDIRECTORY*/ ), g_PackageJsonManager["OutputFolderName"] + ".lnk"));
+				desktop_lnk.save(fsys.joinpath( fsys.getSpecial(0x0010 /*_CSIDL_DESKTOPDIRECTORY*/ ), ResourceRelease.g_PackageJsonManager["OutputFolderName"] + ".lnk"));
 			}
 		}
 	}
@@ -286,7 +269,7 @@ winform.btnSetup.oncommand = function(id,event){
 //	hfv_thread, fv_thread_id = thread.create(task_fv_progress);
 	//console.log("----++++",fv_thread_id);
 	//	启动解压安装线程
-	hThread=thread.create(task_7zSource,winform.edit.text,g_OutputFolderName/*,winform.pie.hwnd*/,fv_thread_id,g_PackageJsonData);
+	hThread=thread.create(task_7zSource,winform.edit.text,ResourceRelease.g_OutputFolderName/*,winform.pie.hwnd*/,fv_thread_id, ResourceRelease.g_PackageJsonData);
 	thread.waitOne(hThread);
 	
 	winform.edit.disabled=false;
@@ -348,103 +331,26 @@ winform.onClose = function(hwnd,message,wParam,lParam){
 
 // 单例运行
 import process.mutex
-mutex=process.mutex("installer_ui_process_id")
-
-
-var getfilefromexe = function(){
-	import console;
-
-	import process;
-	path=process.getPath();
-
-	import fsys.file;
-	//console.log(path);
-//	path="F:\MyProjects\CloudInstall\CloudSetuper\setuper app\uitemplate\Publish\setup.exe";
-//	path="D:\yjbProjects\CloudInstall\CloudSetuper\setuper app\uitemplate\Publish\setup.exe";
-	exefile=io.open(path,"rb");
-	if (null == exefile){
-//		return false, "read self data failed"; 
-		return false,5; 
-	}
-	
-	exefile.seek("end");
-	var readlen=0;
-	var readbuf="";
-	while(true){
-		readbuf=exefile.readback(1);
-		readlen++;
-		
-		if (readlen > 100){
-			return false,6; 
-//			return false, "read json config file fail"; 
-		}
-		
-		if (readbuf == "|"){
-			break ;	
-		}
-	}
-	
-	exefile.seek("end");
-	var jsonlen=exefile.readback(readlen-1);
-	
-	exefile.seek("cur",-1);
-	g_PackageJsonData = exefile.readback(tonumber(jsonlen));
-
-	import web.json;
-	g_PackageJsonManager = web.json.parse(g_PackageJsonData);
-	if (null == g_PackageJsonManager){
-		return false,7; 
-//		return false, "json config file invalid format"; 
-	}
-
-	if( mutex.conflict ){
-//		winform.msgbox("安装程序已经运行!");
- 	   return false,4; 
-	}
-
-	var jsonarray=g_PackageJsonManager["files"];
-	if (!jsonarray){
-		return false,8; 
-//		return  false, "json config file invalid format without files array"; 
-	}
-	
-	import fsys;
-	g_OutputFolderName = fsys.getTempDir() + g_PackageJsonManager['OutputFolderName'] + "\" ;
-	fsys.createDir(g_OutputFolderName);
-	for(i=#jsonarray;1;-1){
-		import fsys.file;
-		var filename=jsonarray[i]['name'];
-		if (!filename){
-			return false,9; 
-//			return false, "json config file invalid format without file name"; 
-		}
-		sourcefile=io.open( g_OutputFolderName + filename,'wb' );
-
-		var filesize=jsonarray[i]['size'];
-		if (!filesize){
-			return false,10; 
-//			return false, "json config file invalid format without file size"; 
-		}
-		sourcefile.write(exefile.readback( tonumber( filesize ) ) );
-		sourcefile.close();
-	}
-	return true; 
+mutex = process.mutex("installer_ui_process_id")
+if( mutex.conflict ){
+	winform.msgbox("安装程序已经运行!"); // 4
+	return;
 }
 
-var output_resource,n_error_msg_code = getfilefromexe();
-if (!output_resource){
-	winform.msgbox( MessageMultiLanguage.GetErrorMessage( g_PackageJsonManager['language'], n_error_msg_code ) );
+var resource_release_result, n_error_msg_code = ResourceRelease.ReleaseResourceFromEXE();
+if ( !resource_release_result ){
+	winform.msgbox( MessageMultiLanguage.GetErrorMessage( ResourceRelease.g_PackageJsonManager['language'], n_error_msg_code ) );
 	return ; 
 }
 
 // 设置图片播放器
-var json_ppt_order=g_PackageJsonManager['ppt_order'];
+var json_ppt_order=ResourceRelease.g_PackageJsonManager['ppt_order'];
 if(null != json_ppt_order)
 {
 	var min, max = table.range(json_ppt_order);
 	if (max != 0)
 	{
-		winform.PictureViwer.setBackground(g_OutputFolderName+json_ppt_order[1]);
+		winform.PictureViwer.setBackground(ResourceRelease.g_OutputFolderName+json_ppt_order[1]);
 	
 		//定时播放图片
 		var i = 2;
@@ -452,9 +358,9 @@ if(null != json_ppt_order)
 			1500,
 			function(hwnd,msg,id,tick){
 
-				var json_ppt_order=g_PackageJsonManager['ppt_order'];
+				var json_ppt_order=ResourceRelease.g_PackageJsonManager['ppt_order'];
 				if (json_ppt_order[i]){
-					var picturePath=g_OutputFolderName + json_ppt_order[i];
+					var picturePath = ResourceRelease.g_OutputFolderName + json_ppt_order[i];
 					winform.PictureViwer.setForeground(picturePath);
 				}
 				
@@ -479,29 +385,29 @@ else {
 
 
 import fsys;
-winform.edit.text=fsys.getSpecial(0x26)+"\"+ g_PackageJsonManager['OutputFolderName'];
-winform.title.text = g_PackageJsonManager['OutputFolderName'];
+winform.edit.text=fsys.getSpecial(0x26)+"\"+ ResourceRelease.g_PackageJsonManager['OutputFolderName'];
+winform.title.text = ResourceRelease.g_PackageJsonManager['OutputFolderName'];
 
  
-////////////////////////////////////////////////////////////////////////
-//	中英文处理
-////////////////////////////////////////////////////////////////////////
-if ( "en" == g_PackageJsonManager['language'] ){
+//	界面国际化
+if ( "en" == ResourceRelease.g_PackageJsonManager['language'] ){
 	winform.btnbrowser.text='Browser...';
 	winform.btnSetup.text='Setup';
 	winform.quickLoad.text='Run at once';
 }
-else if ( "zh-TW" == g_PackageJsonManager['language'] ){
+else if ( "zh-TW" == ResourceRelease.g_PackageJsonManager['language'] ){
 	winform.btnbrowser.text='瀏覽...';
 	winform.btnSetup.text='安裝';
 	winform.quickLoad.text='立即體驗';
 }
-else if ( "zh-CN" == g_PackageJsonManager['language'] ){//默认中文
+else if ( "zh-CN" == ResourceRelease.g_PackageJsonManager['language'] ){//默认中文
 }
 
-if ( null != g_PackageJsonManager['background-color'] ){
-	winform.bgcolor=g_PackageJsonManager['background-color'];
+//	修改主窗口背景色
+if ( null != ResourceRelease.g_PackageJsonManager['background-color'] ){
+	winform.bgcolor = tonumber( ResourceRelease.g_PackageJsonManager['background-color'], 16);
 }
+
 winform.show(true);
 win.loopMessage();  
 //hook.close();

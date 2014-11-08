@@ -1,5 +1,5 @@
 
-namespace MessageMultiLanguage{
+namespace MessageMultiLanguage;
 
 /////////////////////////////////////////////////////////////////////
 //	¼òÌåÖĞÎÄ
@@ -62,6 +62,4 @@ GetErrorMessage=function(str_language,msg_code){
 	}
 	
 	return str_msg; 
-}
-
 }
