@@ -245,10 +245,16 @@ define(function (require) {
             log($(this).hasClass("bootstrap-switch-on"));
         })
 
+        var names = ["outputfolder-name", "exe-name", "desktoplink-name"]
         //监测input输入实时改变事件
         $("#software-name").bind("input propertychange", function(){
             $("#tipmessage").fadeOut();
             var v = $("#software-name").val();
+            for (var i = names.length - 1; i >= 0; i--) {
+                var id = "#" + names[i];
+                $(id).val(v);
+                localStorage[names[i]] = v;
+            };
             $("#outputfolder-name").val(v);
             $("#exe-name").val(v);
             $("#desktoplink-name").val(v);
@@ -261,7 +267,7 @@ define(function (require) {
 
 
         //存储界面输入值
-        var storagekeys = ["software-name", "software-version", "software-author",
+        var storagekeys = ["software-name", "outputfolder-name", "exe-name", "desktoplink-name", "software-version", "software-author",
             "software-email", "software-company"]
 
         for (var i = 0; i < storagekeys.length; i++) {
