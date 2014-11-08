@@ -169,7 +169,7 @@ define(function (require) {
         });
     
 
-        var languages = ['en', 'zh_CN', 'zh_TW']
+        var languages = ['en', 'zh-CN', 'zh-TW']
         $("#onesetup").click(function(){
             var softwarename = $("#software-name").val();
             var softwareauthor = $("#software-author").val();
