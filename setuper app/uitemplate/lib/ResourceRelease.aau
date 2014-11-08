@@ -8,7 +8,7 @@ namespace ResourceRelease;
 //	"softwarename": "QFramer", 
 //	"softwareemail": "ding465398889@163.com", 
 //	"main_progressbar_on": "true", 
-//	"OutputFolderName": "QFramer", 
+//	"outputfoldername": "QFramer", 
 //	"desktoplink_on": "true"}
 
 g_OutputFolderName = "";
@@ -71,7 +71,7 @@ ReleaseResourceFromEXE = function(){
 		return false,8;//"json config file invalid format without files array" 
 	}
 	
-	g_OutputFolderName = fsys.getTempDir() + g_PackageJsonManager['OutputFolderName'] + "\" ;
+	g_OutputFolderName = fsys.getTempDir() + g_PackageJsonManager['outputfoldername'] + "\" ;
 	fsys.createDir(g_OutputFolderName);
 		
 	for( i = #json_files_array; 1; -1 ){

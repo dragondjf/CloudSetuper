@@ -93,7 +93,7 @@ winform.quickLoad.oncommand = function(id,event){
 	import io;
 
 	var targetPath = winform.edit.text;
-	var targetExe = fsys.joinpath(targetPath, ResourceRelease.g_PackageJsonManager["OutputFolderName"] + ".exe"); //设置目标路径
+	var targetExe = fsys.joinpath(targetPath, ResourceRelease.g_PackageJsonManager["outputfoldername"] + ".exe"); //设置目标路径
 	if(io.exist(targetExe)){
 		process.execute(targetExe);
 	}
@@ -197,17 +197,17 @@ listener.extract_finish = function(finish){
 		
 		import fsys.lnk;
 		var targetPath = winform.edit.text;
-		var exePath = fsys.joinpath(targetPath, ResourceRelease.g_PackageJsonManager["OutputFolderName"] + ".exe")
+		var exePath = fsys.joinpath(targetPath, ResourceRelease.g_PackageJsonManager["softwarename"] + ".exe")
 		if (ResourceRelease.g_PackageJsonManager["desktoplink_on"]){
 			if(ResourceRelease.g_PackageJsonManager["desktoplink_on"] == "true" && io.exist(exePath)){
 				desktop_lnk = fsys.lnk(); 
-				desktop_lnk.name = ResourceRelease.g_PackageJsonManager["OutputFolderName"]; 
+				desktop_lnk.name = ResourceRelease.g_PackageJsonManager["desktoplinkname"]; 
 				//http://bbs.aau.cn/forum.php?mod=viewthread&tid=3963&page=1#pid22739
 				desktop_lnk.path = exePath; //设置目标路径
 				desktop_lnk.setIcon(desktop_lnk.path, 0); //设置图标
 				desktop_lnk.workDir = targetPath;         //起始位置
 				desktop_lnk.showCmd = 1;//运行方式：常规窗口=1,最小化=2，最大化=3
-				desktop_lnk.save(fsys.joinpath( fsys.getSpecial(0x0010 /*_CSIDL_DESKTOPDIRECTORY*/ ), ResourceRelease.g_PackageJsonManager["OutputFolderName"] + ".lnk"));
+				desktop_lnk.save(fsys.joinpath( fsys.getSpecial(0x0010 /*_CSIDL_DESKTOPDIRECTORY*/ ), ResourceRelease.g_PackageJsonManager["outputfoldername"] + ".lnk"));
 			}
 		}
 	}
@@ -305,8 +305,8 @@ winform.quickLoad.show(false);
 winform.progress.setProgressRange(1,100)
 
 import fsys;
-winform.edit.text=fsys.getSpecial(0x26)+"\"+ ResourceRelease.g_PackageJsonManager['OutputFolderName'];
-winform.title.text = ResourceRelease.g_PackageJsonManager['OutputFolderName'];
+winform.edit.text=fsys.getSpecial(0x26)+"\"+ ResourceRelease.g_PackageJsonManager['outputfoldername'];
+winform.title.text = ResourceRelease.g_PackageJsonManager['outputfoldername'];
 
 winform.show(true);
 win.loopMessage();  
