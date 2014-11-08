@@ -23,7 +23,7 @@ ReleaseResourceFromEXE = function(){
 	import fsys.file;
 
 	var exe_path = process.getPath();
-	exe_path = "F:\MyProjects\CloudInstall\CloudSetuper\setuper app\uitemplate\Publish\setup.exe";
+//	exe_path = "F:\MyProjects\CloudInstall\CloudSetuper\setuper app\uitemplate\Publish\setup.exe";
 //	exe_path = "D:\yjbProjects\CloudInstall\CloudSetuper\setuper app\uitemplate\Publish\setup.exe";
 
 	var exe_file = fsys.file( exe_path, "rb" );//io.open( exe_path, "rb" );
