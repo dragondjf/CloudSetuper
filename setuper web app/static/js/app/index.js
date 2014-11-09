@@ -186,6 +186,7 @@ define(function (require) {
 
             var language = languages[parseInt($("#Language").val())];
             var files = [];
+            var templateindex = 0;
 
             if(softwarename.length == 0){
                 $("#tipmessage").fadeIn();
@@ -195,6 +196,12 @@ define(function (require) {
 
             $.each($(".filename"), function(index, value){
                 files.push($(value).text())
+            });
+
+            $.each($("div.bx-pager-item>a"), function(index, value){
+                if($(value).hasClass('active')){
+                    templateindex = index;
+                }
             });
 
             $.ajax({
@@ -214,6 +221,7 @@ define(function (require) {
                     'desktoplink_on': desktoplink_on,
                     'language': language,
                     'background-color': color_hex,
+                    'templateindex': templateindex,
                     'files': files
                 },
                 success: function(res) {
