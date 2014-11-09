@@ -5,10 +5,13 @@ html,body {
 }
 
 div#slider{
-    /*margin-left: 25%;*/
-    width: 100%;
-    /*background-color: #1abc9c;*/
+    margin-left: 25%;
+    width: 50%;
 }
+div#slider>div>div>ul>li{
+    background-color: #1abc9c;
+}
+
 
 div#header {
     height: 78px;

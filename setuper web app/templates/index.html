@@ -1,13 +1,6 @@
 {% extends "base.html" %}
 
 {% block template %}
-<div id="slider">
-    <ul class="bxslider">
-      <li><img src="../static/img/default.png" style="margin-left: 32%" /></li>
-      <li><img src="../static/img/progress.png" style="margin-left: 32%" /></li>
-      <li><img src="../static/img/finish.png" style="margin-left: 32%" /></li>
-    </ul>
-</div>
 
 {% end %}
 
@@ -103,6 +96,16 @@
                 <div class="btn-group">
                     <div id="color-picker" class="cp-default"></div>
                     <div id="colorPreview"></div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Template:</label>
+                <div id="slider">
+                    <ul class="bxslider">
+                      <li><img src="../static/img/default.png"/></li>
+                      <li><img src="../static/img/progress.png"/></li>
+                      <li><img src="../static/img/finish.png"/></li>
+                    </ul>
                 </div>
             </div>
             <a id="onesetup" class="btn btn-block btn-lg btn-success disabled">Build</a>
