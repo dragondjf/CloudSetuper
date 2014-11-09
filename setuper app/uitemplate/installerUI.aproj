@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="gb2312"?>
-<project ver="6" name="installerUI" libEmbed="true" icon="res\setup_green.ico" ui="win" output="InstallerUI.exe" CompanyName="单位名称" FileDescription="installerUI" LegalCopyright="Copyright (C) 作者 2014" ProductName="installerUI" InternalName="installerUI" FileVersion="0.0.0.78" ProductVersion="0.0.0.78" publishDir="/Publish/">
+<project ver="6" name="installerUI" libEmbed="true" icon="res\setup_green.ico" ui="win" output="InstallerUI.exe" CompanyName="单位名称" FileDescription="installerUI" LegalCopyright="Copyright (C) 作者 2014" ProductName="installerUI" InternalName="installerUI" FileVersion="0.0.0.88" ProductVersion="0.0.0.88" publishDir="/Publish/">
 	<file name="main.aau" path="installerUI.main.aau" comment="installerUI.main.aau"/>
 	<folder name="资源文件" path="res" embed="true">
 		<file name="setup_red.ico" path="res\setup_red.ico" comment="res\setup_red.ico"/>
 		<file name="setup_green.ico" path="res\setup_green.ico" comment="res\setup_green.ico"/>
 		<file name="setup_gray.ico" path="res\setup_gray.ico" comment="res\setup_gray.ico"/>
 		<file name="setup_blue.ico" path="res\setup_blue.ico" comment="res\setup_blue.ico"/>
+		<file name="setup.png" path="res\setup.png" comment="res\setup.png"/>
 		<file name="restore-hover.png" path="res\restore-hover.png" comment="res\restore-hover.png"/>
 		<file name="restore-default.png" path="res\restore-default.png" comment="res\restore-default.png"/>
 		<file name="restore-active.png" path="res\restore-active.png" comment="res\restore-active.png"/>
@@ -21,6 +22,7 @@
 		<file name="max-hover.png" path="res\max-hover.png" comment="res\max-hover.png"/>
 		<file name="max-default.png" path="res\max-default.png" comment="res\max-default.png"/>
 		<file name="max-active.png" path="res\max-active.png" comment="res\max-active.png"/>
+		<file name="fc.gif" path="res\fc.gif" comment="res\fc.gif"/>
 		<file name="close-normal.png" path="res\close-normal.png" comment="res\close-normal.png"/>
 		<file name="close-hover.png" path="res\close-hover.png" comment="res\close-hover.png"/>
 		<file name="close-default.png" path="res\close-default.png" comment="res\close-default.png"/>

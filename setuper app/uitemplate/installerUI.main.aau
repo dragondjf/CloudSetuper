@@ -7,16 +7,16 @@ import ResourceRelease;
 
 //import com.interface.ITaskbarList3;
 /*DSG{{*/
-winform = ..win.form(text="Setuper";right=650;bottom=523;bgcolor=4734261;border="none")
+winform = ..win.form(text="Setuper";right=651;bottom=495;bgcolor=1775381;border="none")
 winform.add(
-btnbrowser={cls="plus";text="浏览...";left=406;top=482;right=496;bottom=505;background="\res\btn_browser_bkg.png";notify=1;z=6};
-btnSetup={cls="plus";text="安装";left=502;top=482;right=599;bottom=504;background="\res\btn_install_bkg.png";z=7};
+btnbrowser={cls="plus";text="浏览...";left=407;top=454;right=494;bottom=477;background="\res\btn_browser_bkg.png";notify=1;z=6};
+btnSetup={cls="plus";text="安装";left=501;top=454;right=598;bottom=476;background="\res\btn_install_bkg.png";z=7};
 ButtonClose={cls="plus";left=612;top=0;right=648;bottom=30;notify=1;repeat="center";z=1};
 ButtonMin={cls="plus";left=579;top=0;right=610;bottom=30;notify=1;repeat="center";z=2};
-edit={cls="edit";left=47;top=482;right=400;bottom=504;bgcolor=16777215;db=1;dr=1;edge=1;font=LOGFONT( name='宋体' );hidesel=1;tabstop=1;z=5};
+edit={cls="edit";left=46;top=454;right=399;bottom=476;bgcolor=16777215;db=1;dr=1;edge=1;font=LOGFONT( name='宋体' );hidesel=1;tabstop=1;z=5};
 PictureViwer={cls="plus";left=0;top=33;right=648;bottom=433;foreRepeat="strech";repeat="strech";z=4};
-progress={cls="plus";left=0;top=435;right=652;bottom=467;align="right";background="\res\progress-bg.jpg";bgcolor=65280;color=2719744;font=LOGFONT( h=-16 );foreground="\res\progress.jpg";foreRepeat="expand";z=3};
-quickLoad={cls="plus";text="立即体验";left=272;top=479;right=377;bottom=508;background="\res\btn_browser_bkg.png";notify=1;z=9};
+progress={cls="plus";left=0;top=435;right=652;bottom=442;align="right";bgcolor=65280;color=2719744;font=LOGFONT( h=-16 );foreground="\res\progress.png";foreRepeat="expand";z=3};
+quickLoad={cls="plus";text="立即体验";left=271;top=454;right=376;bottom=483;background="\res\btn_browser_bkg.png";notify=1;z=9};
 title={cls="static";text="static";left=16;top=6;right=100;bottom=31;color=16777215;font=LOGFONT( h=-13 );transparent=1;z=8}
 )
 /*}}*/
@@ -182,7 +182,6 @@ import thread.command;
 var listener = thread.command();
 listener.print = function( percent ){
 	if(percent <= 100 ){
-		winform.progress.text = percent + "%";
 		winform.progress.progressPercentage = percent;
 	}
 	//winform.taskbar.SetProgressValue(winform.hwnd, percent, 100);
@@ -291,11 +290,6 @@ else if ( "zh-TW" == ResourceRelease.g_PackageJsonManager['language'] ){
 	winform.quickLoad.text='立即體驗';
 }
 else if ( "zh-CN" == ResourceRelease.g_PackageJsonManager['language'] ){//默认中文
-}
-
-//	修改主窗口背景色
-if ( null != ResourceRelease.g_PackageJsonManager['background-color'] ){
-	winform.bgcolor = tonumber( ResourceRelease.g_PackageJsonManager['background-color'], 16);
 }
 
 //隐藏快速体验按钮
