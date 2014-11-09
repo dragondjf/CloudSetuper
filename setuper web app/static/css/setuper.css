@@ -3,6 +3,13 @@ html,body {
     width: 100%;
     margin: 0;
 }
+
+div#slider{
+    /*margin-left: 25%;*/
+    width: 100%;
+    /*background-color: #1abc9c;*/
+}
+
 div#header {
     height: 78px;
 }

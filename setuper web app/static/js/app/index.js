@@ -7,6 +7,7 @@ define(function (require) {
     var knob = require("jquery.knob");
     var iframe_transport = require("jquery.iframe-transport");
     var fileupload = require("jquery.fileupload");
+    var slider = require("jquery.bxslider.min")
     var colorpicker = require('colorpicker');
     var log = require('log');
     var autoresize = require('./autoresize');
@@ -15,6 +16,8 @@ define(function (require) {
         log(messages.getHello());
         log(bootstrap);
         var ul = $('#upload ul');
+
+        $('.bxslider').bxSlider();
 
         // 自动调整body的大小
         autoresize.init();

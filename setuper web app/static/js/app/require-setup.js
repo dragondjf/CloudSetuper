@@ -8,6 +8,7 @@ var require = {
     	"flat-ui.min": { "deps" :['jquery'] },
     	"jquery.fileupload": { "deps" :['jquery'] },
     	"jquery.knob": { "deps" :['jquery'] },
+        "jquery.bxslider.min": { "deps" :['jquery'] },
         "bootstrap" : { "deps" :['jquery'] }
     },
     paths: {

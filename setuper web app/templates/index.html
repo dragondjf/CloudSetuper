@@ -1,5 +1,17 @@
 {% extends "base.html" %}
 
+{% block template %}
+<div id="slider">
+    <ul class="bxslider">
+      <li><img src="../static/img/default.png" style="margin-left: 32%" /></li>
+      <li><img src="../static/img/progress.png" style="margin-left: 32%" /></li>
+      <li><img src="../static/img/finish.png" style="margin-left: 32%" /></li>
+    </ul>
+</div>
+
+{% end %}
+
+
 {% block left %}
     <form id="upload" method="post" action="/upload" enctype="multipart/form-data">
         <div id="drop">
