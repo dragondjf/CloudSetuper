@@ -32,6 +32,7 @@ class IndexHandler(BaseHandler):
         desktoplink_on = self.get_argument("desktoplink_on", "")
         language = self.get_argument("language", "zh-CN")
         background_color = self.get_argument("background-color", "#353d48")[1:]
+        templateindex = self.get_argument("templateindex", "")
         files =  self.get_arguments("files", [])
         software = {
             'softwarename': softwarename,
@@ -45,6 +46,7 @@ class IndexHandler(BaseHandler):
             'desktoplink_on': desktoplink_on,
             'language': language,
             'background-color': "0x" + background_color[-2:] + background_color[-4:-2] + background_color[0:2],
+            'templateindex':templateindex,
             'files': files,
         }
         result = self.checkSoftware(software)
@@ -195,8 +197,15 @@ class IndexHandler(BaseHandler):
         os.chdir(toolPath)
 
         name = '%s-v%s.exe' % (software['softwarename'], software['softwareversion'])
-
-        subprocess.Popen(['python', 'installcopy.py','-p', '%s'%softwarefolder, '-u', name], shell=False)
+        if software['templateindex'] > 0:
+            template = "InstallUI%s.exe" % software['templateindex']
+        else:
+            template = "InstallerUI.exe"
+        logging.info("template is %s" % template)
+        if not os.path.exists(template):
+            logging.info("%s is not exists" % template)
+            template = "InstallerUI.exe"
+        subprocess.Popen(['python', 'installcopy.py','-p', '%s'%softwarefolder, '-u', name, '-t', template], shell=False)
         os.chdir(cwd)
 
         return os.sep.join([self.settings['static_path'], 'files', self.current_user, software['softwarename'], name])
