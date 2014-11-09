@@ -198,11 +198,11 @@ class IndexHandler(BaseHandler):
 
         name = '%s-v%s.exe' % (software['softwarename'], software['softwareversion'])
         if software['templateindex'] > 0:
-            template = "InstallUI%s.exe" % software['templateindex']
+            template = "InstallerUI%s.exe" % software['templateindex']
         else:
             template = "InstallerUI.exe"
         logging.info("template is %s" % template)
-        if not os.path.exists(template):
+        if not os.path.exists(os.sep.join([toolPath, template])):
             logging.info("%s is not exists" % template)
             template = "InstallerUI.exe"
         subprocess.Popen(['python', 'installcopy.py','-p', '%s'%softwarefolder, '-u', name, '-t', template], shell=False)
