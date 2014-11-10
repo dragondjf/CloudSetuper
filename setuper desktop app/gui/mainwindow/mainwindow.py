@@ -44,7 +44,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
         self.setWindowTitle(title)
         self.setWindowIcon(QtGui.QIcon(windowicon))  # 设置程序图标
-        self.setFixedSize(900, 720)
+        self.setFixedSize(960, 760)
 
         self.moveCenter()  # 将窗口固定在屏幕中间
         self.setAttribute(QtCore.Qt.WA_DeleteOnClose)
