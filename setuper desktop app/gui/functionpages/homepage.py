@@ -351,7 +351,7 @@ class HomePage(QtWidgets.QFrame):
         files = []
         for f in self.uploadPage.browerPage.files:
             item = {
-                'name': os.path.splitext(os.path.basename(f))[0],
+                'name': os.path.basename(f),
                 'path': f
             }
             files.append(item)

@@ -79,8 +79,8 @@ def generateExe(config, templatePath, outputPath):
         fp.close()
         f.pop('path')
     configBlock = json.dumps(config)
-    content += configBlock.encode("utf8")
-    content += str("|%d" % len(configBlock)).encode("utf8")
+    content += bytes(configBlock, "utf8")
+    content += bytes("|%d" % len(configBlock), "utf8")
 
     foutput = open(outputPath, 'wb')
     foutput.write(content)
