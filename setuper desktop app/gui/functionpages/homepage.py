@@ -44,7 +44,6 @@ class BrowsePage(QtWidgets.QFrame):
                         os.getcwd(),
                         "files (*.7z *.png *.bmp *.jpg)")[0]
         self.files += files
-        print(self.files)
         files = [os.path.basename(f) for f in self.files[::-1]]
         self.fileListSignal.emit(files)
 
@@ -339,8 +338,7 @@ class HomePage(QtWidgets.QFrame):
 
     def build(self):
         software = self.setuperPage.getFormData()
-        
-        software['files'] = files
+        software['files'] = self.uploadPage.browerPage.files
         fd = open(os.sep.join([softwarefolder, 'package.json']), 'wb')
         fd.write(json.dumps(software, indent=4))
         fd.close()
