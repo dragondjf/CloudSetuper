@@ -10,7 +10,7 @@ __url__ = ""
 __description__ = '''
     This is a SoftwareFrame based on PyQt5.
 '''
-__logoico__ = os.sep.join(['gui', 'skin','images','CloudSetuper.png'])
+__logoico__ = os.sep.join(['gui', 'skin','images','CloudSetuper.ico'])
 __version__ = '1.0.0'
 
 
