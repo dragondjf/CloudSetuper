@@ -61,3 +61,5 @@ setuper app/installcopy/distwin/package/*.exe
 setuper app/uitemplate/Publish
 setuper app/uitemplate/build_error_log.txt
 *.out
+
+setuper desktop app/options/*

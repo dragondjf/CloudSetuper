@@ -53,7 +53,7 @@ QProgressBar {
 }
 
 QProgressBar::chunk {
-    background-color: lightgreen;
+    background-color: #16A085;
     width: 20px;
 }
 
@@ -79,11 +79,11 @@ QMenu::item {
 }
 
 QMenu::item:selected {
-    background-color: lightgreen;
+    background-color: #16A085;
 }
 
 QMenu::icon:checked { /* appearance of a 'checked' icon */
-    background: lightgreen;
+    background: #16A085;
     border: 1px inset gray;
     position: absolute;
     top: 1px;
@@ -134,7 +134,7 @@ QToolButton{
 
 
 QToolButton:hover{
-    background-color: lightgreen;
+    background-color: #16A085;
     border: 1px;
 }
 
@@ -236,7 +236,7 @@ QPushButton#Home{
 }
 
 QPushButton#Home:hover{
-    background-color: lightgreen;
+    background-color: #16A085;
     border:1px  solid black;
 }
 
@@ -261,7 +261,7 @@ QPushButton#QssMaker{
 }
 
 QPushButton#QssMaker:hover{
-    background-color: lightgreen;
+    background-color: #16A085;
     border:1px  solid black;
 }
 
@@ -289,7 +289,7 @@ QPushButton#Qexer{
 }
 
 QPushButton#Qexer:hover{
-    background-color: lightgreen;
+    background-color: #16A085;
     border:1px  black;
     opacity: 0.1;
 }
@@ -315,7 +315,7 @@ QPushButton#About{
 }
 
 QPushButton#About:hover{
-    background-color: lightgreen;
+    background-color: #16A085;
     border:1px  black;
     opacity: 0.1;
 }
@@ -341,7 +341,7 @@ QPushButton#QtWebkit{
 }
 
 QPushButton#QtWebkit:hover{
-    background-color: lightgreen;
+    background-color: #16A085;
     border:1px  black;
     opacity: 0.1;
 }
@@ -367,7 +367,7 @@ QPushButton#QmlViewer{
 }
 
 QPushButton#QmlViewer:hover{
-    background-color: lightgreen;
+    background-color: #16A085;
     border:1px  black;
     opacity: 0.1;
 }
@@ -394,7 +394,7 @@ QPushButton#Exit{
 }
 
 QPushButton#Exit:hover{
-    background-color: lightgreen;
+    background-color: #16A085;
     border:1px  black;
     opacity: 0.1;
 }
