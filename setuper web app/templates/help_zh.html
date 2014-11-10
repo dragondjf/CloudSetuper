@@ -1,0 +1,131 @@
+{% extends "base.html" %}
+
+{% block appcss %}
+<link href="../static/css/setuper.css" rel="stylesheet">
+<link href="../static/css/flat-ui-docs.css" rel="stylesheet">
+{% end %}
+
+{% block appjs %}
+<script data-main="../static/js/help" src="static/js/lib/require.min.js"></script>
+{% end %}
+
+{% block container %}
+    <h1 class="demo-headline">Getting started</h1>
+    <div class="container">
+        <div class="demo-row">
+            <div class="demo-title">
+              <h3>cloud setuper</h3>
+            </div>
+            <div class="demo-content demo-content-article">
+              <p>
+                <code>Cloud setuper </code> 是一款windows上的在线安装包制作工具类似 <a href="http://nsis.sourceforge.net/">NSIS</a> or <a href="http://www.jrsoftware.org/isinfo.php">Inno Setup</a>. 利用它你的安装包程序将拥有更小的体积，更漂亮界面，更高的自定义。 
+              </p>
+              <code>
+                您只需要简单的注册一个帐号即可无限制免费使用。
+              </code>
+              <br>
+              <code>
+                极简但富有内涵，原来打包也可以如此美好。
+              </code>
+            </div>
+        </div>
+
+        <div class="demo-row">
+            <div class="demo-title">
+              <h3>环境支持</h3>
+            </div>
+            <div class="demo-content demo-content-article">
+              支持xp, win7, win8 和 win10
+            </div>
+        </div>
+
+        <div class="demo-row">
+            <div class="demo-title">
+              <h3>第一步 上传文件</h3>
+            </div>
+            <div class="demo-content demo-content-article">
+              <img src="../static/img/uploadhelp.png" style="height: 500px">
+              <br>
+              <code>
+                只需要上传一个7z格式的压缩包和几张介绍你程序的图片即可
+              </code>
+              <div>
+                <code>7z格式压缩包：</code>  务必使用<code>单层</code>目录压缩，多层目录安装正常，但是快捷方式和快速启动程序功能会出现异常。
+              </div>
+              <div>
+                <code>图片：</code> 上传的图片会在如下图片区域定时幻灯片播放
+                <img src="../static/img/default.png" style="height: 500px">
+                <div>
+                  建议上传图片尺寸最好在<code>650 * 400</code>左右
+                </div>
+              </div>
+            </div>
+        </div>
+  
+        <div class="demo-row">
+            <div class="demo-title">
+              <h3>第二步 自定义</h3>
+            </div>
+            <div class="demo-content demo-content-article">
+              <h5>基本信息</h5>
+              <img src="../static/img/custominfohelp.png" style="height: 500px">
+              <div><code>Software name</code>：软件的名称</div>
+              <div><code>Output folder name</code>：程序安装到指定的目录名称</div>
+              <div><code>Exe name</code>：程序可执行文件的名称</div>
+              <div><code>Desktop link name</code>：桌面快捷方式名称</div>
+              <div><code>Software version</code>：软件版本号</div>
+              <div><code>Software author</code>：软件作者</div>
+              <div><code>Email address</code>：邮箱地址</div>
+              <div><code>Company</code>：公司名称</div>
+              <div><code>Company</code>：公司名称</div>
+              <div><code>Desktop link or not：</code>：是否生成桌面快捷方式</div>
+              <div><code>Language:：</code>：语言选择（国际化）</div>
+              <div>
+                <h5>选择模板</h5>
+                <img src="../static/img/buildhelp.png" style="height: 500px">
+                <div>
+                  <code>我们推出多种不同风格的打包模板，您可以选择您所喜欢的模板进行打包</code>
+                </div>
+              </div>
+              <div>点击<code>Build</code>按钮即可一键生成安装程序。</div>
+
+              <div>
+                <h5><code>注意</code></h5>
+                <div>默认情况下Software name、 Output folder name、Exe name、Desktop link name保持一致，你只需输入<code>Software name</code>即可，系统会自动帮您填充其他字段；当然如下您想这些名字不一样，也可以自定义输入。</div>
+                </div>
+              </div>
+        </div>
+
+        <div class="demo-row">
+            <div class="demo-title">
+              <h3>第三步 下载</h3>
+            </div>
+            <div class="demo-content demo-content-article">
+              <img src="../static/img/downloadhelp.png">
+              <div>点击<code>Download</code>按钮即可下载您的安装程序。</div>
+            </div>
+        </div>
+
+        <div class="demo-row">
+            <div class="demo-title">
+              <h3>其他注意事项</h3>
+            </div>
+            <div class="demo-content demo-content-article">
+              <div>1.您的 <a href="http://www.7-zip.org/">7z</a> 压缩工具最好使用最新的;</div>
+              <div>2.如果<code>Build</code>失败或者是需要重新build,请<code>F5</code>刷新浏览器。</div>
+            </div>
+        </div>
+        <div class="demo-row">
+            <div class="demo-title">
+              <h3>Demo 演示</h3>
+            </div>
+            <div class="demo-content demo-content-article">
+              <img src="../static/img/default.png">
+              <div style="height: 5px"></div>
+              <img src="../static/img/progress.png">
+              <div style="height: 5px"></div>
+              <img src="../static/img/finish.png">
+            </div>
+        </div>
+    </div>
+{% end %}
