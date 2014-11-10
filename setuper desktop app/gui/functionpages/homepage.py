@@ -2,12 +2,15 @@
 # -*- coding: utf-8 -*-
 
 import os
+import json
 from PyQt5 import QtCore
 from PyQt5 import QtGui
 from PyQt5 import QtWidgets
 from gui.mainwindow import collectView
 from .webkitbasepage import WebkitBasePage
 from .basewidgets import *
+from .installcopy import generateConfig, generateExe
+
 
 class BrowsePage(QtWidgets.QFrame):
 
@@ -193,8 +196,8 @@ class SetuperPage(QtWidgets.QFrame):
         self.softwarecompanyLineEdit = BaseLineEdit()
 
         desktoplinkLabel = BaseLabel(self.tr("Desktop link or not:"))
-        desktoplinkButton = BaseButton("switch")
-        desktoplinkButton.setFixedSize(90, 33)
+        self.desktoplinkButton = BaseButton("switch")
+        self.desktoplinkButton.setFixedSize(90, 33)
 
         languageLabel = BaseLabel(self.tr("Language:"))
         self.languageCombox = QtWidgets.QComboBox()
@@ -235,7 +238,7 @@ class SetuperPage(QtWidgets.QFrame):
         mainLayout.addWidget(self.softwarecompanyLineEdit, 7, 1)
 
         mainLayout.addWidget(desktoplinkLabel, 8, 0)
-        mainLayout.addWidget(desktoplinkButton, 8, 1)
+        mainLayout.addWidget(self.desktoplinkButton, 8, 1)
 
         mainLayout.addWidget(languageLabel, 9, 0)
         mainLayout.addWidget(self.languageCombox, 9, 1)
@@ -258,17 +261,24 @@ class SetuperPage(QtWidgets.QFrame):
         self.softwarenameLineEdit.textChanged.connect(self.desktoplinkLineEdit.setText)
 
     def getFormData(self):
+        if self.desktoplinkButton.state == 0:
+            desktoplink_on = "True"
+        else:
+            desktoplink_on = "False"
         return {
-            "softwarename": self.softwarecompanyLineEdit.text(),
+            "softwarename": self.softwarenameLineEdit.text(),
             "outputfoldername": self.outputfoldernameLineEdit.text(),
             "exename": self.exenameLineEdit.text(),
             "desktoplinkname": self.desktoplinkLineEdit.text(),
             "softwareversion": self.softwareversionLineEdit.text(),
             "softwareauthor": self.softwareauthorLineEdit.text(),
             "softwareemail": self.softwarenameLineEdit.text(),
-            "softwarecompany": self.softwarecompanyLineEdit.text()
+            "softwarecompany": self.softwarecompanyLineEdit.text(),
+            'desktoplink_on': desktoplink_on,
+            'language': self.languageCombox.currentText(),
+            'background-color': "0x483d35",
+            'templateindex':0,
         }
-
 
 
 class BuildPage(QtWidgets.QFrame):
@@ -338,7 +348,42 @@ class HomePage(QtWidgets.QFrame):
 
     def build(self):
         software = self.setuperPage.getFormData()
-        software['files'] = self.uploadPage.browerPage.files
-        fd = open(os.sep.join([softwarefolder, 'package.json']), 'wb')
+        files = []
+        for f in self.uploadPage.browerPage.files:
+            item = {
+                'name': os.path.splitext(os.path.basename(f))[0],
+                'path': f
+            }
+            files.append(item)
+        software['files'] = files
+        fd = open(os.sep.join(['tools', 'package', 'package.json']), 'w',encoding='utf8')
         fd.write(json.dumps(software, indent=4))
         fd.close()
+
+        config = generateConfig(software)
+
+        fd = open(os.sep.join(['tools', 'package', 'newpackage.json']), 'w',encoding='utf8')
+        fd.write(json.dumps(config, indent=4))
+        fd.close() 
+
+        toolPath = os.sep.join([os.getcwd(), 'tools'])
+
+        name = '%s-v%s.exe' % (software['softwarename'], software['softwareversion'])
+        if software['templateindex'] > 0:
+            template = "InstallerUI%s.exe" % software['templateindex']
+        else:
+            template = "InstallerUI.exe"
+        print("template is %s" % template)
+        if not os.path.exists(os.sep.join([toolPath, template])):
+            print("%s is not exists" % template)
+            template = "InstallerUI.exe"
+
+        templatePath = os.sep.join([toolPath, template])
+
+        outputPath = os.sep.join([os.getcwd(), 'output'])
+        if not os.path.exists(outputPath):
+            os.mkdir(outputPath)
+
+        outputExePath = os.sep.join([outputPath, name])
+
+        generateExe(config, templatePath, outputExePath)

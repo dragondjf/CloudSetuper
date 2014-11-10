@@ -63,3 +63,5 @@ setuper app/uitemplate/build_error_log.txt
 *.out
 
 setuper desktop app/options/*
+setuper desktop app/output
+setuper desktop app/tools/package/*
