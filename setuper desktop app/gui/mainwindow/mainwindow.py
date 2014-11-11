@@ -107,24 +107,24 @@ class MainWindow(QtWidgets.QMainWindow):
                 self.move(event.globalPos() - self.dragPosition)
                 event.accept()
 
-    def closeEvent(self, evt):
-        flag, exitflag = dialogs.exit(windowsoptions['exitdialog'])
-        if flag:
-            for item in exitflag:
-                if item == 'minRadio' and exitflag[item]:
-                    self.showMinimized()
-                    evt.ignore()
-                elif item == 'exitRadio' and exitflag[item]:
-                    evt.accept()
-                elif item == 'exitsaveRadio' and exitflag[item]:
-                    evt.accept()
-                    self.saveoptions()
-                    if not os.path.exists("options"):
-                        os.mkdir("options")
-                    with open("options\windowsoptions.json", 'w') as f:
-                        json.dump(windowsoptions, f, indent=4)
-        else:
-            evt.ignore()
+    # def closeEvent(self, evt):
+    #     flag, exitflag = dialogs.exit(windowsoptions['exitdialog'])
+    #     if flag:
+    #         for item in exitflag:
+    #             if item == 'minRadio' and exitflag[item]:
+    #                 self.showMinimized()
+    #                 evt.ignore()
+    #             elif item == 'exitRadio' and exitflag[item]:
+    #                 evt.accept()
+    #             elif item == 'exitsaveRadio' and exitflag[item]:
+    #                 evt.accept()
+    #                 self.saveoptions()
+    #                 if not os.path.exists("options"):
+    #                     os.mkdir("options")
+    #                 with open("options\windowsoptions.json", 'w') as f:
+    #                     json.dump(windowsoptions, f, indent=4)
+    #     else:
+    #         evt.ignore()
 
     def saveoptions(self):
         from gui.uiconfig import windowsoptions

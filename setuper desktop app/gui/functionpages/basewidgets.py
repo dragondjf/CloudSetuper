@@ -12,9 +12,12 @@ class BaseToolButton(QtWidgets.QPushButton):
     def __init__(self, text="", parent=None):
         super(BaseToolButton, self).__init__(parent)
         self.parent = parent
+        self.setFocusPolicy(QtCore.Qt.NoFocus)
+        self.setObjectName("FlatUIButton")
         self.setFlat(True)
         self.setFixedSize(60, 40)
         self.setText(text)
+
 
 
 class BaseButton(QtWidgets.QPushButton):

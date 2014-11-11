@@ -165,35 +165,50 @@ class SetuperPage(QtWidgets.QFrame):
         self.initConnect()
 
     def initData(self):
-        pass
+        packgeJsonPath = os.sep.join(['tools', 'package', 'package.json'])
+        if os.path.exists(packgeJsonPath):
+            fd = open(packgeJsonPath, 'r',encoding='utf8')
+            self.software = json.load(fd)
+            fd.close()
+        else:
+            self.software = {
+                "softwarename": "",
+                "outputfoldername": "", 
+                "exename": "", 
+                "desktoplinkname": "", 
+                "softwareversion": "", 
+                "softwareauthor": "",
+                "softwareemail": "", 
+                "softwarecompany": ""
+            }
 
     def initUI(self):
         self.setFixedWidth(420)
         mainLayout = QtWidgets.QGridLayout()
 
         softwarenameLabel = BaseLabel(self.tr("Software name:"))
-        self.softwarenameLineEdit = BaseLineEdit()
+        self.softwarenameLineEdit = BaseLineEdit(self.software["softwarename"])
 
         outputfoldernameLabel = BaseLabel(self.tr("Outputfolder name:"))
-        self.outputfoldernameLineEdit = BaseLineEdit()
+        self.outputfoldernameLineEdit = BaseLineEdit(self.software["outputfoldername"])
 
         exenameLabel = BaseLabel(self.tr("Exe name:"))
-        self.exenameLineEdit = BaseLineEdit()
+        self.exenameLineEdit = BaseLineEdit(self.software["exename"])
 
         desktoplinknameLabel = BaseLabel(self.tr("Desktoplink name:"))
-        self.desktoplinkLineEdit = BaseLineEdit()
+        self.desktoplinkLineEdit = BaseLineEdit(self.software["desktoplinkname"])
 
         softwareversionLabel = BaseLabel(self.tr("Software version:"))
-        self.softwareversionLineEdit = BaseLineEdit()
+        self.softwareversionLineEdit = BaseLineEdit(self.software["softwareversion"])
 
         softwareauthorLabel = BaseLabel(self.tr("Software author:"))
-        self.softwareauthorLineEdit = BaseLineEdit()
+        self.softwareauthorLineEdit = BaseLineEdit(self.software["softwareauthor"])
 
         softwareemailLabel = BaseLabel(self.tr("Software email:"))
-        self.softwareemailLineEdit = BaseLineEdit()
+        self.softwareemailLineEdit = BaseLineEdit(self.software["softwareemail"])
 
         softwarecompanyLabel = BaseLabel(self.tr("Software company:"))
-        self.softwarecompanyLineEdit = BaseLineEdit()
+        self.softwarecompanyLineEdit = BaseLineEdit(self.software["softwarecompany"])
 
         desktoplinkLabel = BaseLabel(self.tr("Desktop link or not:"))
         self.desktoplinkButton = BaseButton("switch")
@@ -292,26 +307,32 @@ class BuildPage(QtWidgets.QFrame):
         self.parent = parent
         self.initData()
         self.initUI()
+        self.initConnect()
 
     def initData(self):
         pass
 
     def initUI(self):
         self.buildButton = BaseToolButton(self.tr("Build"))
-        self.buildButton.setObjectName("FlatUIButton")
         self.buildButton.setFixedWidth(200)
-        self.exportButton = BaseToolButton(self.tr("Export"))
-        self.exportButton.setObjectName("FlatUIButton")
-        self.exportButton.setFixedWidth(200)
+        self.viewButton = BaseToolButton(self.tr("View result"))
+        self.viewButton.setFixedWidth(200)
         mainLayout = QtWidgets.QVBoxLayout()
         mainLayout.addStretch()
         mainLayout.addWidget(self.buildButton)
         mainLayout.addSpacing(10)
-        mainLayout.addWidget(self.exportButton)
+        mainLayout.addWidget(self.viewButton)
 
         mainLayout.setContentsMargins(0, 0, 0, 0)
         self.setLayout(mainLayout)
 
+    def initConnect(self):
+        self.viewButton.clicked.connect(self.viewResult)
+
+    def viewResult(self):
+        toolPath = os.sep.join([os.getcwd(), 'output'])
+        if os.path.exists(toolPath):
+            QtGui.QDesktopServices.openUrl(QtCore.QUrl("file:///%s" % toolPath))
 
 
 class HomePage(QtWidgets.QFrame):
@@ -362,10 +383,6 @@ class HomePage(QtWidgets.QFrame):
 
         config = generateConfig(software)
 
-        fd = open(os.sep.join(['tools', 'package', 'newpackage.json']), 'w',encoding='utf8')
-        fd.write(json.dumps(config, indent=4))
-        fd.close() 
-
         toolPath = os.sep.join([os.getcwd(), 'tools'])
 
         name = '%s-v%s.exe' % (software['softwarename'], software['softwareversion'])
@@ -373,9 +390,9 @@ class HomePage(QtWidgets.QFrame):
             template = "InstallerUI%s.exe" % software['templateindex']
         else:
             template = "InstallerUI.exe"
-        print("template is %s" % template)
+        # print("template is %s" % template)
         if not os.path.exists(os.sep.join([toolPath, template])):
-            print("%s is not exists" % template)
+            # print("%s is not exists" % template)
             template = "InstallerUI.exe"
 
         templatePath = os.sep.join([toolPath, template])
