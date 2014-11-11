@@ -5,7 +5,7 @@ import shutil
 import zipfile
 from cx_Freeze import setup, Executable
 import PyQt5
-
+import gui.uiconfig
 # Dependencies are automatically detected, but it might need
 # fine tuning.
 
@@ -150,15 +150,13 @@ def getqmlfiles():
 
 
 
-
-
 if __name__ == '__main__':
 
     buildOptions = dict(
         packages=[],
         excludes=[],
-        includes=['PyQt5.QtWebKit', 'PyQt5.QtQml', "PyQt5.QtPrintSupport"],
-        icon="gui\skin\images\QFramer.ico",
+        # includes=["PyQt5.QtPrintSupport"],
+        icon=gui.uiconfig.__logoico__,
     )
 
 
@@ -171,8 +169,8 @@ if __name__ == '__main__':
         Executable(
             'main.py',
             base=base,
-            icon="gui\skin\images\QFramer.ico",
-            targetName="QFramer.exe",
+            icon=gui.uiconfig.__logoico__,
+            targetName="%s.exe" % gui.uiconfig.__softwarename__,
             appendScriptToExe=False,
             appendScriptToLibrary=True,
         )
@@ -187,21 +185,18 @@ if __name__ == '__main__':
 
     sys.argv.append("build")
     setup(
-        name='QFramer',
+        name=gui.uiconfig.__softwarename__,
         version='1.0',
         description='Base on PyQt5',
         options=dict(build_exe=buildOptions),
         executables=executables
     )
 
-    for item in ['skin', 'qml']:
+    for item in ['skin']:
         shutil.copytree(os.sep.join([os.getcwd(), 'gui', item]), os.sep.join([build_path, 'gui', item]))
 
-    for item in ['qml']:
-        shutil.copytree(os.sep.join([path_pyqt5, item]), os.sep.join([build_path, item]))
-
-    # for item in ['qml']:
-    #     copytree(os.sep.join([path_pyqt5, item]), os.sep.join([build_path]))
+    for item in ['tools']:
+        shutil.copytree(os.sep.join([os.getcwd(), item]), os.sep.join([build_path, item]))
 
     for item in ['options']:
         os.mkdir(os.sep.join([build_path, item]))

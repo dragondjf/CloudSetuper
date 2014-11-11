@@ -13,8 +13,6 @@ from gui.functionpages import HomePage, AboutPage
 
 buttonIds = ['Home', 'About', 'Exit']
 
-
-
 mapButtonPage = {
     'Home': HomePage,
     'About': AboutPage
