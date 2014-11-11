@@ -8,6 +8,11 @@ define(function (require) {
 
     $(function(){
         log('join');
+        $.each($('[data-toggle="dropdown"]'), function(index, value){
+            $(value).click(function(){
+                $(this).siblings().fadeToggle();
+            });
+        })
         $("#join").click(function(){
             var username = $("#login-name").val();
             var email = $("#login-email").val();

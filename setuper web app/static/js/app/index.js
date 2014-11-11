@@ -242,12 +242,10 @@ define(function (require) {
         }
         $('[data-toggle="switch"]').bootstrapSwitch();
 
-        $('[data-toggle="dropdown"]').click(function(){
-            $('#mainMenu').fadeToggle();
-        })
-
-        $('.dropdown-menu').hover(function(){}, function(){
-            $('#mainMenu').fadeOut();
+        $.each($('[data-toggle="dropdown"]'), function(index, value){
+            $(value).click(function(){
+                $(this).siblings().fadeToggle();
+            });
         })
         
         document.getElementById("container").addEventListener('click', function(){

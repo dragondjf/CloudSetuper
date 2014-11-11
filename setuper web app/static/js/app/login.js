@@ -6,6 +6,11 @@ define(function (require) {
     var util = require('./util');
     $(function(){
         log('login');
+        $.each($('[data-toggle="dropdown"]'), function(index, value){
+            $(value).click(function(){
+                $(this).siblings().fadeToggle();
+            });
+        })
         $("#login").click(function(){
             var username = $("#login-name").val();
             var password = $("#login-pass").val();
