@@ -3,7 +3,6 @@
 
 import json
 from PyQt5 import QtCore
-from gui.functionpages.colorpopupframe import ColorPopupFrame
 from .guiconfig import views
 from ws4py.client.threadedclient import WebSocketClient
 from dataBase import signal_DB
@@ -55,5 +54,5 @@ class GuiManger(QtCore.QObject):
         try:
            self.ws = EchoClient('ws://106.186.19.60/ws', protocols=['http-only', 'chat'])
            self.ws.connect()
-        except KeyboardInterrupt:
+        except:
            self.ws.close()

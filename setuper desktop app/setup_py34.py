@@ -155,7 +155,7 @@ if __name__ == '__main__':
     buildOptions = dict(
         packages=[],
         excludes=[],
-        # includes=["PyQt5.QtPrintSupport"],
+        includes=["atexit"],
         icon=gui.uiconfig.__logoico__,
     )
 
@@ -201,7 +201,7 @@ if __name__ == '__main__':
     for item in ['options']:
         os.mkdir(os.sep.join([build_path, item]))
 
-    for item in ['msvcp100.dll']:
+    for item in ['msvcp100.dll', 'msvcr100.dll']:
         shutil.copyfile(os.sep.join([os.getcwd(), 'dll', item]), os.sep.join([build_path, item]))
 
     for item in ['libEGL.dll']:
