@@ -182,6 +182,8 @@ class SetuperPage(QtWidgets.QFrame):
                 "softwarecompany": ""
             }
 
+        self.color = "0x353d48"
+
     def initUI(self):
         self.setMinimumWidth(420)
         mainLayout = QtWidgets.QGridLayout()
@@ -224,6 +226,10 @@ class SetuperPage(QtWidgets.QFrame):
 
 
         themeLabel = BaseLabel(self.tr("Theme color:"))
+        self.customColorButton = QtWidgets.QPushButton(self.tr(""))
+        self.customColorButton.setFlat(True)
+        self.customColorButton.setFixedSize(40, 40)
+        self.customColorButton.setStyleSheet(self.colorqss("#353d48"))
 
         templateLabel = BaseLabel(self.tr("Template:"))
 
@@ -259,10 +265,9 @@ class SetuperPage(QtWidgets.QFrame):
         mainLayout.addWidget(self.languageCombox, 9, 1)
 
         mainLayout.addWidget(themeLabel, 10, 0)
+        mainLayout.addWidget(self.customColorButton, 10, 1)
 
         mainLayout.addWidget(templateLabel, 11, 0)
-
-        
 
         mainLayout.setSpacing(1)
         mainLayout.setContentsMargins(20, 10, 30, 0)
@@ -274,6 +279,31 @@ class SetuperPage(QtWidgets.QFrame):
         self.softwarenameLineEdit.textChanged.connect(self.outputfoldernameLineEdit.setText)
         self.softwarenameLineEdit.textChanged.connect(self.exenameLineEdit.setText)
         self.softwarenameLineEdit.textChanged.connect(self.desktoplinkLineEdit.setText)
+        self.customColorButton.clicked.connect(self.customColor)
+
+    def colorqss(self, color):
+        style = '''
+            QPushButton{
+                background-color: %s;
+            }
+            QPushButton:hover, :pressed
+            {
+                background-color: %s;
+            }
+            QPushButton:flat{
+                border: none;
+            }
+            '''%(color, color)
+        return style
+
+    def customColor(self):
+        colordialog = QtWidgets.QColorDialog(QtGui.QColor("green"))
+        colordialog.colorSelected.connect(self.updateColorButton)
+        colordialog.exec_()
+
+    def updateColorButton(self, color):
+        self.color = "0x" + color.name()[-2:] + color.name()[3:5] + color.name()[1:3]
+        self.customColorButton.setStyleSheet(self.colorqss(color.name()))
 
     def getFormData(self):
         if self.desktoplinkButton.state == 0:
@@ -291,7 +321,7 @@ class SetuperPage(QtWidgets.QFrame):
             "softwarecompany": self.softwarecompanyLineEdit.text(),
             'desktoplink_on': desktoplink_on,
             'language': self.languageCombox.currentText(),
-            'background-color': "0x483d35",
+            'background-color': self.color,
             'templateindex':0,
         }
 

@@ -231,23 +231,6 @@ QPushButton#FlatUIButton:flat{
     border: none;
 }
 
-
-QPushButton#customColorButton{
-    color: rgb(255, 255, 255);
-    background-color: white;
-    background: green;
-    border:none;
-    font-size: 15px;
-    text-align: center;
-    width: 60px;
-}
-QPushButton#customColorButton:hover, QPushButton#customColorButton:pressed
-{
-    background-color: rgb(85, 170, 255);
-    text-align: center;
-}
-
-
 QPushButton#Home{
     background-image: url(:/icons/dark/appbar.monitor.play.png);
     background-repeat:no-repeat;
