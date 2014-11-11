@@ -63,6 +63,12 @@ QFrame#AboutPage{
     background-color: white;
 }
 
+QLabel#Count{
+    border-radius: 50px;
+    background-color: #1ABC9C;
+    color: white;
+}
+
 QProgressBar {
     border: 1px solid white;
     text-align: right;
@@ -135,6 +141,9 @@ QMenu::indicator {
 QStatusBar {
     color: black;
     background-color: transparent;
+    border-left: 1px solid #1ABC9C;
+    border-right: 1px solid #1ABC9C;
+    border-bottom: 1px solid #1ABC9C;
 }
 
 QStatusBar QLabel#datatimelabel{

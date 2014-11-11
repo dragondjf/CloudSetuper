@@ -24,7 +24,14 @@ class SocketHandler(tornado.websocket.WebSocketHandler):
         when we receive some message we want some message handler..
         for this example i will just print message to console
         """
-        pass
+        m = json.loads(message)
+        if 'dektopClient' in m and m['dektopClient'] == "CloudSetuper":
+            allCount = IndexHandler.updateBuildCount()
+            res = {
+                'userCount': 'Dektop client',
+                'allCount': allCount
+            }
+            self.sendMessage(res)
 
     def sendMessage(self, message):
         self.write_message(json.dumps(message))

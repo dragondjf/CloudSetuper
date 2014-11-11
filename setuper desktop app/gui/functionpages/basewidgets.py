@@ -83,4 +83,4 @@ class BaseLineEdit(QtWidgets.QLineEdit):
     def __init__(self, parent=None):
         super(BaseLineEdit, self).__init__(parent)
         self.parent = parent
-        self.setFixedSize(200, 36)
+        self.setMinimumSize(200, 36)

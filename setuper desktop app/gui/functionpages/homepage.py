@@ -182,7 +182,7 @@ class SetuperPage(QtWidgets.QFrame):
             }
 
     def initUI(self):
-        self.setFixedWidth(420)
+        self.setMinimumWidth(420)
         mainLayout = QtWidgets.QGridLayout()
 
         softwarenameLabel = BaseLabel(self.tr("Software name:"))
@@ -312,26 +312,43 @@ class BuildPage(QtWidgets.QFrame):
         pass
 
     def initUI(self):
+        self.setMaximumWidth(200)
+        self.countLabel = QtWidgets.QLabel()
+        self.countLabel.setObjectName("Count")
+        self.countLabel.setFixedSize(100, 100)
+        self.countLabel.setAlignment(QtCore.Qt.AlignCenter)
         self.buildButton = BaseToolButton(self.tr("Build"))
-        self.buildButton.setFixedWidth(200)
+        self.buildButton.setFixedWidth(180)
         self.viewButton = BaseToolButton(self.tr("View result"))
-        self.viewButton.setFixedWidth(200)
+        self.viewButton.setFixedWidth(180)
+
+        countLayout = QtWidgets.QHBoxLayout()
+        countLayout.addStretch()
+        countLayout.addWidget(self.countLabel)
+        countLayout.addStretch()
+
         mainLayout = QtWidgets.QVBoxLayout()
+        mainLayout.addLayout(countLayout)
         mainLayout.addStretch()
         mainLayout.addWidget(self.buildButton)
         mainLayout.addSpacing(10)
         mainLayout.addWidget(self.viewButton)
-
-        mainLayout.setContentsMargins(0, 0, 0, 0)
+        mainLayout.addSpacing(10)
+        mainLayout.setContentsMargins(10, 0, 10, 0)
         self.setLayout(mainLayout)
 
     def initConnect(self):
         self.viewButton.clicked.connect(self.viewResult)
+        from dataBase import signal_DB
+        signal_DB.count_sin.connect(self.updateCount)
 
     def viewResult(self):
         toolPath = os.sep.join([os.getcwd(), 'output'])
         if os.path.exists(toolPath):
             QtGui.QDesktopServices.openUrl(QtCore.QUrl("file:///%s" % toolPath))
+
+    def updateCount(self, count):
+        self.countLabel.setText(str(count))
 
 
 class HomePage(QtWidgets.QFrame):
@@ -359,7 +376,7 @@ class HomePage(QtWidgets.QFrame):
         mainLayout.addSpacing(10)
         mainLayout.addWidget(self.setuperPage)
         mainLayout.addWidget(self.buildPage)
-        mainLayout.addStretch()
+        # mainLayout.addStretch()
         mainLayout.setContentsMargins(5, 0, 0, 0)
         self.setLayout(mainLayout)
 

@@ -83,7 +83,7 @@ class TitleBar(QtWidgets.QFrame):
 
         self.skinButton.hide()
         self.settingDownButton.hide()
-        self.maxButton.hide()
+        # self.maxButton.hide()
 
     def initfullScreen(self):
         mainwindow = views['MainWindow']
@@ -100,11 +100,11 @@ class TitleBar(QtWidgets.QFrame):
 
     def actionMax(self):
         mainwindow = views['MainWindow']
-        if mainwindow.isFullScreen():
+        if mainwindow.isMaximized():
             mainwindow.showNormal()
             self.maxButton.setIcon(self.normalIcon)
         else:
-            mainwindow.showFullScreen()
+            mainwindow.showMaximized()
             self.maxButton.setIcon(self.maxIcon)
 
     def actionClose(self):
