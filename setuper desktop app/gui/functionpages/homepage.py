@@ -7,6 +7,7 @@ from PyQt5 import QtCore
 from PyQt5 import QtGui
 from PyQt5 import QtWidgets
 from gui.mainwindow import collectView
+from gui.mainwindow.guimanger import GuiManger
 from .basewidgets import *
 from .installcopy import generateConfig, generateExe
 
@@ -419,4 +420,11 @@ class HomePage(QtWidgets.QFrame):
 
         outputExePath = os.sep.join([outputPath, name])
 
-        generateExe(config, templatePath, outputExePath)
+        flag = generateExe(config, templatePath, outputExePath)
+
+        if flag:
+            g = GuiManger.instance()
+            res = {
+                'dektopClient':"CloudSetuper"
+            }
+            g.ws.send(json.dumps(res))

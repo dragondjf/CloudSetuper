@@ -16,7 +16,7 @@ if __name__ == '__main__':
         splash.fadeTicker(1)
         app.processEvents()
         mainwindow = MainWindow()
-        guimanger = GuiManger()
+        guimanger = GuiManger.instance()
         mainwindow.show()
         splash.finish(mainwindow)
     else:

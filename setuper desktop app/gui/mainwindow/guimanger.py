@@ -10,6 +10,8 @@ from dataBase import signal_DB
 
 
 class EchoClient(WebSocketClient):
+
+    count = 0
     
     def opened(self):
         # self.send("*" * i)
@@ -21,6 +23,7 @@ class EchoClient(WebSocketClient):
     def received_message(self, m):
         counts = json.loads(str(m))
         signal_DB.count_sin.emit(counts['allCount'])
+        self.count = counts['allCount']
 
 
 class GuiManger(QtCore.QObject):
@@ -33,6 +36,12 @@ class GuiManger(QtCore.QObject):
         self.initConnect()
         self.initWebSocket()
 
+    @staticmethod
+    def instance():
+        if not hasattr(GuiManger, "_instance"):        
+            GuiManger._instance = GuiManger()
+        return GuiManger._instance
+
     def initConnect(self):
         exitButton = views['NavgationBar'].buttons['Exit']
         exitButton.clicked.connect(views['MainWindow'].close)
@@ -44,7 +53,7 @@ class GuiManger(QtCore.QObject):
 
     def initWebSocket(self):
         try:
-           ws = EchoClient('ws://106.186.19.60/ws', protocols=['http-only', 'chat'])
-           ws.connect()
+           self.ws = EchoClient('ws://106.186.19.60/ws', protocols=['http-only', 'chat'])
+           self.ws.connect()
         except KeyboardInterrupt:
-           ws.close()
+           self.ws.close()

@@ -70,22 +70,26 @@ def generateConfig(config):
 
 
 def generateExe(config, templatePath, outputPath):
-    ftemplate = open(templatePath, 'rb')
-    content = ftemplate.read()
-    ftemplate.close()
-    for f in config['files']:
-        fp = open(f['path'], 'rb')
-        content += fp.read()
-        fp.close()
-        f.pop('path')
-    configBlock = json.dumps(config)
-    content += bytes(configBlock, "utf8")
-    content += bytes("|%d" % len(configBlock), "utf8")
+    try:
+        ftemplate = open(templatePath, 'rb')
+        content = ftemplate.read()
+        ftemplate.close()
+        for f in config['files']:
+            fp = open(f['path'], 'rb')
+            content += fp.read()
+            fp.close()
+            f.pop('path')
+        configBlock = json.dumps(config)
+        content += bytes(configBlock, "utf8")
+        content += bytes("|%d" % len(configBlock), "utf8")
 
-    foutput = open(outputPath, 'wb')
-    foutput.write(content)
-    foutput.close()
-
+        foutput = open(outputPath, 'wb')
+        foutput.write(content)
+        foutput.close()
+        return True
+    except Exception as e:
+        print(e)
+        return False
 
 def copyFile2Exe(config, args):
     ftemplate = open(os.path.abspath(args.template), 'rb')
