@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block appcss %}
+<link href="../static/css/setuper.css" rel="stylesheet">
+<link href="../static/css/flat-ui-docs.css" rel="stylesheet">
+{% end %}
+
+{% block appjs %}
+<script data-main="../static/js/contact" src="static/js/lib/require.min.js"></script>
+{% end %}
+
+{% block container %}
+    <div class="container">
+    <p class="demo-headline1" style="font-size: 60px; font-weight: 200;">CloudSetuper Desktop</p>
+    <div class="container">
+        <div class="demo-row">
+            <div class="demo-title">
+              <h3>什么是CloudSetuper Desktop</h3>
+            </div>
+            <div class="demo-content demo-content-article">
+              <p>
+                <code>CloudSetuper Desktop</code>是CloudSetuper系列的客户端打包工具
+            </div>
+        </div>
+        <div class="demo-row">
+            <div class="demo-title">
+              <h3>基本用法</h3>
+            </div>
+            <div class="demo-content demo-content-article">
+              <img src="../static/img/desktophelp.png" style="width:600px;">
+            </div>
+        </div>
+    </div>
+</div>
+{% end %}

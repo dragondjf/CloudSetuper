@@ -4,11 +4,12 @@
 from joinhandler import JoinHandler
 from loginhandler import LoginHandler, LogoutHandler
 from indexhandler import IndexHandler
+from sockethandler import SocketHandler
+from producthandler import DesktopHandler, CliHandler
 from uploadfilehandler import UploadFileHandler
 from helphandler import HelpHandler, HelpCliHandler
 from abouthandler import AboutHandler
 from contacthandler import ContactHandler
-from sockethandler import SocketHandler
 import os
 import tornado.web
 
@@ -20,6 +21,8 @@ routes = [
     (r"/login", LoginHandler),
     (r"/logout", LogoutHandler),
     (r"/upload", UploadFileHandler),
+    (r"/desktop", DesktopHandler),
+    (r"/cli", CliHandler),
     (r"/help", HelpHandler),
     (r"/help/cli", HelpCliHandler),
     (r"/about", AboutHandler),
