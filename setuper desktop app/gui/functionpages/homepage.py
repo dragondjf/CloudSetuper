@@ -302,7 +302,7 @@ class SetuperPage(QtWidgets.QFrame):
         colordialog.exec_()
 
     def updateColorButton(self, color):
-        self.color = "0x" + color.name()color.name()[1:]
+        self.color = "0x" + color.name()[1:]
         self.customColorButton.setStyleSheet(self.colorqss(color.name()))
 
     def getFormData(self):
