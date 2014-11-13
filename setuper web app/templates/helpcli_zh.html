@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block appcss %}
+<link href="../static/css/setuper.css" rel="stylesheet">
+<link href="../static/css/flat-ui-docs.css" rel="stylesheet">
+{% end %}
+
+{% block appjs %}
+<script data-main="../static/js/help" src="static/js/lib/require.min.js"></script>
+{% end %}
+
+{% block container %}
+    <h1 class="demo-headline">Getting started</h1>
+    <div class="container">
+        <div class="demo-row">
+            <div class="demo-title">
+              <h3>CloudSetuper CLI</h3>
+            </div>
+            <div class="demo-content demo-content-article">
+              <p>
+                <code>CloudSetuper CLI  </code>
+            </div>
+        </div>
+    </div>
+{% end %}
