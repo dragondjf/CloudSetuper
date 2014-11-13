@@ -68,7 +68,7 @@ def main():
     parser = argparse.ArgumentParser(
         prog='installcopy', 
         usage='%(prog)s [options]',
-        description='commmand line tool to append files to en [exe] file'
+        description='commmand line tool to pack 7z to en [exe] file'
     )
 
     parser.add_argument('-p', 

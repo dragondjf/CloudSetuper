@@ -35,9 +35,11 @@ class Application(tornado.web.Application):
 def main():
     tornado.options.parse_command_line()
     app = Application()
-    app.listen(options.port)
-
-    tornado.ioloop.IOLoop.instance().start()
+    # app.listen(options.port)
+    # tornado.ioloop.IOLoop.instance().start()
+    wsgi_app = tornado.wsgi.WSGIAdapter(app)
+    server = wsgiref.simple_server.make_server('', options.port, wsgi_app)
+    server.serve_forever()
 
 
 if __name__ == "__main__":
