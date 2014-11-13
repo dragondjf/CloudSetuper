@@ -6,14 +6,18 @@ import tornado.escape
 import tornado.ioloop
 import tornado.options
 import tornado.web
+import tornado.wsgi
 import os.path
 import uuid
+import wsgiref
+import wsgiref.simple_server
 
 from handlers import routes
 from models import connection
 
 from tornado.options import define, options
 define("port", default=80, help="run on the given port", type=int)
+define("server", default='tornado', help="run on the given port", type=str)
 
 
 class Application(tornado.web.Application):
@@ -35,11 +39,15 @@ class Application(tornado.web.Application):
 def main():
     tornado.options.parse_command_line()
     app = Application()
-    # app.listen(options.port)
-    # tornado.ioloop.IOLoop.instance().start()
-    wsgi_app = tornado.wsgi.WSGIAdapter(app)
-    server = wsgiref.simple_server.make_server('', options.port, wsgi_app)
-    server.serve_forever()
+    if options.server == "tornado":
+        logging.info("Server is %s" % options.server)
+        app.listen(options.port)
+        tornado.ioloop.IOLoop.instance().start()
+    elif options.server == "wsgiref":
+        logging.info("Server is %s" % options.server)
+        wsgi_app = tornado.wsgi.WSGIAdapter(app)
+        server = wsgiref.simple_server.make_server('', options.port, wsgi_app)
+        server.serve_forever()
 
 
 if __name__ == "__main__":
