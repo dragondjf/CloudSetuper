@@ -56,8 +56,8 @@ target/
 
 setuper web app/static/files
 
-setuper app/installcopy/distwin
-setuper app/installcopy/distwin/package/*.exe
+setuper cli app/distwin
+setuper cli app/
 
 setuper app/uitemplate/Publish
 setuper app/uitemplate/build_error_log.txt
