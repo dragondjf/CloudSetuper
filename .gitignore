@@ -59,8 +59,8 @@ setuper web app/static/files
 setuper cli app/distwin
 setuper cli app/
 
-setuper app/uitemplate/Publish
-setuper app/uitemplate/build_error_log.txt
+setuper uitemplate app/Publish
+setuper uitemplate app/build_error_log.txt
 *.out
 
 setuper desktop app/options/*
