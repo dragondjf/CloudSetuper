@@ -7,6 +7,9 @@ define(function (require) {
             $(value).click(function(){
                 $(this).siblings().fadeToggle();
             });
+        });
+        document.getElementById("container").addEventListener('click', function(){
+            $('.dropdown-menu').fadeOut();
         })
     });
 });

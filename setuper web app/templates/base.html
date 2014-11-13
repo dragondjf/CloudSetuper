@@ -84,8 +84,9 @@
     </div>
     {% block template %}
     {% end %}
-    {% block container %}
     <div id="container">
+    {% block container %}
+    
         <div id="left">
             {% block left %}{% end %}
         </div>
@@ -95,8 +96,9 @@
         <div id="right">
             {% block right %}{% end %}
         </div>
-    </div>
+    
     {% end %}
+    </div>
     <div id="footer">
         {% block footer %}{% end %}
     </div>

@@ -10,7 +10,10 @@ define(function (require) {
             $(value).click(function(){
                 $(this).siblings().fadeToggle();
             });
-        })
+        });
+        document.getElementById("container").addEventListener('click', function(){
+            $('.dropdown-menu').fadeOut();
+        });
         $("#login").click(function(){
             var username = $("#login-name").val();
             var password = $("#login-pass").val();

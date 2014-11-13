@@ -12,7 +12,10 @@ define(function (require) {
             $(value).click(function(){
                 $(this).siblings().fadeToggle();
             });
-        })
+        });
+        document.getElementById("container").addEventListener('click', function(){
+            $('.dropdown-menu').fadeOut();
+        });
         $("#join").click(function(){
             var username = $("#login-name").val();
             var email = $("#login-email").val();
