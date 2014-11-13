@@ -52,12 +52,10 @@ docs/_build/
 # PyBuilder
 target/
 
-*.exe
 
 setuper web app/static/files
 
 setuper cli app/distwin
-setuper cli app/
 
 setuper uitemplate app/Publish
 setuper uitemplate app/build_error_log.txt
