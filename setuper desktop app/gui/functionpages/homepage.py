@@ -182,7 +182,7 @@ class SetuperPage(QtWidgets.QFrame):
                 "softwarecompany": ""
             }
 
-        self.color = "0x483d35"
+        self.color = "0x353d48"
 
     def initUI(self):
         self.setMinimumWidth(420)
