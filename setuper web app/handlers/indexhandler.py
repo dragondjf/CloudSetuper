@@ -45,7 +45,7 @@ class IndexHandler(BaseHandler):
             'softwarecompany': softwarecompany,
             'desktoplink_on': desktoplink_on,
             'language': language,
-            'background-color': "0x" + background_color[-2:] + background_color[-4:-2] + background_color[0:2],
+            'background-color': "0x" + background_color,
             'templateindex':templateindex,
             'files': files,
         }

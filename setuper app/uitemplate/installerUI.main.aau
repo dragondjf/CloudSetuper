@@ -295,7 +295,11 @@ else if ( "zh-CN" == ResourceRelease.g_PackageJsonManager['language'] ){//默认中
 
 //	修改主窗口背景色
 if ( null != ResourceRelease.g_PackageJsonManager['background-color'] ){
-	winform.bgcolor = tonumber( ResourceRelease.g_PackageJsonManager['background-color'], 16);
+	import string;
+	var tempbg = ResourceRelease.g_PackageJsonManager['background-color'];
+	var table_bg = {string.sub(tempbg,1,2);string.sub(tempbg,7,8);string.sub(tempbg,5, 6);string.sub(tempbg,3,4)};
+	var bg = string.join(table_bg, "");
+	winform.bgcolor = tonumber(bg, 16);
 }
 
 //隐藏快速体验按钮
