@@ -57,6 +57,8 @@ def copyFile2Exe(config, args):
     content += "|%d" % len(configBlock)
     buildtime = time.strftime("%Y-%m-%d-%H-%M-%S-", time.localtime(int(time.time()))).decode('UTF8')
 
+    if not args.output.endswith('.exe'):
+        args.output += '.exe'
     foutput = open(args.output, 'wb')
     foutput.write(content)
     foutput.close()
