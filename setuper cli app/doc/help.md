@@ -3,10 +3,14 @@ CloudSetuper CLI工具使用帮助
 ####1.目录结构
 ![Alt text](tree.png)
 
-installcopy.exe为打包的命令行工具
+`installcopy.exe`：打包的命令行工具
+`InstallerUI.exe`：默认安装包模板程序
+`InstallerUI1.exe`：安装包模板程序
+
 
 ####2.基本用法
-当前目录下有一个【package】目录
+`installcopy.exe`自动寻找当前目录下的【package】目录，如果【package】目录里的数据格式正确，直接运行双击运行`installcopy.exe`即可在【package】目录下生成一个setup.exe
+
 按照如下格式自定义你【package】目录下`**package.json**`
 
     {
@@ -55,10 +59,17 @@ installcopy.exe为打包的命令行工具
 > 最好是7z,图片文件在同一个目录，这样path与name一样即可；如果不在同一个目录，则path必须指定为绝对路径
     
 
-####2.帮助说明
+####2.高级用法
+输入
 
     installcopy.exe -h
 
 ![Alt text](help.png)
 
+    -p 指定目录
+    -t 指定模板程序
+    -u 指定输出exe程序名字
+    -h 输出帮助信息
+    --version 显示程序版本号
 
+`**如果使用-p,必须保证指定的目录结构里面的文件格式正确**`
