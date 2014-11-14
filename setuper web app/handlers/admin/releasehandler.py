@@ -4,6 +4,7 @@
 import os
 from tornado.web import authenticated, removeslash
 from handlers.basehandlers import BaseHandler
+from models import Release
 import logging
 import json
 

@@ -26,6 +26,7 @@ routes = [
     (r"/login/*", LoginHandler),
     (r"/logout/*", LogoutHandler),
     (r"/upload", UploadFileHandler),
+    (r"/online/*", IndexHandler),
     (r"/desktop/*", DesktopHandler),
     (r"/cli/*", CliHandler),
     (r"/help/*", HelpHandler),

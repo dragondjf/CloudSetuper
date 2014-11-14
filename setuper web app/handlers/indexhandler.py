@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import os
-from tornado.web import authenticated
+from tornado.web import authenticated, removeslash
 from basehandlers import BaseHandler
 import logging
 import json
@@ -16,6 +16,7 @@ class IndexHandler(BaseHandler):
     count = 0
 
     @authenticated
+    @removeslash
     def get(self):
         self.render("index.html", title="Cloud Setuper", username=self.current_user)
 
