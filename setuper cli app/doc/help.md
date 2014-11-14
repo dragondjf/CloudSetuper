@@ -9,8 +9,12 @@ CloudSetuper CLI工具使用帮助
 
 
 ####2.基本用法
+
 `installcopy.exe`自动寻找当前目录下的【package】目录，如果【package】目录里的数据格式正确，直接运行双击运行`installcopy.exe`即可在【package】目录下生成一个setup.exe
 
+【package】目录
+
+![Alt text](package.png)
 按照如下格式自定义你【package】目录下`**package.json**`
 
     {
@@ -48,6 +52,7 @@ CloudSetuper CLI工具使用帮助
 + `softwareauthor`：软件作者
 + `softwareemail`：邮箱地址
 + `softwarecompany`：公司名称
++ `background-color`: 程序背景颜色
 + `desktoplink_on`：是否生成桌面快捷方式 可选参数[`"True"`, `"False"`]
 + `language`: 语言选择（国际化）可选参数[`'en'`, `'zh_CN'`, `'zh_TW'`
 

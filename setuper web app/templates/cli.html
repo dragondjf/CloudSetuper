@@ -27,7 +27,81 @@
               <h3>基本用法</h3>
             </div>
             <div class="demo-content demo-content-article">
-              <img src="../static/img/clihelp.png" style="width:600px;">
+                <img src="../static/img/tree.png" style="width:600px;">
+                <div><code>installcopy.exe</code>：打包的命令行工具</div>
+                <div><code>InstallerUI.exe</code>：默认安装包模板程序</div>
+                <div><code>InstallerUI1.exe</code>：安装包模板程序</div>
+                <br>
+                <div><code>installcopy.exe</code>自动寻找当前目录下的<code>package</code>目录，如果<code>package</code>目录里的数据格式正确，直接运行双击运行<code>installcopy.exe</code>即可在<code>package</code>目录下生成一个setup.exe</div>
+                <code>package目录</code>
+                <img src="../static/img/package.png" style="width:600px;">
+                <p>按照如下格式自定义你【package】目录下package.json</p>
+                <code>package.json格式</code>
+                <pre>
+{
+    "files": [
+        {
+            "path": "CloudSetuper.7z",
+            "name": "CloudSetuper.7z"
+        },
+        {
+            "path": "1.png",
+            "name": "1.png"
+        }
+    ],
+    "softwareemail": "dragondjf@gmail.com",
+    "desktoplink_on": "True",
+    "softwarecompany": "dragondjf.github.io",
+    "templateindex": 0,
+    "softwareauthor": "dragondjf",
+    "softwarename": "CloudSetuper",
+    "background-color": "0x353d48",
+    "desktoplinkname": "CloudSetuper",
+    "outputfoldername": "CloudSetuper",
+    "language": "en",
+    "exename": "CloudSetuper",
+    "softwareversion": "1.0.0"
+}
+                </pre>
+                <code>参数含义：</code>
+                <pre>
+softwarename：软件的名称
+outputfoldername：程序安装到指定的目录名称
+exename：程序可执行文件的名称
+desktoplinkname：桌面快捷方式名称
+softwareversion：软件版本号
+softwareauthor：软件作者
+softwareemail：邮箱地址
+softwarecompany：公司名称
+desktoplink_on：是否生成桌面快捷方式 可选参数["True", "False"]
+background-color: 程序背景颜色
+language: 语言选择（国际化）可选参数['en', 'zh_CN', 'zh_TW']
+files：必需包含你的7z发布程序包 和 程序需要的图片资源文件；格式如上：
+    name: 文件名字
+    path: 文件路径
+
+                </pre>
+            <code>最好是7z,图片文件在同一个目录，这样path与name一样即可；如果不在同一个目录，则path必须指定为绝对路径</code>
+            </div>
+        </div>
+        <div class="demo-row">
+            <div class="demo-title">
+              <h3>高级用法</h3>
+            </div>
+            <div class="demo-content demo-content-article">
+
+                <code>输入installcopy.exe -h</code>
+                <img src="../static/img/clihelp.png" style="width:600px;">
+                <br>
+                <br>
+                <pre>
+-p 指定目录
+-t 指定模板程序
+-u 指定输出exe程序名字
+-h 输出帮助信息
+--version 显示程序版本号
+                </pre>
+                <code>如果使用-p,必须保证指定的目录结构里面的文件格式正确</code>
             </div>
         </div>
     </div>
