@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from tornado.web import authenticated
+from tornado.web import authenticated, removeslash
 from basehandlers import BaseHandler
 from models import User
 import logging
@@ -12,6 +12,7 @@ class LoginHandler(BaseHandler):
 
     count = 0
 
+    @removeslash
     def get(self):
         self.render("login.html", title="Cloud Setuper Sign in", username=self.current_user)
 
@@ -61,6 +62,7 @@ class LoginHandler(BaseHandler):
 class LogoutHandler(BaseHandler):
 
     @authenticated
+    @removeslash
     def post(self):
         self.clear_cookie(self.get_current_user())
         LoginHandler.count -= 1

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from tornado.web import authenticated
+from tornado.web import authenticated, removeslash
 from handlers.basehandlers import BaseHandler
 
 adminusers = [
@@ -16,6 +16,7 @@ class AdminLoginHandler(BaseHandler):
 
     role = "admin"
 
+    @removeslash
     def get(self):
         if self.current_user:
             self.redirect('/admin')
@@ -59,5 +60,6 @@ class AdminLogoutHandler(BaseHandler):
     role = "admin"
 
     @authenticated
+    @removeslash
     def post(self):
         self.clear_cookie(self.get_current_user())

@@ -3,6 +3,7 @@
 
 from basehandlers import BaseHandler
 from models import User
+from tornado.web import removeslash
 import logging
 import base64
 
@@ -11,6 +12,7 @@ class JoinHandler(BaseHandler):
 
     count = 0
 
+    @removeslash
     def get(self):
         self.render("join.html", title="Join Cloud Setuper", username=self.current_user)
 
