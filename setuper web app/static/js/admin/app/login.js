@@ -1,6 +1,7 @@
 define(function (require) {
     var $ = require('jquery');
     var bootstrap = require('bootstrap');
+    var util = require('app/util');
     var log = require('log');
     $(function(){
         log('login');
