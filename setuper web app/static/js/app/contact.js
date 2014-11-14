@@ -1,6 +1,7 @@
 define(function (require) {
     var $ = require('jquery');
     var log = require('log');
+    var util = require('./util');
     $(function(){
         log('contact');
         $.each($('[data-toggle="dropdown"]'), function(index, value){
@@ -11,5 +12,6 @@ define(function (require) {
         document.getElementById("container").addEventListener('click', function(){
             $('.dropdown-menu').fadeOut();
         })
+        util.logout();
     });
 });

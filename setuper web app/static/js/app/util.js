@@ -77,6 +77,25 @@ define(function () {
                 var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
                 document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
             }
+        },
+        'logout': function() {
+            $('#Signout').click(function(){
+                 $.ajax({
+                    url: '/logout',
+                    type: 'post',
+                    success: function(res) {
+                        console.log(res)
+                        console.log("logout success");
+
+                        util.deleteAllCookies();
+                        location.href="/login";
+                    },
+                    error: function() {
+                        util.deleteAllCookies();
+                        location.href="/login";
+                    }
+                })
+            });
         }
     };
     return util

@@ -42,23 +42,7 @@ define(function (require) {
             });
         colorpicker.setHex(color_hex);
 
-        $('#Signout').click(function(){
-             $.ajax({
-                url: '/logout',
-                type: 'post',
-                success: function(res) {
-                    log(res)
-                    log("logout success");
-                    util.deleteAllCookies();
-                    location.href="/login";
-                },
-                error: function() {
-                    util.deleteAllCookies();
-                    location.href="/login";
-                }
-            })
-        })
-
+        util.logout()
 
         function add2tpl(data){
             var tpl = $('<li class="working"><input type="text" value="0" data-width="48" data-height="48"' +
