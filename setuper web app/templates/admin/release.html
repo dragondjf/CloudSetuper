@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block appjs %}
+<script data-main="{{ static_url("js/admin/release") }}" src="{{ static_url("js/lib/require.min.js") }}"></script>
+{% end %}
+
+{% block Sign %}
+{% end %}
+
+{% block container %}
+<div class="container">
+    {% block center %}
+        <form name="setup_form" id="publish_form">
+            <div class="login-form" style="background-color: #1abc9c">
+                <div class="form-group">
+                    <label>Software name：</label>
+                    <div class="btn-group">
+                        <input type="text" class="form-control login-field " value="" placeholder="Enter your software name" required="required" name="softwarename" id="software-name" style="width: 200%">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Software version：</label>
+                    <div class="btn-group">
+                        <input type="text" class="form-control login-field " value="" placeholder="Enter your software version" required="required" name="softwareversion" id="software-version" style="width: 200%">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Software author：</label>
+                    <div class="btn-group">
+                        <input type="text" class="form-control login-field" value="" placeholder="Enter your author name" required="required" name="authorname" id="software-author" style="width: 200%">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Software url:</label>
+                    <div class="btn-group">
+                        <input type="text" class="form-control login-field" value="" placeholder="Enter your software download url" required="required" name="companyname" id="software-url" style="width: 200%">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Release notes：</label>
+                    <div class="btn-group">
+                        <textarea id="releasenotes" class="flattext">
+                        </textarea>
+                    </div>
+                </div>
+                <a id="Publish" class="btn btn-block btn-lg btn-success">Publish</a>
+            </div>
+        </form>
+    {% end %}
+</div>
+{% end %}

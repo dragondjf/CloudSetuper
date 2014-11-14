@@ -15,7 +15,9 @@ from contacthandler import ContactHandler
 
 from admin.adminhandler import AdminLoginHandler, AdminLogoutHandler
 from admin.adminindexhandler import AdminIndexHandler
-
+from admin.usershandler import UsersHandler
+from admin.statisticshandler import StatisticsHandler
+from admin.releasehandler import ReleaseHandler
 
 routes = [
     (r"/", IndexHandler),
@@ -36,7 +38,10 @@ routes = [
 adminroutes = [
     (r"/admin/*", AdminIndexHandler),
     (r"/admin/login/*", AdminLoginHandler),
-    (r"/admin/logout/*", AdminLogoutHandler)
+    (r"/admin/logout/*", AdminLogoutHandler),
+    (r"/admin/users/*", UsersHandler),
+    (r"/admin/statistics/*", StatisticsHandler),
+    (r"/admin/release/*", ReleaseHandler)
 ]
 
 routes.extend(adminroutes)

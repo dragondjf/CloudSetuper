@@ -79,6 +79,27 @@ div #colorPreview{
     float: right;
     margin: 20px;
 }
+
+/****/
+
+textarea.flattext{
+    padding: 8px 12px;
+    width: 215%;
+    height: 300px;
+    font-family: "Lato", Helvetica, Arial, sans-serif;
+    font-size: 15px;
+    line-height: 1.467;
+    color: #34495e;
+    border: 2px solid #bdc3c7;
+    border-radius: 6px;
+    box-shadow: none;
+    -webkit-transition: border .25s linear, color .25s linear, background-color .25s linear;
+    transition: border .25s linear, color .25s linear, background-color .25s linear;
+}
+
+/****/
+
+
 /* Common stuff */
 .picker-wrapper, 
 .slide-wrapper {

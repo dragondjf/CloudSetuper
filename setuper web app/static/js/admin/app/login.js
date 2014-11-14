@@ -2,7 +2,6 @@ define(function (require) {
     var $ = require('jquery');
     var bootstrap = require('bootstrap');
     var log = require('log');
-    var util = require('app/util');
     $(function(){
         log('login');
         $.each($('[data-toggle="dropdown"]'), function(index, value){
