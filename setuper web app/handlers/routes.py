@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
+import os
+import tornado.web
 from joinhandler import JoinHandler
 from loginhandler import LoginHandler, LogoutHandler
 from indexhandler import IndexHandler
@@ -10,8 +11,10 @@ from uploadfilehandler import UploadFileHandler
 from helphandler import HelpHandler, HelpCliHandler
 from abouthandler import AboutHandler
 from contacthandler import ContactHandler
-import os
-import tornado.web
+
+
+from admin.adminhandler import AdminLoginHandler, AdminLogoutHandler
+from admin.adminindexhandler import AdminIndexHandler
 
 
 routes = [
@@ -29,3 +32,11 @@ routes = [
     (r"/contact", ContactHandler),
     (r'/static', tornado.web.StaticFileHandler, {'path': os.path.join(os.getcwd(), "static")})
 ]
+
+adminroutes = [
+    (r"/admin", AdminIndexHandler),
+    (r"/admin/login", AdminLoginHandler),
+    (r"/admin/logout", AdminLogoutHandler)
+]
+
+routes.extend(adminroutes)

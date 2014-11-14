@@ -24,7 +24,7 @@ class LoginHandler(BaseHandler):
             }
         checkstatus = self.checkUser(user)
         if checkstatus['status']:
-            self.set_secure_cookie("user", username)
+            self.set_secure_cookie(self.role, username)
             response = {
                 'status': "success",
                 'info': checkstatus['info']
@@ -64,4 +64,3 @@ class LogoutHandler(BaseHandler):
     def post(self):
         self.clear_cookie(self.get_current_user())
         LoginHandler.count -= 1
-        # self.clear_all_cookies()

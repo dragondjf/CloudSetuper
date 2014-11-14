@@ -4214,7 +4214,7 @@ select[multiple].navbar-form .select2-search input[type="text"] {
 .navbar-nav > .open > .dropdown-toggle,
 .navbar-nav > .open > .dropdown-toggle:focus,
 .navbar-nav > .open > .dropdown-toggle:hover {
-  background-color: transparent;
+  /*background-color: transparent;*/
   }
 .navbar-text {
   padding-top: 15px;
