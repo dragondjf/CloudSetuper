@@ -1,0 +1,24 @@
+{
+    "files": [
+        {
+            "path": "CloudSetuper.7z",
+            "name": "CloudSetuper.7z"
+        }
+        {
+            "path": "1.png",
+            "name": "1.png"
+        }
+    ],
+    "softwareemail": "CloudSetuper",
+    "desktoplink_on": "True",
+    "softwarecompany": "dragondjf.github.io",
+    "templateindex": 0,
+    "softwareauthor": "dragondjf",
+    "softwarename": "CloudSetuper",
+    "background-color": "0x353d48",
+    "desktoplinkname": "CloudSetuper",
+    "outputfoldername": "CloudSetuper",
+    "language": "en",
+    "exename": "CloudSetuper",
+    "softwareversion": "1.0.0"
+}
