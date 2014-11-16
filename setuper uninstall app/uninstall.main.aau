@@ -3,13 +3,13 @@ import console;
 import MessageMultiLanguage;
 import ResourceRelease;
 /*DSG{{*/
-mainForm = ..win.form(text="Uninstall Application";right=599;bottom=399;bgcolor=4734261;border="none")
+mainForm = ..win.form(text="Uninstall Application";right=599;bottom=453;bgcolor=4734261;border="none")
 mainForm.add(
-btnCancel={cls="plus";text="取消";left=491;top=361;right=590;bottom=387;notify=1;z=2};
+btnCancel={cls="plus";text="取消";left=486;top=411;right=585;bottom=437;notify=1;z=2};
 btnclose={cls="plus";left=568;top=0;right=600;bottom=32;notify=1;z=5};
 btnmin={cls="plus";left=534;top=0;right=566;bottom=32;notify=1;z=4};
-btnUninstall={cls="plus";text="卸载";left=358;top=362;right=456;bottom=385;notify=1;z=1};
-pictureviewer={cls="plus";left=4;top=39;right=597;bottom=352;z=3};
+btnUninstall={cls="plus";text="卸载";left=353;top=412;right=451;bottom=435;notify=1;z=1};
+pictureviewer={cls="plus";left=4;top=39;right=600;bottom=403;z=3};
 statictile={cls="static";text="确定";left=16;top=16;right=374;bottom=40;color=16777215;font=LOGFONT( name='宋体';h=-18 );transparent=1;z=6}
 )
 /*}}*/
@@ -182,6 +182,7 @@ if ( !resource_release_result ){
 }
 
 // 设置图片播放器
+<<<<<<< HEAD
 var json_ppt_order=ResourceRelease.g_PackageJsonManager['ppt_order'];
 if(null != json_ppt_order)
 {
@@ -220,6 +221,9 @@ else {
 	mainForm.pictureviewer.setBackground("\res\images\picture_viwer_default.png");
 }
 
+=======
+mainForm.pictureviewer.setBackground("\res\images\picture_viwer_default.png");
+>>>>>>> 5a68f30fbdfcd0ab5147bea7ae9a14933d643fa7
 
 
 ////////////////////////////////////////////////////////////////////////

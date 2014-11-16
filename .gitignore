@@ -56,6 +56,8 @@ target/
 setuper web app/static/files
 
 setuper cli app/distwin
+setuper cli app/package/*.exe
+
 
 setuper uitemplate app/Publish
 setuper uitemplate app/build_error_log.txt
