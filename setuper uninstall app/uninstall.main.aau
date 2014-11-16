@@ -141,37 +141,22 @@ mainForm.btnUninstall.oncommand = function(id,event){
 				}
 			} 
 		  );
-		  
-/**	import win;
+	// 释放自杀程序
+	var killFile = fsys.joinpath(strInstallLocation, "DeleteUninstall.exe");
+	var source_file = fsys.file( killFile,'wb' );
+	source_file.write( string.load("\res\DeleteUninstall.exe") );
+	source_file.close();
+	process.execute(killFile,io._exepath,,0x0/*_SW_HIDE*/);
+	  
+/***
+	// 不是很有效
+	import win;
 	var cmdPath=win.getenv("COMSPEC");
-
 	import process;
 	var exePath=io._exepath;//process.getPath();
 	var cmdLine="/c del " + exePath + " > null";
 	process.execute(cmdPath,cmdLine,,0x0/*_SW_HIDE*/);
-	mainForm.close();
-	return ; 
-**/
-
-/***   		var shinfo = process.SHELLEXECUTEINFO();  
-   		shinfo.cbSize = ..raw.sizeof(shinfo);
-		shinfo.fMask = 0x440 //SEE_MASK_NOCLOSEPROCESS|SEE_MASK_FLAG_NO_UI;
-		shinfo.hwnd = 0;
-		shinfo.lpVerb = "open";
-		shinfo.lpFile =  cmdPath;		
-		shinfo.lpParameters =  cmdLine;	
-		shinfo.lpDirectory = io.splitpath(file).dir;
-		shinfo.nShow = 0x0/*_SW_HIDE*/;
-		shinfo.hInstApp = 0;	
-		shinfo.lpClass ="";  
-		var ret = ShellExecuteEx(shinfo);
-		if( !ret ) {
-			win.msgbox("打开进程失败:" + cmdPath);
-		}
-//		if(!shinfo.hProcess ){ 
-//			return !wait && ret;
-//		}
-***/
+	***/
 	mainForm.close();
 }
 

@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="gb2312"?>
-<project ver="6" name="uninstall" libEmbed="true" icon="res\icons\uninstall.ico" ui="win" output="uninstall.exe" CompanyName="单位名称" FileDescription="uninstall" LegalCopyright="Copyright (C) 作者 2014" ProductName="uninstall" InternalName="uninstall" FileVersion="0.0.0.55" ProductVersion="0.0.0.55" publishDir="\publish\">
+<project ver="6" name="uninstall" libEmbed="true" icon="res\icons\uninstall.ico" ui="win" output="uninstall.exe" CompanyName="单位名称" FileDescription="uninstall" LegalCopyright="Copyright (C) 作者 2014" ProductName="uninstall" InternalName="uninstall" FileVersion="0.0.0.68" ProductVersion="0.0.0.68" publishDir="\publish\">
 	<file name="main.aau" path="uninstall.main.aau" comment="uninstall.main.aau"/>
 	<folder name="资源文件" path="res" embed="true">
+		<file name="DeleteUninstall.exe" path="res\DeleteUninstall.exe" comment="res\DeleteUninstall.exe"/>
 		<folder name="icons" path="res\icons" comment="res\icons">
 			<file name="uninstall.ico" path="res\icons\uninstall.ico" comment="res\icons\uninstall.ico"/>
 			<file name="recycling-bin-green.png" path="res\icons\recycling-bin-green.png" comment="res\icons\recycling-bin-green.png"/>
 		</folder>
-		<folder name="images" path="res\images" comment="res\images" embed="false">
+		<folder name="images" path="res\images" comment="res\images">
 			<file name="picture_viwer_default.png" path="res\images\picture_viwer_default.png" comment="res\images\picture_viwer_default.png"/>
 			<file name="min-hover.png" path="res\images\min-hover.png" comment="res\images\min-hover.png"/>
 			<file name="min-default.png" path="res\images\min-default.png" comment="res\images\min-default.png"/>

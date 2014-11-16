@@ -50,10 +50,14 @@ Task_Install = function(install_path, output_folder_name/*,pg_hwnd*/,fv_progress
 		if (percent != last_percent){
 			last_percent = percent;
 			if (percent >= 100){
-				percent=100;
+//				percent=100;
+				thread.command.post("print",100);
+			}
+			else{
+				thread.command.post("print",percent);
 			}
 			
-			if ( last_time == 0){
+/**			if ( last_time == 0){
 				last_time=now_time;
 				thread.command.post("print",percent);
 			}
@@ -64,7 +68,7 @@ Task_Install = function(install_path, output_folder_name/*,pg_hwnd*/,fv_progress
 			else if (last_percent >= 100){
 				last_time=now_time;
 				thread.command.post("print",100);
-			}
+			}**/
 		}
 //		sleep(50);	// 会使解压速度变慢，不要用
 //		import win;
