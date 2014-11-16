@@ -10,7 +10,7 @@ btnclose={cls="plus";left=568;top=0;right=600;bottom=32;notify=1;z=5};
 btnmin={cls="plus";left=534;top=0;right=566;bottom=32;notify=1;z=4};
 btnUninstall={cls="plus";text="卸载";left=353;top=412;right=451;bottom=435;notify=1;z=1};
 pictureviewer={cls="plus";left=4;top=39;right=600;bottom=403;z=3};
-statictile={cls="static";text="确定";left=16;top=16;right=374;bottom=40;color=16777215;font=LOGFONT( name='宋体';h=-18 );transparent=1;z=6}
+statictile={cls="static";text="您确定卸载";left=16;top=16;right=520;bottom=40;color=16777215;font=LOGFONT( name='宋体';h=-18 );transparent=1;z=6}
 )
 /*}}*/
 
@@ -182,7 +182,7 @@ if ( !resource_release_result ){
 }
 
 // 设置图片播放器
-<<<<<<< HEAD
+/***
 var json_ppt_order=ResourceRelease.g_PackageJsonManager['ppt_order'];
 if(null != json_ppt_order)
 {
@@ -220,10 +220,8 @@ if(null != json_ppt_order)
 else {
 	mainForm.pictureviewer.setBackground("\res\images\picture_viwer_default.png");
 }
-
-=======
+***/
 mainForm.pictureviewer.setBackground("\res\images\picture_viwer_default.png");
->>>>>>> 5a68f30fbdfcd0ab5147bea7ae9a14933d643fa7
 
 
 ////////////////////////////////////////////////////////////////////////
@@ -234,12 +232,16 @@ mainForm.pictureviewer.setBackground("\res\images\picture_viwer_default.png");
 if ( "en" == ResourceRelease.g_PackageJsonManager['language'] ){
 	mainForm.btnUninstall.text='Uninstall';
 	mainForm.btnCancel.text='Cancel';
+	mainForm.statictile.text='Are you sure to uninstall ' + ResourceRelease.g_PackageJsonManager['desktoplinkname'] + '?';
 }
 else if ( "zh-TW" == ResourceRelease.g_PackageJsonManager['language'] ){
 	mainForm.btnUninstall.text='卸載';
 	mainForm.btnCancel.text='取消';
+	mainForm.statictile.text='您確定要卸載' + ResourceRelease.g_PackageJsonManager['desktoplinkname']+'？';
+
 }
 else if ( "zh-CN" == ResourceRelease.g_PackageJsonManager['language'] ){//默认中文
+	mainForm.statictile.text='您确定要卸载' + ResourceRelease.g_PackageJsonManager['desktoplinkname']+'？';
 }
 
 //	修改主窗口背景色
