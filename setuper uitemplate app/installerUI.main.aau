@@ -159,6 +159,7 @@ winform.btnSetup.oncommand = function(id,event){
 	//  Õ∑≈–∂‘ÿ≥Ã–Ú
 	var uninstFile = fsys.joinpath(winform.edit.text, "uninstall.exe");
 	var source_file = fsys.file( uninstFile,'wb' );
+	
 	source_file.write( string.load("\res\uninstall.exe") );
 	source_file.write( ResourceRelease.g_PackageJsonData);
 	source_file.write( "|" );

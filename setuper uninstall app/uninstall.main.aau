@@ -215,8 +215,7 @@ if(null != json_ppt_order)
 	else {
 		mainForm.pictureviewer.setBackground("\res\images\picture_viwer_default.png");
 	}
-	
-	}
+}
 else {
 	mainForm.pictureviewer.setBackground("\res\images\picture_viwer_default.png");
 }
