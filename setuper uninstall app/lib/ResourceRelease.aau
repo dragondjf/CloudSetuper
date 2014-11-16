@@ -1,0 +1,101 @@
+namespace ResourceRelease;
+
+//{"files": [{"name": "ExeSource.7z", "size": 15323396}], 
+//	"ppt_order": [], 
+//	"language": "en", 
+//	"softwarecompany": "dragondjf.github.io", 
+//	"softwareauthor": "dragondjf", 
+//	"softwarename": "QFramer", 
+//	"softwareemail": "ding465398889@163.com", 
+//	"main_progressbar_on": "true", 
+//	"outputfoldername": "QFramer", 
+//	"desktoplink_on": "true"}
+
+//g_OutputFolderName = "";
+g_PackageJsonData = "";
+g_PackageJsonManager = null;
+
+
+ReleaseResourceFromEXE = function(){
+	import console;
+	import process;
+	import fsys;
+	import fsys.file;
+
+	var exe_path = process.getPath();
+//	exe_path = "F:\MyProjects\CloudInstall\CloudSetuper\setuper app\uitemplate\Publish\setup.exe";
+//	exe_path = "D:\yjbProjects\CloudInstall\CloudSetuper\setuper app\uitemplate\Publish\setup.exe";
+
+	var exe_file = fsys.file( exe_path, "rb" );//io.open( exe_path, "rb" );
+	if ( null == exe_file ){
+		return false,5; //"read self data failed"
+	}
+	
+	var read_len = 0;
+	var read_buf = "";
+	var read_cur_offset = 0;
+	while ( true ){
+		read_cur_offset--;
+		exe_file.seek( "end", read_cur_offset );
+		read_buf = exe_file.read( 1 );
+		read_len++;
+		
+		if (read_len > 100){
+			exe_file.close();
+			return false,6; //"read json config file fail"
+		}
+		
+		if (read_buf == "|"){
+			break;	
+		}
+	}
+	
+	exe_file.seek( "end", read_cur_offset+1 );
+	var json_len = exe_file.read( read_len - 1 );
+
+	read_len = tonumber( json_len );
+	read_cur_offset -= read_len;
+	exe_file.seek( "end", read_cur_offset );
+	g_PackageJsonData = exe_file.read( read_len );
+
+	import web.json;
+	g_PackageJsonManager = web.json.parse( g_PackageJsonData );
+	if ( null == g_PackageJsonManager ){
+		exe_file.close();
+		return false,7; //"json config file invalid format"
+	}
+
+/***
+	var json_files_array = g_PackageJsonManager["files"];
+	if ( null == json_files_array ){
+		exe_file.close();
+		return false,8;//"json config file invalid format without files array" 
+	}
+	
+	g_OutputFolderName = fsys.getTempDir() + g_PackageJsonManager['outputfoldername'] + "\" ;
+	fsys.createDir(g_OutputFolderName);
+		
+	for( i = #json_files_array; 1; -1 ){
+		var file_name = json_files_array[i]['name'];
+		if ( null == file_name ){
+			exe_file.close();
+			return false,9;//"json config file invalid format without file name" 
+		}
+		
+		var file_size = json_files_array[i]['size'];
+		if ( null == file_size ){
+			exe_file.close();
+			return false,10; //"json config file invalid format without file size"
+		}
+
+		var source_file = fsys.file( g_OutputFolderName + file_name,'wb' );
+		read_len = tonumber( file_size );
+		read_cur_offset -= read_len;
+		exe_file.seek( "end", read_cur_offset );
+		source_file.write( exe_file.read( read_len ) );
+		source_file.close();
+	}***/
+	exe_file.close();
+	return true,""; 
+}
+

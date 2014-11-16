@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="gb2312"?>
+<project ver="6" name="uninstall" libEmbed="true" icon="res\icons\uninstall.ico" ui="win" output="uninstall.exe" CompanyName="单位名称" FileDescription="uninstall" LegalCopyright="Copyright (C) 作者 2014" ProductName="uninstall" InternalName="uninstall" FileVersion="0.0.0.55" ProductVersion="0.0.0.55" publishDir="\publish\">
+	<file name="main.aau" path="uninstall.main.aau" comment="uninstall.main.aau"/>
+	<folder name="资源文件" path="res" embed="true">
+		<folder name="icons" path="res\icons" comment="res\icons">
+			<file name="uninstall.ico" path="res\icons\uninstall.ico" comment="res\icons\uninstall.ico"/>
+			<file name="recycling-bin-green.png" path="res\icons\recycling-bin-green.png" comment="res\icons\recycling-bin-green.png"/>
+		</folder>
+		<folder name="images" path="res\images" comment="res\images" embed="false">
+			<file name="picture_viwer_default.png" path="res\images\picture_viwer_default.png" comment="res\images\picture_viwer_default.png"/>
+			<file name="min-hover.png" path="res\images\min-hover.png" comment="res\images\min-hover.png"/>
+			<file name="min-default.png" path="res\images\min-default.png" comment="res\images\min-default.png"/>
+			<file name="min-active.png" path="res\images\min-active.png" comment="res\images\min-active.png"/>
+			<file name="close-normal.png" path="res\images\close-normal.png" comment="res\images\close-normal.png"/>
+			<file name="close-hover.png" path="res\images\close-hover.png" comment="res\images\close-hover.png"/>
+			<file name="close-default.png" path="res\images\close-default.png" comment="res\images\close-default.png"/>
+			<file name="close-active.png" path="res\images\close-active.png" comment="res\images\close-active.png"/>
+			<file name="btn-hover.png" path="res\images\btn-hover.png" comment="res\images\btn-hover.png"/>
+			<file name="btn-disable.png" path="res\images\btn-disable.png" comment="res\images\btn-disable.png"/>
+			<file name="btn-default.png" path="res\images\btn-default.png" comment="res\images\btn-default.png"/>
+			<file name="btn-active.png" path="res\images\btn-active.png" comment="res\images\btn-active.png"/>
+		</folder>
+	</folder>
+</project>

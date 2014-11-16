@@ -1,0 +1,267 @@
+import win.ui;
+import console;
+import MessageMultiLanguage;
+import ResourceRelease;
+/*DSG{{*/
+mainForm = ..win.form(text="Uninstall Application";right=599;bottom=399;bgcolor=4734261;border="none")
+mainForm.add(
+btnCancel={cls="plus";text="取消";left=491;top=361;right=590;bottom=387;notify=1;z=2};
+btnclose={cls="plus";left=568;top=0;right=600;bottom=32;notify=1;z=5};
+btnmin={cls="plus";left=534;top=0;right=566;bottom=32;notify=1;z=4};
+btnUninstall={cls="plus";text="卸载";left=358;top=362;right=456;bottom=385;notify=1;z=1};
+pictureviewer={cls="plus";left=4;top=39;right=597;bottom=352;z=3};
+statictile={cls="static";text="确定";left=16;top=16;right=374;bottom=40;color=16777215;font=LOGFONT( name='宋体';h=-18 );transparent=1;z=6}
+)
+/*}}*/
+
+// 最小化按钮
+mainForm.btnmin.skin(
+	background = { 
+		hover = "/res/images/min-hover.png";
+		active = "/res/images/min-active.png";
+		default = "/res/images/min-default.png"; 
+	}
+	color = {
+		hover = 0xFFFF0000; //鼠标移上去的颜色
+        active = 0xFF00FF00; //鼠标按下去的颜色
+	}
+)
+mainForm.btnmin.oncommand = function(id,event){
+	mainForm.hitmin();
+}
+
+
+// 关闭按钮
+mainForm.btnclose.skin(
+	background = { 
+		hover = "/res/images/close-hover.png";
+		active = "/res/images/close-active.png";
+		default = "/res/images/close-default.png"; 
+	}
+	color = {
+		hover = 0xFFFF0000; //鼠标移上去的颜色
+        active = 0xFF00FF00; //鼠标按下去的颜色
+	}
+
+)
+
+mainForm.btnclose.oncommand = function(id,event){
+	mainForm.close();	
+}
+
+// 卸载按钮
+mainForm.btnUninstall.skin(
+	background = { 
+		hover = "/res/images/btn-hover.png";
+		active = "/res/images/btn-active.png";
+		default = "/res/images/btn-default.png";
+		disabled = "/res/images/btn-disabled.png"; 
+	}
+    color = {
+        hover = 0xFFFF0000; //鼠标移上去的颜色
+        active = 0xFF00FF00; //鼠标按下去的颜色
+    } 
+)
+
+// 取消按钮
+mainForm.btnCancel.skin(
+	background = { 
+		hover = "/res/images/btn-hover.png";
+		active = "/res/images/btn-active.png";
+		default = "/res/images/btn-default.png";
+		disabled = "/res/images/btn-disabled.png"; 
+	}
+)
+
+mainForm.btnCancel.oncommand = function(id,event){
+	mainForm.close();
+}
+
+//添加下面的代码以支持鼠标拖动窗体
+mainForm.wndproc = function(hwnd,message,wParam,lParam){
+	select( message ) {
+		/*任务栏显示进度*/ 
+		/*case _WM_TASKBARBUTTONCREATED{ 
+			mainForm.taskbar = com.interface.ITaskbarList3.Create();
+		} */
+		case 0x201/*窗体拖动 */{
+			mainForm.hitCaption();
+		}
+	} 
+}
+
+//HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Uninstall\
+//DisplayIcon
+//DisplayName
+//DisplayVersion
+//InstallLocation
+//Publisher
+//UninstallString
+mainForm.btnUninstall.oncommand = function(id,event){
+	import fsys;
+	import win.reg
+	//枚举并删除子节点
+	var strNode=ResourceRelease.g_PackageJsonManager["desktoplinkname"];
+	var strInstallLocation="";
+	if (null != strNode){
+		
+		var strParentNode = "HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Uninstall";
+		reg = win.reg(strParentNode); //打开注册表
+	 	if (null != reg){
+	 		subReg=reg.openReg(strNode);
+	 		if (null != subReg){
+	 			var kValue = subReg.queryValue("InstallLocation");
+	 			if (null != kValue){
+	 				strInstallLocation = kValue;
+	 			}
+	 			subReg.close();
+	 			reg.delKeyTree(strNode);
+	 		}
+//			reg.delKeyTree(strNode);
+		}
+		reg.close();
+	}
+	
+	//批量处理文件
+	if ("" == strInstallLocation){
+		mainForm.close();
+		return ; 
+	}
+	
+	fsys.enum(  strInstallLocation, //指定要遍历的目录
+			"*.*", //指定查询文件名，支持windows掩码
+			function(dir,filename,fullpath,findData){ //指定触发器
+				if(filename){ // 文件
+//					if (fullpath != io._exepath){
+						fsys.delete(fullpath);
+//					}
+				}
+				else{ // 目录
+					fsys.delete(dir);
+				}
+			} 
+		  );
+		  
+/**	import win;
+	var cmdPath=win.getenv("COMSPEC");
+
+	import process;
+	var exePath=io._exepath;//process.getPath();
+	var cmdLine="/c del " + exePath + " > null";
+	process.execute(cmdPath,cmdLine,,0x0/*_SW_HIDE*/);
+	mainForm.close();
+	return ; 
+**/
+
+/***   		var shinfo = process.SHELLEXECUTEINFO();  
+   		shinfo.cbSize = ..raw.sizeof(shinfo);
+		shinfo.fMask = 0x440 //SEE_MASK_NOCLOSEPROCESS|SEE_MASK_FLAG_NO_UI;
+		shinfo.hwnd = 0;
+		shinfo.lpVerb = "open";
+		shinfo.lpFile =  cmdPath;		
+		shinfo.lpParameters =  cmdLine;	
+		shinfo.lpDirectory = io.splitpath(file).dir;
+		shinfo.nShow = 0x0/*_SW_HIDE*/;
+		shinfo.hInstApp = 0;	
+		shinfo.lpClass ="";  
+		var ret = ShellExecuteEx(shinfo);
+		if( !ret ) {
+			win.msgbox("打开进程失败:" + cmdPath);
+		}
+//		if(!shinfo.hProcess ){ 
+//			return !wait && ret;
+//		}
+***/
+	mainForm.close();
+}
+
+//////////////////////////////////////////////////////////////////
+//	初始化
+//////////////////////////////////////////////////////////////////
+
+// 单例运行
+/*
+import process.mutex;
+mutex = process.mutex("uninstall_process_id")
+if( mutex.conflict ){
+	winform.msgbox("安装程序已经运行!"); // 4
+	return;
+}*/
+
+//	释放资源文件
+var resource_release_result, n_error_msg_code = ResourceRelease.ReleaseResourceFromEXE();
+if ( !resource_release_result ){
+//	mainForm.msgbox( MessageMultiLanguage.GetErrorMessage( ResourceRelease.g_PackageJsonManager['language'], n_error_msg_code ) );
+	mainForm.msgbox("It failed to get json config");
+	return ; 
+}
+
+// 设置图片播放器
+var json_ppt_order=ResourceRelease.g_PackageJsonManager['ppt_order'];
+if(null != json_ppt_order)
+{
+	var min, max = table.range(json_ppt_order);
+	if (max != 0)
+	{
+		mainForm.pictureviewer.setBackground(ResourceRelease.g_OutputFolderName+json_ppt_order[1]);
+	
+		//定时播放图片
+		var i = 2;
+		var tmId = mainForm.addtimer( 
+			1500,
+			function(hwnd,msg,id,tick){
+
+				var json_ppt_order=ResourceRelease.g_PackageJsonManager['ppt_order'];
+				if (json_ppt_order[i]){
+					var picturePath = ResourceRelease.g_OutputFolderName + json_ppt_order[i];
+					mainForm.PictureViwer.setForeground(picturePath);
+				}
+				
+				if(i < #json_ppt_order){
+					i = i + 1
+				}
+				else {
+					i = 1;
+				}
+			
+			} 
+		)
+	}
+	else {
+		mainForm.pictureviewer.setBackground("\res\images\picture_viwer_default.png");
+	}
+	
+	}
+else {
+	mainForm.pictureviewer.setBackground("\res\images\picture_viwer_default.png");
+}
+
+
+
+////////////////////////////////////////////////////////////////////////
+//	UI初始化
+////////////////////////////////////////////////////////////////////////
+
+//	界面国际化
+if ( "en" == ResourceRelease.g_PackageJsonManager['language'] ){
+	mainForm.btnUninstall.text='Uninstall';
+	mainForm.btnCancel.text='Cancel';
+}
+else if ( "zh-TW" == ResourceRelease.g_PackageJsonManager['language'] ){
+	mainForm.btnUninstall.text='卸載';
+	mainForm.btnCancel.text='取消';
+}
+else if ( "zh-CN" == ResourceRelease.g_PackageJsonManager['language'] ){//默认中文
+}
+
+//	修改主窗口背景色
+if ( null != ResourceRelease.g_PackageJsonManager['background-color'] ){
+	import string;
+	var tempbg = ResourceRelease.g_PackageJsonManager['background-color'];
+	var table_bg = {string.sub(tempbg,1,2);string.sub(tempbg,7,8);string.sub(tempbg,5, 6);string.sub(tempbg,3,4)};
+	var bg = string.join(table_bg, "");
+	mainForm.bgcolor = tonumber(bg, 16);
+}
+
+mainForm.show() 
+return win.loopMessage(); 

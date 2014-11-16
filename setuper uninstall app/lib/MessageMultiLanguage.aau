@@ -1,0 +1,65 @@
+
+namespace MessageMultiLanguage;
+
+/////////////////////////////////////////////////////////////////////
+//	简体中文
+/////////////////////////////////////////////////////////////////////
+g_ErrorMsgZhCN={
+[1]="未找到7z文件";
+[2]="打开7z文件失败";
+[3]="解压失败";
+[4]="安装程序已经运行!";
+[5]="读取源文件失败";
+[6]="读取配置文件失败";
+[7]="配置文件格式错误";
+[8]="配置文件格式错误，没有找到files数组对象";
+[9]="配置文件格式错误，没有找到name对象";
+[10]="配置文件格式错误，没有找到size对象";
+};
+
+/////////////////////////////////////////////////////////////////////
+//	繁体中文
+/////////////////////////////////////////////////////////////////////
+g_ErrorMsgZhTW={
+[1]="未找到7z文件";
+[2]="打开7z文件失败";
+[3]="解压失败";
+[4]="安装程序已经运行!";
+[5]="读取源文件失败";
+[6]="读取配置文件失败";
+[7]="配置文件格式错误";
+[8]="配置文件格式错误，没有找到files数组对象";
+[9]="配置文件格式错误，没有找到name对象";
+[10]="配置文件格式错误，没有找到size对象";
+};
+
+/////////////////////////////////////////////////////////////////////
+//	英文
+/////////////////////////////////////////////////////////////////////
+g_ErrorMsgEn={
+[1]="Not find the source package(a 7z file)";
+[2]="Failed to open the source package(a 7z file)";
+[3]="Extracting the source package(a 7z file) failed";
+[4]="A install instance has run";
+[5]="Reading self data failed";
+[6]="Reading json config file failed";
+[7]="json config file invalid format";
+[8]="json config file invalid format without files array";
+[9]="json config file invalid format without file name";
+[10]="json config file invalid format without file size";
+};
+
+GetErrorMessage=function(str_language,msg_code){
+	var str_msg="";
+	if (str_language == "en"){
+		str_msg=g_ErrorMsgEn[msg_code];
+	}
+	else if (str_language == "zh-CN"){
+		str_msg=g_ErrorMsgZhCN[msg_code];
+	}
+	else if (str_language == "zh-TW"){
+		str_msg=g_ErrorMsgZhTW[msg_code];
+	}
+	
+	return str_msg; 
+}
