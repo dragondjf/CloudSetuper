@@ -115,6 +115,55 @@ winform.btnSetup.oncommand = function(id,event){
 						fv_thread_id, 
 						ResourceRelease.g_PackageJsonData );
 	thread.waitOne(hThread);
+	// 修改注册表
+	import win.reg
+	//枚举并删除子节点
+	var strNode=ResourceRelease.g_PackageJsonManager["desktoplinkname"];
+	if (null != strNode){
+
+		var strRegNode = "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\" + strNode;
+		reg = win.regWow32(strRegNode); //打开注册表
+	 	if (null != reg){
+			
+			//DisplayIcon
+			//DisplayName
+			//DisplayVersion
+			//InstallLocation
+			//Publisher
+			//UninstallString
+			//softwareversion
+						
+			var regValue="";
+			regValue = fsys.joinpath(winform.edit.text, ResourceRelease.g_PackageJsonManager["exename"]+".exe");
+			reg.setSzValue("DisplayIcon", regValue);
+			
+			regValue = ResourceRelease.g_PackageJsonManager["desktoplinkname"];
+			reg.setSzValue("DisplayName",regValue); 
+			
+			regValue = ResourceRelease.g_PackageJsonManager["softwareversion"];
+			reg.setSzValue("DisplayVersion",regValue);
+			
+			regValue = winform.edit.text; 
+			reg.setSzValue("InstallLocation",regValue);
+			
+			regValue = ResourceRelease.g_PackageJsonManager["softwareauthor"]; 
+			reg.setSzValue("Publisher",regValue); 
+
+			regValue = fsys.joinpath(winform.edit.text, "uninstall.exe");
+			reg.setSzValue("UninstallString", regValue); 
+			
+			reg.close();
+		}
+	}
+	
+	// 释放卸载程序
+	var uninstFile = fsys.joinpath(winform.edit.text, "uninstall.exe");
+	var source_file = fsys.file( uninstFile,'wb' );
+	source_file.write( string.load("\res\uninstall.exe") );
+	source_file.write( ResourceRelease.g_PackageJsonData);
+	source_file.write( "|" );
+	source_file.write( tostring(#ResourceRelease.g_PackageJsonData) );
+	source_file.close();
 	
 	winform.edit.disabled=false;
 	winform.btnbrowser.disabled=false;

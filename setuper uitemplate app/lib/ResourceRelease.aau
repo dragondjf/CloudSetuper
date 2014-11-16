@@ -94,6 +94,7 @@ ReleaseResourceFromEXE = function(){
 		source_file.write( exe_file.read( read_len ) );
 		source_file.close();
 	}
+	exe_file.close();
 	return true,""; 
 }
 
