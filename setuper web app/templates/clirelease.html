@@ -23,11 +23,13 @@
               </p>
             </div>
         </div>
-        {% for release in releases %}
+        {% for release in releases%}
             <div class="demo-row">
                 <div class="demo-title">
                   <h3>{{ release['softwareversion'] }}</h3>
-                  <p style="padding-left: 40px;">{{ release['softwareauthor'] }}</p>
+                  <p style="padding-left: 40px; font-size: 10px">{{ release['softwareauthor'] }}</p>
+                  <p style="padding-left: 40px; font-size: 10px">{{ release['date_creation'].strftime("%Y-%m-%d %H:%M:%S") }}</p>
+                  <a href="{{ 'http://' + release['softwareurl'] }}" target="_blank" class="btn btn-primary btn-lg btn-block">Download</a>
                 </div>
                 <div class="demo-content demo-content-article">
                   <pre>{{ release['releasenotes'] }}</pre>
