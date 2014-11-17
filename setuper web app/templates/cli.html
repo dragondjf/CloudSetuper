@@ -27,7 +27,11 @@
             <div class="demo-row">
                 <div class="demo-title">
                   <h3>Download</h3>
-                  <a href="{{ 'http://' + release['softwareurl'] }}" target="_blank" class="btn btn-primary btn-lg btn-block">Download</a>
+                  {% if 'http://' not in release['softwareurl']  %}
+                    <a href="{{ 'http://' + release['softwareurl'] }}" target="_blank" class="btn btn-primary btn-lg btn-block">Download</a>
+                  {% else %}
+                    <a href="{{ release['softwareurl'] }}" target="_blank" class="btn btn-primary btn-lg btn-block">Download</a>
+                  {% end %}
                 </div>
                 <div class="demo-content demo-content-article">
                 <pre>{{ release['releasenotes'] }}</pre>

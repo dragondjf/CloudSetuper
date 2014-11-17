@@ -49,6 +49,7 @@ define(function (require) {
                 success: function(res) {
                     log(res)
                     log("publish success");
+                    $("#Publish").addClass("disabled");
                 },
                 error: function() {
                     log("异常！");
