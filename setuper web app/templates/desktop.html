@@ -20,8 +20,22 @@
             <div class="demo-content demo-content-article">
               <p>
                 <code>CloudSetuper Desktop</code>是CloudSetuper系列的客户端打包工具
+              </p>
             </div>
         </div>
+        {% if release %}
+            <div class="demo-row">
+                <div class="demo-title">
+                  <h3>Download</h3>
+                  <a href="{{ 'http://' + release['softwareurl'] }}" target="_blank" class="btn btn-primary btn-lg btn-block">Download</a>
+                </div>
+                <div class="demo-content demo-content-article">
+                <pre>{{ release['releasenotes'] }}</pre>
+            
+                <a href="/desktop/release" class="btn btn-primary btn-lg btn-block">More release information</a>
+                </div>
+            </div>
+        {% end %}
         <div class="demo-row">
             <div class="demo-title">
               <h3>基本用法</h3>

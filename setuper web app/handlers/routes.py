@@ -6,7 +6,7 @@ from joinhandler import JoinHandler
 from loginhandler import LoginHandler, LogoutHandler
 from indexhandler import IndexHandler
 from sockethandler import SocketHandler
-from producthandler import DesktopHandler, CliHandler
+from producthandler import DesktopHandler, CliHandler, DesktopReleaseHandler, CLIReleaseHandler
 from uploadfilehandler import UploadFileHandler
 from helphandler import HelpHandler, HelpCliHandler
 from abouthandler import AboutHandler
@@ -28,7 +28,9 @@ routes = [
     (r"/upload", UploadFileHandler),
     (r"/online/*", IndexHandler),
     (r"/desktop/*", DesktopHandler),
+    (r"/desktop/release/*", DesktopReleaseHandler),
     (r"/cli/*", CliHandler),
+    (r"/cli/release/*", CLIReleaseHandler),
     (r"/help/*", HelpHandler),
     (r"/help/cli/*", HelpCliHandler),
     (r"/about/*", AboutHandler),

@@ -12,23 +12,26 @@
     {% block center %}
         <form name="setup_form" id="publish_form">
             <div class="login-form" style="background-color: #1abc9c">
-                <div class="form-group">
-                    <label>Software name：</label>
+               <div class="form-group">
+                    <label>Software:</label>
                     <div class="btn-group">
-                        <input type="text" class="form-control login-field " value="" placeholder="Enter your software name" required="required" name="softwarename" id="software-name" style="width: 200%">
+                        <select id="softwarename" data-toggle="select" class="form-control select select-inverse">
+                          <option value="0">CloudSetuper Desktop</option>
+                          <option value="1">CloudSetuper CLI</option>
+                        </select>
                     </div>
                 </div>
                 <div class="form-group">
                     <label>Software version：</label>
                     <div class="btn-group">
-                        <input type="text" class="form-control login-field " value="" placeholder="Enter your software version" required="required" name="softwareversion" id="software-version" style="width: 200%">
+                        <input type="text" class="form-control login-field " value="1.0.0" placeholder="Enter your software version" required="required" name="softwareversion" id="software-version" style="width: 200%">
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label>Software author：</label>
                     <div class="btn-group">
-                        <input type="text" class="form-control login-field" value="" placeholder="Enter your author name" required="required" name="authorname" id="software-author" style="width: 200%">
+                        <input type="text" class="form-control login-field" value="dragondjf" placeholder="Enter your author name" required="required" name="authorname" id="software-author" style="width: 200%">
                     </div>
                 </div>
                 <div class="form-group">
