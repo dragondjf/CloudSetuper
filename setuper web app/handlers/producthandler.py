@@ -16,11 +16,13 @@ class DesktopHandler(BaseHandler):
     @classmethod
     def getLastestReleaseInfo(cls):
         col = Release.getCollection()
-        result = list(col.find({'softwarename': "CloudSetuper Desktop"}))
+        result = list(col.find({'softwarename': "CloudSetuper Desktop"}).sort('_id',-1).limit(1))
+
         if len(result) > 0:
             return result[-1]
         else:
             return None
+
 
 class CliHandler(BaseHandler):
 
@@ -32,7 +34,7 @@ class CliHandler(BaseHandler):
     @classmethod
     def getLastestReleaseInfo(cls):
         col = Release.getCollection()
-        result = list(col.find({'softwarename': "CloudSetuper CLI"}))
+        result = list(col.find({'softwarename': "CloudSetuper CLI"}).sort('_id', -1).limit(1))
         if len(result) > 0:
             return result[-1]
         else:
