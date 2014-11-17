@@ -55,7 +55,7 @@ target/
 
 setuper web app/static/files
 
-setuper cli app/distwin
+setuper cli python app/distwin
 setuper cli app/package/*.exe
 
 
